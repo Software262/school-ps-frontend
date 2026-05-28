@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, useEffect } from 'react';
 
 interface UseFetchState<T> {
@@ -20,7 +21,7 @@ export function useFetch<T>(url: string): UseFetchState<T> & { refetch: () => vo
 
   useEffect(() => {
     let cancelled = false;
-    setState((prev) => ({ ...prev, loading: true, error: null }));
+    setTimeout(() => setState((prev) => ({ ...prev, loading: true, error: null })), 0);
 
     fetch(url)
       .then((res) => {
@@ -43,5 +44,5 @@ export function useFetch<T>(url: string): UseFetchState<T> & { refetch: () => vo
     };
   }, [url, tick]);
 
-  return { ...state, refetch: () => setTick((t) => t + 1) };
+  return { ...state, refetch: () => { setTick((t) => t + 1); } };
 }

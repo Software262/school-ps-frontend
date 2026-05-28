@@ -16,7 +16,7 @@ export const TopBar: React.FC<TopBarProps> = ({
     <div className="topbar-notification" role="banner">
       <button
         className="topbar-close"
-        onClick={() => setVisible(false)}
+        onClick={() => { setVisible(false); }}
         aria-label="Cerrar notificación"
       >
         ✕
