@@ -1,0 +1,21 @@
+.rectoria-page {
+  width: 100%;
+}
+
+.rectoria-page-header {
+  margin-bottom: 20px;
+}
+
+.rectoria-page-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.rectoria-page-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  margin: 0;
+}

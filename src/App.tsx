@@ -1,122 +1,82 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Sidebar } from './shared/ui/Sidebar';
+import { TopBar } from './shared/ui/TopBar';
+import RectoriaPage from './pages/RectoriaPage';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
+/** Inner layout — needs to be inside BrowserRouter to use hooks */
+const AppShell: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  /** Map sidebar item IDs to routes (only rectoria is implemented) */
+  function handleNavigate(id: string) {
+    if (id === 'rectoria') navigate('/rectoria');
+    // Other modules: placeholder — could navigate to /coming-soon in future
+  }
+
+  /** Determine the active sidebar item from the current path */
+  function getActiveItem(): string {
+    if (location.pathname.startsWith('/rectoria')) return 'rectoria';
+    return 'dashboard';
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => {
-            setCount((count) => count + 1);
-          }}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      {/* Sidebar */}
+      <Sidebar activeItem={getActiveItem()} onNavigate={handleNavigate} />
 
-      <div className="ticks"></div>
+      {/* Main area */}
+      <div className="app-main">
+        {/* Top notification bar */}
+        <TopBar schoolName="Cambridge School" />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        {/* Page content */}
+        <div className="app-content">
+          <Routes>
+            <Route path="/" element={<Navigate to="/rectoria" replace />} />
+            <Route path="/rectoria" element={<RectoriaPage />} />
+          </Routes>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {/* Floating help button */}
+      <button
+        id="btn-help"
+        aria-label="Ayuda"
+        style={{
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          width: 36,
+          height: 36,
+          borderRadius: '50%',
+          background: '#555',
+          color: '#fff',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: 16,
+          fontWeight: 700,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+          zIndex: 900,
+        }}
+        title="Ayuda"
+      >
+        ?
+      </button>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
   );
 }
 
