@@ -15,18 +15,18 @@ export const tuitionService = {
       }
       throw new Error('Error al conectar con el servidor.');
     }
-    return response.json();
+    return (await response.json()) as TuitionAccountResponse;
   },
 
   async getStudentTuition(studentId: number): Promise<TuitionAccountResponse> {
-    const response = await fetch(`${API_BASE_URL}/student/${studentId}`);
+    const response = await fetch(`${API_BASE_URL}/student/${studentId.toString()}`);
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('No se encontró cuenta de pensión para el estudiante.');
       }
       throw new Error('Error al conectar con el servidor.');
     }
-    return response.json();
+    return (await response.json()) as TuitionAccountResponse;
   },
 
   async registerPayment(
@@ -38,9 +38,9 @@ export const tuitionService = {
       body: JSON.stringify(request),
     });
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      throw new Error(errorData?.detail || 'Error al registrar el pago.');
+      const errorData = (await response.json().catch(() => null)) as { detail?: string } | null;
+      throw new Error(errorData?.detail ?? 'Error al registrar el pago.');
     }
-    return response.json();
+    return (await response.json()) as TuitionInstallmentResponse;
   },
 };

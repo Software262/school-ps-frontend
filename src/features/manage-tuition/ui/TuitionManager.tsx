@@ -38,18 +38,18 @@ export const TuitionManager: React.FC = () => {
       data.installments.sort((a, b) => a.mes - b.mes);
       setAccountData(data);
       setLastDocumento(documento);
-    } catch (error: any) {
-      setErrorMsg(error.message || 'Error desconocido al cargar datos.');
+    } catch (error: unknown) {
+      setErrorMsg(error instanceof Error ? error.message : 'Error desconocido al cargar datos.');
       setAccountData(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (studentId.trim()) {
-      fetchStudentData(studentId.trim());
+      void fetchStudentData(studentId.trim());
     }
   };
 
@@ -61,7 +61,7 @@ export const TuitionManager: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handlePayment = async (e: React.FormEvent) => {
+  const handlePayment = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedMonth || !accountData) return;
 
@@ -78,8 +78,8 @@ export const TuitionManager: React.FC = () => {
       });
       await fetchStudentData(lastDocumento);
       setIsModalOpen(false);
-    } catch (error: any) {
-      setErrorMsg(error.message || 'No se pudo registrar el pago.');
+    } catch (error: unknown) {
+      setErrorMsg(error instanceof Error ? error.message : 'No se pudo registrar el pago.');
     } finally {
       setPaymentLoading(false);
     }
@@ -119,7 +119,7 @@ export const TuitionManager: React.FC = () => {
               type="text"
               placeholder="Ej: 1023456789"
               value={studentId}
-              onChange={(e) => setStudentId(e.target.value)}
+              onChange={(e) => { setStudentId(e.target.value); }}
               disabled={loading}
             />
           </div>
@@ -135,7 +135,7 @@ export const TuitionManager: React.FC = () => {
       {accountData && (
         <>
           <div className="header-actions">
-            <button className="btn-link" onClick={() => setAccountData(null)}>
+            <button className="btn-link" onClick={() => { setAccountData(null); }}>
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
@@ -177,13 +177,13 @@ export const TuitionManager: React.FC = () => {
                 const status = getStatusInfo(instData);
                 
                 return (
-                  <div key={`mes-card-${instData.mes}`} className="installment-card">
+                  <div key={`mes-card-${instData.mes.toString()}`} className="installment-card">
                     <div className="installment-header">
                       <span className="installment-month">{MONTH_NAMES[instData.mes]}</span>
                       <div className="badge-container">
                         <span className={`status-badge ${status.className}`}>{status.label}</span>
                         {instData.faltante && (
-                          <button className="edit-btn" onClick={() => handleOpenModal(instData)} title="Registrar Pago o Ajuste">
+                          <button className="edit-btn" onClick={() => { handleOpenModal(instData); }} title="Registrar Pago o Ajuste">
                             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
@@ -254,15 +254,15 @@ export const TuitionManager: React.FC = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h3>Registrar Abono - {MONTH_NAMES[selectedMonth.mes]}</h3>
-              <button className="close-btn" onClick={() => setIsModalOpen(false)}>✕</button>
+              <button className="close-btn" onClick={() => { setIsModalOpen(false); }}>✕</button>
             </div>
-            <form onSubmit={handlePayment} className="modal-body">
+            <form onSubmit={(e) => { void handlePayment(e); }} className="modal-body">
               <div className="input-group">
                 <label>Valor a pagar o ajustar (COP)</label>
                 <input
                   type="number"
                   value={paymentAmount}
-                  onChange={(e) => setPaymentAmount(e.target.value)}
+                  onChange={(e) => { setPaymentAmount(e.target.value); }}
                   max={selectedMonth.saldo_pendiente}
                   min="1"
                   required
@@ -273,7 +273,7 @@ export const TuitionManager: React.FC = () => {
                 <label>Motivo / Justificación (Obligatorio)</label>
                 <textarea
                   value={justification}
-                  onChange={(e) => setJustification(e.target.value)}
+                  onChange={(e) => { setJustification(e.target.value); }}
                   required
                   disabled={paymentLoading}
                   placeholder="Ej: Abono en efectivo / Ajuste autorizado"
@@ -285,7 +285,7 @@ export const TuitionManager: React.FC = () => {
                 Saldo actual: {formatCurrency(selectedMonth.saldo_pendiente)}
               </p>
               <div className="modal-footer">
-                <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)} disabled={paymentLoading}>
+                <button type="button" className="btn-secondary" onClick={() => { setIsModalOpen(false); }} disabled={paymentLoading}>
                   Cancelar
                 </button>
                 <button type="submit" className="btn-primary" disabled={paymentLoading || !paymentAmount}>
