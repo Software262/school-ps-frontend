@@ -27,7 +27,8 @@ export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
   // Pre-fill with existing motivo when modal opens
   useEffect(() => {
     if (isOpen && teacher?.status) {
-      setTimeout(() => setMotivo(teacher.status.motivo_estado), 0);
+      const motivo = teacher.status.motivo_estado;
+      setTimeout(() => setMotivo(motivo), 0);
     }
   }, [isOpen, teacher]);
 

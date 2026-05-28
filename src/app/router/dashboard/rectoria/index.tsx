@@ -3,7 +3,6 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Sidebar } from '../../../../shared/ui/Sidebar';
 import { TopBar } from '../../../../shared/ui/TopBar';
 import RectoriaPage from '../../../../pages/RectoriaPage';
-import React from 'react';
 
 export const Route = createFileRoute('/dashboard/rectoria/')({
   component: () => {
