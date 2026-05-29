@@ -1,12 +1,11 @@
 /* eslint-disable */
-import type { Teacher } from '../../../entities/teacher/model/types';
+import type { Teacher } from "../../../entities/teacher/model/types";
 import type {
   CreateObservationRequest,
   CreateStatusRequest,
   UpdateStatusRequest,
-} from '../model/types';
-import type { ApiResponse } from '../../../shared/types/api';
-
+} from "../model/types";
+import type { ApiResponse } from "../../../shared/types/api";
 
 interface RawTeacher {
   id: number;
@@ -16,15 +15,15 @@ interface RawTeacher {
   observaciones?: any[];
 }
 
-const BASE_URL = 'http://localhost:8000/api/v1/principal';
+const BASE_URL = `${import.meta.env.VITE_BASE_API}/principal`;
 
 async function handleResponse<T>(res: Response): Promise<T> {
   const json: ApiResponse<T> = await res.json();
   if (!res.ok) {
     throw new Error(
-      typeof json.details === 'string'
+      typeof json.details === "string"
         ? json.details
-        : (json.message ?? `Error ${res.status}`)
+        : (json.message ?? `Error ${res.status}`),
     );
   }
   return json.data as T;
@@ -33,8 +32,9 @@ async function handleResponse<T>(res: Response): Promise<T> {
 /** Fetch all teachers with their statuses and observations */
 export async function getTeachers(): Promise<Teacher[]> {
   const res = await fetch(`${BASE_URL}/teachers`);
-   
-  const json: ApiResponse<RawTeacher[] | Record<string, never>> = await res.json();
+
+  const json: ApiResponse<RawTeacher[] | Record<string, never>> =
+    await res.json();
   if (!res.ok) throw new Error(json.message ?? `Error ${res.status}`);
 
   // Handle edge case: backend returns {} when empty
@@ -44,12 +44,13 @@ export async function getTeachers(): Promise<Teacher[]> {
   return json.data.map((item) => {
     // Backend returns a list of status, we take the last one or null
     const statusList = item.estados_administrativos || [];
-    const currentStatus = statusList.length > 0 ? statusList[statusList.length - 1] : null;
+    const currentStatus =
+      statusList.length > 0 ? statusList[statusList.length - 1] : null;
 
     return {
       id: item.id,
       nombre: item.nombre,
-      correo: item.correo || '', // correo is missing from backend, fallback to empty
+      correo: item.correo || "", // correo is missing from backend, fallback to empty
       status: currentStatus,
       observations: item.observaciones || [],
     };
@@ -58,11 +59,11 @@ export async function getTeachers(): Promise<Teacher[]> {
 
 /** Create a new administrative observation for a teacher */
 export async function createObservation(
-  data: CreateObservationRequest
+  data: CreateObservationRequest,
 ): Promise<void> {
   const res = await fetch(`${BASE_URL}/observations`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);
@@ -71,8 +72,8 @@ export async function createObservation(
 /** Assign a new administrative status (paz y salvo) to a teacher */
 export async function createStatus(data: CreateStatusRequest): Promise<void> {
   const res = await fetch(`${BASE_URL}/status`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);
@@ -81,11 +82,11 @@ export async function createStatus(data: CreateStatusRequest): Promise<void> {
 /** Update an existing administrative status */
 export async function updateStatus(
   statusId: number,
-  data: UpdateStatusRequest
+  data: UpdateStatusRequest,
 ): Promise<void> {
   const res = await fetch(`${BASE_URL}/status/${String(statusId)}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);

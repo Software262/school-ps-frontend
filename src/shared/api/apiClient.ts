@@ -1,7 +1,10 @@
 /* eslint-disable */
-export const BASE_URL = "http://localhost:8000/api/v1";
+export const BASE_URL = `${import.meta.env.VITE_BASE_API}`;
 
-export async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
+export async function fetchApi<T>(
+  endpoint: string,
+  options?: RequestInit,
+): Promise<T> {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: {
@@ -16,6 +19,3 @@ export async function fetchApi<T>(endpoint: string, options?: RequestInit): Prom
 
   return response.json();
 }
-
-
-
