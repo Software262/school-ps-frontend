@@ -1,132 +1,133 @@
 .teacher-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: box-shadow var(--transition-fast);
-  animation: fadeIn 0.25s ease;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow var(--transition-fast);
+    animation: fadeIn 0.25s ease;
 }
 
 .teacher-card:hover {
-  box-shadow: var(--card-shadow);
+    box-shadow: var(--card-shadow);
 }
 
 /* Header row */
 .teacher-card-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .teacher-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--brand-primary);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  flex-shrink: 0;
-  letter-spacing: 0.5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
 }
 
 .teacher-info {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 .teacher-name {
-  font-size: var(--font-size-md);
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .teacher-email {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
 }
 
 .teacher-status-badge {
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 /* Status detail */
 .teacher-status-detail {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 3px 10px;
-  padding: 10px 12px;
-  background: var(--status-green-bg);
-  border: 1px solid var(--status-green-border);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-xs);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px 10px;
+    padding: 10px 12px;
+    background: var(--status-green-bg);
+    border: 1px solid var(--status-green-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
 }
 
 .detail-label {
-  color: var(--status-green);
-  font-weight: 600;
-  white-space: nowrap;
+    color: var(--status-green);
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .detail-value {
-  color: var(--text-secondary);
+    color: var(--text-secondary);
 }
 
 /* Observation preview */
 .teacher-obs-preview {
-  padding: 10px 12px;
-  background: var(--status-yellow-bg);
-  border: 1px solid var(--status-yellow-border);
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    padding: 10px 12px;
+    background: var(--status-yellow-bg);
+    border: 1px solid var(--status-yellow-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .obs-type-badge {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  color: var(--status-yellow);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--status-yellow);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }
 
 .obs-desc {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  margin: 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
 }
 
 .obs-date {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
 }
 
 /* Observation count */
 .teacher-obs-count {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
 }
 
 /* Actions */
 .teacher-card-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding-top: 4px;
-  border-top: 1px solid var(--card-border);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+    border-top: 1px solid var(--card-border);
 }

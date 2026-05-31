@@ -4,8 +4,8 @@
  * Components use this hook — they never call fetchApi directly.
  */
 import { useState, useEffect, useCallback } from "react";
-import { testsEntityApi } from "../../../entities/tests/api/api";
-import { testsFeatureApi } from "../api/testsApi";
+import { testsEntityApi } from "@/entities/tests/api/api";
+import { testsFeatureApi } from "@/features/tests/api/testsApi";
 import type {
   PruebaAssignment,
   ComplementarioPrueba,
@@ -14,11 +14,13 @@ import type {
   EstudianteListItem,
   CreatePruebaRequest,
   MassiveAssignRequest,
-} from "../../../entities/tests/model/types";
+} from "@/entities/tests/model/types";
 
 export function useTests() {
   const [assignments, setAssignments] = useState<PruebaAssignment[]>([]);
-  const [availableTests, setAvailableTests] = useState<ComplementarioPrueba[]>([]);
+  const [availableTests, setAvailableTests] = useState<ComplementarioPrueba[]>(
+    [],
+  );
   const [grados, setGrados] = useState<Grado[]>([]);
   const [periodos, setPeriodos] = useState<Periodo[]>([]);
   const [estudiantes, setEstudiantes] = useState<EstudianteListItem[]>([]);
@@ -29,13 +31,14 @@ export function useTests() {
     setLoading(true);
     setError(null);
     try {
-      const [assign, tests, gradoList, periodoList, studentList] = await Promise.all([
-        testsEntityApi.getAssignments(),
-        testsEntityApi.getAvailableTests(),
-        testsEntityApi.getGrados(),
-        testsEntityApi.getPeriodos(),
-        testsEntityApi.getEstudiantes(),
-      ]);
+      const [assign, tests, gradoList, periodoList, studentList] =
+        await Promise.all([
+          testsEntityApi.getAssignments(),
+          testsEntityApi.getAvailableTests(),
+          testsEntityApi.getGrados(),
+          testsEntityApi.getPeriodos(),
+          testsEntityApi.getEstudiantes(),
+        ]);
       setAssignments(assign);
       setAvailableTests(tests);
       setGrados(gradoList);
@@ -50,7 +53,6 @@ export function useTests() {
   }, []);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadAll();
   }, [loadAll]);
 
@@ -83,7 +85,11 @@ export function useTests() {
     await loadAll();
   };
 
-  const updateComplementary = async (id: number, nombre: string, valor: number) => {
+  const updateComplementary = async (
+    id: number,
+    nombre: string,
+    valor: number,
+  ) => {
     await testsEntityApi.updateComplementary(id, nombre, valor);
     await loadAll();
   };
@@ -95,10 +101,15 @@ export function useTests() {
 
   // ── Derived state ──────────────────────────────────────────────────────────
 
-  const pendientes = assignments.filter(a => a.estado === "pendiente" || a.estado === "pago-parcial").length;
-  const pagadas = assignments.filter(a => a.estado === "pagada").length;
+  const pendientes = assignments.filter(
+    (a) => a.estado === "pendiente" || a.estado === "pago-parcial",
+  ).length;
+  const pagadas = assignments.filter((a) => a.estado === "pagada").length;
   const totalRecaudo = assignments.reduce((acc, a) => acc + a.valor_pagado, 0);
-  const totalPendiente = assignments.reduce((acc, a) => acc + Math.max(0, (a.valor ?? 0) - a.valor_pagado), 0);
+  const totalPendiente = assignments.reduce(
+    (acc, a) => acc + Math.max(0, (a.valor ?? 0) - a.valor_pagado),
+    0,
+  );
   const moduloBloqueado = pendientes > 0;
 
   return {
@@ -127,5 +138,3 @@ export function useTests() {
     createComplementary,
   };
 }
-
-

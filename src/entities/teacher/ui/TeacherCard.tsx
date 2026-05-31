@@ -1,8 +1,6 @@
-/* eslint-disable */
-import React from 'react';
-import type { Teacher } from '../model/types';
-import { Badge } from '../../../shared/ui/Badge';
-import './TeacherCard.css';
+import type { Teacher } from "../model/types";
+import { Badge } from "@/shared/ui/Badge";
+import "./TeacherCard.css";
 
 interface TeacherCardActions {
   onCreateStatus: (teacher: Teacher) => void;
@@ -15,26 +13,26 @@ interface TeacherCardProps extends TeacherCardActions {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('es-CO', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  return new Date(iso).toLocaleDateString("es-CO", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 }
 
-export const TeacherCard: React.FC<TeacherCardProps> = ({
+export const TeacherCard = ({
   teacher,
   onCreateStatus,
   onUpdateStatus,
   onCreateObservation,
-}) => {
+}: TeacherCardProps) => {
   const hasStatus = teacher.status !== null;
-  const lastObs = teacher.observations[teacher.observations.length - 1] ?? null;
+  const lastObs = teacher.observations.at(-1);
   const initials = teacher.nombre
-    .split(' ')
+    .split(" ")
     .slice(0, 2)
     .map((w) => w[0])
-    .join('')
+    .join("")
     .toUpperCase();
 
   return (
@@ -63,7 +61,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
           <span className="detail-label">Motivo:</span>
           <span className="detail-value">{teacher.status.motivo_estado}</span>
           <span className="detail-label">Actualizado:</span>
-          <span className="detail-value">{formatDate(teacher.status.fecha_actualizacion)}</span>
+          <span className="detail-value">
+            {formatDate(teacher.status.fecha_actualizacion)}
+          </span>
           <span className="detail-label">Período:</span>
           <span className="detail-value">#{teacher.status.periodo_id}</span>
         </div>
@@ -82,7 +82,8 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
       {teacher.observations.length > 0 && (
         <div className="teacher-obs-count">
           <span className="obs-count-text">
-            {teacher.observations.length} observación{teacher.observations.length !== 1 ? 'es' : ''}
+            {teacher.observations.length} observación
+            {teacher.observations.length !== 1 ? "es" : ""}
           </span>
         </div>
       )}
@@ -93,7 +94,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
           <button
             id={`btn-create-status-${String(teacher.id)}`}
             className="btn btn-primary btn-sm"
-            onClick={() => { onCreateStatus(teacher); }}
+            onClick={() => {
+              onCreateStatus(teacher);
+            }}
           >
             Asignar Estado
           </button>
@@ -101,7 +104,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
           <button
             id={`btn-update-status-${String(teacher.id)}`}
             className="btn btn-secondary btn-sm"
-            onClick={() => { onUpdateStatus(teacher); }}
+            onClick={() => {
+              onUpdateStatus(teacher);
+            }}
           >
             Actualizar Estado
           </button>
@@ -109,7 +114,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
         <button
           id={`btn-create-obs-${String(teacher.id)}`}
           className="btn btn-secondary btn-sm"
-          onClick={() => { onCreateObservation(teacher); }}
+          onClick={() => {
+            onCreateObservation(teacher);
+          }}
         >
           + Observación
         </button>

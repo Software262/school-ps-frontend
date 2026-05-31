@@ -1,41 +1,43 @@
-/* eslint-disable */
-interface StatusBadgeProps {
-  status: "paz-y-salvo" | "pendiente" | "vencido" | "pagado" | "pagada" | "pago-parcial" | string;
+export interface StatusBadgeProps {
+  status: string;
   label?: string;
 }
 
 export function StatusBadge({ status, label }: StatusBadgeProps) {
-  const config: Record<string, { bg: string; text: string; border: string; dot: string; label: string }> = {
+  const config: Record<
+    string,
+    { bg: string; text: string; border: string; dot: string; label: string }
+  > = {
     // Paz y salvo / Pagado
     "paz-y-salvo": {
       bg: "#ecfdf5",
       text: "#065f46",
       border: "#6ee7b7",
       dot: "#10b981",
-      label: label || "Paz y Salvo",
+      label: label ?? "Paz y Salvo",
     },
-    "pagado": {
+    pagado: {
       bg: "#ecfdf5",
       text: "#065f46",
       border: "#6ee7b7",
       dot: "#10b981",
-      label: label || "Pagado",
+      label: label ?? "Pagado",
     },
     // Para el módulo de pruebas usa "pagada"
-    "pagada": {
+    pagada: {
       bg: "#ecfdf5",
       text: "#065f46",
       border: "#6ee7b7",
       dot: "#10b981",
-      label: label || "Pagada",
+      label: label ?? "Pagada",
     },
     // Pendiente — naranja cálido
-    "pendiente": {
+    pendiente: {
       bg: "#fff7ed",
       text: "#9a3412",
       border: "#fdba74",
       dot: "#f97316",
-      label: label || "Pendiente",
+      label: label ?? "Pendiente",
     },
     // Pago parcial — azul índigo
     "pago-parcial": {
@@ -43,15 +45,15 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
       text: "#1e40af",
       border: "#93c5fd",
       dot: "#3b82f6",
-      label: label || "Pago parcial",
+      label: label ?? "Pago parcial",
     },
     // Vencido — rojo intenso
-    "vencido": {
+    vencido: {
       bg: "#fef2f2",
       text: "#991b1b",
       border: "#fca5a5",
       dot: "#ef4444",
-      label: label || "Vencido",
+      label: label ?? "Vencido",
     },
   };
 
@@ -60,10 +62,10 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
     text: "#374151",
     border: "#d1d5db",
     dot: "#9ca3af",
-    label: label || status,
+    label: label ?? status,
   };
 
-  const currentConfig = config[status.toLowerCase()] || defaultStyle;
+  const currentConfig = config[status.toLowerCase()] ?? defaultStyle;
 
   return (
     <span
@@ -75,13 +77,10 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
       }}
     >
       <span
-        className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+        className="w-1.5 h-1.5 rounded-full shrink-0"
         style={{ backgroundColor: currentConfig.dot }}
       />
       {currentConfig.label}
     </span>
   );
 }
-
-
-

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-type BadgeVariant = 'green' | 'yellow' | 'red' | 'gray';
+type BadgeVariant = "green" | "yellow" | "red" | "gray";
 
 interface BadgeProps {
   variant: BadgeVariant;
@@ -9,40 +9,40 @@ interface BadgeProps {
 
 const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   green: {
-    background: 'var(--status-green-bg)',
-    color: 'var(--status-green)',
-    border: '1px solid var(--status-green-border)',
+    background: "var(--status-green-bg)",
+    color: "var(--status-green)",
+    border: "1px solid var(--status-green-border)",
   },
   yellow: {
-    background: 'var(--status-yellow-bg)',
-    color: 'var(--status-yellow)',
-    border: '1px solid var(--status-yellow-border)',
+    background: "var(--status-yellow-bg)",
+    color: "var(--status-yellow)",
+    border: "1px solid var(--status-yellow-border)",
   },
   red: {
-    background: 'var(--status-red-bg)',
-    color: 'var(--status-red)',
-    border: '1px solid var(--status-red-border)',
+    background: "var(--status-red-bg)",
+    color: "var(--status-red)",
+    border: "1px solid var(--status-red-border)",
   },
   gray: {
-    background: 'var(--status-gray-bg)',
-    color: 'var(--status-gray)',
-    border: '1px solid var(--status-gray-border)',
+    background: "var(--status-gray-bg)",
+    color: "var(--status-gray)",
+    border: "1px solid var(--status-gray-border)",
   },
 };
 
-export const Badge: React.FC<BadgeProps> = ({ variant, children }) => (
+export const Badge = ({ variant, children }: BadgeProps) => (
   <span
     style={{
       ...variantStyles[variant],
-      display: 'inline-flex',
-      alignItems: 'center',
+      display: "inline-flex",
+      alignItems: "center",
       gap: 4,
-      padding: '2px 8px',
+      padding: "2px 8px",
       borderRadius: 99,
-      fontSize: 'var(--font-size-xs)',
+      fontSize: "var(--font-size-xs)",
       fontWeight: 500,
       lineHeight: 1.6,
-      whiteSpace: 'nowrap',
+      whiteSpace: "nowrap",
     }}
   >
     {children}

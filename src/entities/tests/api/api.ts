@@ -3,7 +3,7 @@
  * Low-level data access for the tests entity.
  * Only pure CRUD — no business logic here.
  */
-import { fetchApi } from "../../../shared/api/apiClient";
+import { fetchApi } from "@/shared/api/apiClient";
 import type {
   PruebaAssignment,
   ComplementarioPrueba,
@@ -15,12 +15,12 @@ import type {
 export const testsEntityApi = {
   /** Get paginated assignment list */
   getAssignments: async (): Promise<PruebaAssignment[]> => {
-    const res = await fetchApi<{ data?: { items?: unknown[] } | unknown[] }>("/tests/details?page=1&limit=100");
+    const res = await fetchApi<{ data?: { items?: unknown[] } | unknown[] }>(
+      "/tests/details?page=1&limit=100",
+    );
     const rawData = res.data ?? [];
-    const items = Array.isArray(rawData) 
-      ? rawData 
-      : rawData.items ?? [];
-      
+    const items = Array.isArray(rawData) ? rawData : (rawData.items ?? []);
+
     return items.map((itemObj: unknown): PruebaAssignment => {
       const item = itemObj as Record<string, unknown>;
       const estudiante = item.estudiante as Record<string, unknown>;
@@ -39,14 +39,17 @@ export const testsEntityApi = {
         valorStr: `$${valor.toLocaleString()}`,
         valorPagadoStr: `$${valorPagado.toLocaleString()}`,
         saldoStr: `$${(valor - valorPagado).toLocaleString()}`,
-        periodoNombre: typeof periodo?.nombre === "string" ? periodo.nombre : "—",
+        periodoNombre:
+          typeof periodo?.nombre === "string" ? periodo.nombre : "—",
       };
     });
   },
 
   /** Get available tests (complementarios for pruebas) */
   getAvailableTests: async (): Promise<ComplementarioPrueba[]> => {
-    const res = await fetchApi<{ data?: ComplementarioPrueba[] }>("/tests/available-tests");
+    const res = await fetchApi<{ data?: ComplementarioPrueba[] }>(
+      "/tests/available-tests",
+    );
     return res.data ?? [];
   },
 
@@ -64,7 +67,9 @@ export const testsEntityApi = {
 
   /** Get all active students */
   getEstudiantes: async (): Promise<EstudianteListItem[]> => {
-    const res = await fetchApi<{ data?: EstudianteListItem[] }>("/tests/estudiantes");
+    const res = await fetchApi<{ data?: EstudianteListItem[] }>(
+      "/tests/estudiantes",
+    );
     return res.data ?? [];
   },
 
@@ -75,11 +80,17 @@ export const testsEntityApi = {
 
   /** Delete a complementario (test type) and its assignments */
   deleteComplementary: async (id: number): Promise<void> => {
-    await fetchApi(`/tests/complementary/${id.toString()}`, { method: "DELETE" });
+    await fetchApi(`/tests/complementary/${id.toString()}`, {
+      method: "DELETE",
+    });
   },
 
   /** Update a complementario */
-  updateComplementary: async (id: number, nombre: string, valor: number): Promise<void> => {
+  updateComplementary: async (
+    id: number,
+    nombre: string,
+    valor: number,
+  ): Promise<void> => {
     await fetchApi(`/tests/complementary/${id.toString()}`, {
       method: "PUT",
       body: JSON.stringify({ nombre, valor }),
@@ -100,7 +111,3 @@ export const testsEntityApi = {
     });
   },
 };
-
-
-
-

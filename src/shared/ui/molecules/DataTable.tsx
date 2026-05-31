@@ -15,7 +15,13 @@ interface DataTableProps {
   emptyMessage?: string;
 }
 
-export function DataTable({ columns, data, onSelect, selectedRow, emptyMessage = "No se encontraron registros" }: DataTableProps) {
+export function DataTable({
+  columns,
+  data,
+  onSelect,
+  selectedRow,
+  emptyMessage = "No se encontraron registros",
+}: DataTableProps) {
   if (data.length === 0) {
     return (
       <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
@@ -32,7 +38,10 @@ export function DataTable({ columns, data, onSelect, selectedRow, emptyMessage =
             <tr>
               {onSelect && <th className="w-12 px-4 py-3"></th>}
               {columns.map((column) => (
-                <th key={column.key} className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                <th
+                  key={column.key}
+                  className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                >
                   {column.label}
                 </th>
               ))}
@@ -59,8 +68,13 @@ export function DataTable({ columns, data, onSelect, selectedRow, emptyMessage =
                     </td>
                   )}
                   {columns.map((column) => (
-                    <td key={column.key} className="px-4 py-3 text-sm text-gray-900">
-                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    <td
+                      key={column.key}
+                      className="px-4 py-3 text-sm text-gray-900"
+                    >
+                      {column.render
+                        ? column.render(row[column.key], row)
+                        : row[column.key]}
                     </td>
                   ))}
                 </tr>
@@ -72,6 +86,3 @@ export function DataTable({ columns, data, onSelect, selectedRow, emptyMessage =
     </div>
   );
 }
-
-
-

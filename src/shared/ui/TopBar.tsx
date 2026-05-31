@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import './TopBar.css';
+import { useState } from "react";
+import "./TopBar.css";
 
 interface TopBarProps {
   schoolName?: string;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({
-  schoolName = 'Cambridge School',
-}) => {
+export const TopBar = ({ schoolName = "Cambridge School" }: TopBarProps) => {
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
@@ -16,7 +14,9 @@ export const TopBar: React.FC<TopBarProps> = ({
     <div className="topbar-notification" role="banner">
       <button
         className="topbar-close"
-        onClick={() => { setVisible(false); }}
+        onClick={() => {
+          setVisible(false);
+        }}
         aria-label="Cerrar notificación"
       >
         ✕

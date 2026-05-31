@@ -1,21 +1,22 @@
-/* eslint-disable */
-export const BASE_URL = `${import.meta.env.VITE_BASE_API}`;
+import { env } from "@shared/config";
 
 export async function fetchApi<T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> {
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const headers = new Headers(options?.headers);
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(`${env.baseApi}${endpoint}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
+    headers,
   });
 
   if (!response.ok) {
     throw new Error(`API error: ${response.statusText}`);
   }
 
-  return response.json();
+  return (await response.json()) as T;
 }
