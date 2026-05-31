@@ -28,17 +28,24 @@ export function useTests() {
   const [error, setError] = useState<string | null>(null);
 
   const loadAll = useCallback(async () => {
+    const [assign, tests, gradoList, periodoList, studentList] =
+      await Promise.all([
+        testsEntityApi.getAssignments(),
+        testsEntityApi.getAvailableTests(),
+        testsEntityApi.getGrados(),
+        testsEntityApi.getPeriodos(),
+        testsEntityApi.getEstudiantes(),
+      ]);
+
+    return { assign, tests, gradoList, periodoList, studentList };
+  }, []);
+
+  const refreshAll = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const [assign, tests, gradoList, periodoList, studentList] =
-        await Promise.all([
-          testsEntityApi.getAssignments(),
-          testsEntityApi.getAvailableTests(),
-          testsEntityApi.getGrados(),
-          testsEntityApi.getPeriodos(),
-          testsEntityApi.getEstudiantes(),
-        ]);
+      const { assign, tests, gradoList, periodoList, studentList } =
+        await loadAll();
       setAssignments(assign);
       setAvailableTests(tests);
       setGrados(gradoList);
@@ -50,39 +57,45 @@ export function useTests() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [loadAll]);
 
   useEffect(() => {
-    void loadAll();
-  }, [loadAll]);
+    const timeoutId = setTimeout(() => {
+      void refreshAll();
+    }, 0);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [refreshAll]);
 
   // ── Actions ────────────────────────────────────────────────────────────────
 
   const assignIndividual = async (request: CreatePruebaRequest) => {
     const result = await testsFeatureApi.assignIndividual(request);
-    if (result.success) await loadAll();
+    if (result.success) await refreshAll();
     return result;
   };
 
   const assignMassive = async (request: MassiveAssignRequest) => {
     const result = await testsFeatureApi.assignMassive(request);
-    if (result.assigned > 0) await loadAll();
+    if (result.assigned > 0) await refreshAll();
     return result;
   };
 
   const registerPayment = async (testId: number, monto: number) => {
     await testsFeatureApi.registerPayment(testId, monto);
-    await loadAll();
+    await refreshAll();
   };
 
   const deleteAssignment = async (id: number) => {
     await testsEntityApi.deleteAssignment(id);
-    await loadAll();
+    await refreshAll();
   };
 
   const deleteComplementary = async (id: number) => {
     await testsEntityApi.deleteComplementary(id);
-    await loadAll();
+    await refreshAll();
   };
 
   const updateComplementary = async (
@@ -91,12 +104,12 @@ export function useTests() {
     valor: number,
   ) => {
     await testsEntityApi.updateComplementary(id, nombre, valor);
-    await loadAll();
+    await refreshAll();
   };
 
   const createComplementary = async (nombre: string, valor: number) => {
     await testsEntityApi.createComplementary(nombre, valor);
-    await loadAll();
+    await refreshAll();
   };
 
   // ── Derived state ──────────────────────────────────────────────────────────
@@ -128,7 +141,7 @@ export function useTests() {
     totalPendiente,
     moduloBloqueado,
     // actions
-    loadAll,
+    loadAll: refreshAll,
     assignIndividual,
     assignMassive,
     registerPayment,
