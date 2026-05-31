@@ -92,7 +92,7 @@ export function TestsPage() {
     {
       key: "estadoStr",
       label: "Estado",
-      render: (value: string) => <StatusBadge status={value} />,
+      render: (value: unknown) => <StatusBadge status={String(value)} />,
     },
     {
       key: "id",
