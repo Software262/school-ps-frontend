@@ -9,9 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './app/router/__root'
+import { Route as DashboardSalonTitularIndexRouteImport } from './app/router/dashboard/salon-titular/index'
 import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 
+const DashboardSalonTitularIndexRoute =
+  DashboardSalonTitularIndexRouteImport.update({
+    id: '/dashboard/salon-titular/',
+    path: '/dashboard/salon-titular/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   id: '/dashboard/rectoria/',
   path: '/dashboard/rectoria/',
@@ -26,31 +33,49 @@ const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/dashboard/band/': typeof DashboardBandIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
 }
 export interface FileRoutesByTo {
   '/dashboard/band': typeof DashboardBandIndexRoute
   '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-titular': typeof DashboardSalonTitularIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/dashboard/band/': typeof DashboardBandIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/dashboard/band/' | '/dashboard/rectoria/'
+  fullPaths:
+    | '/dashboard/band/'
+    | '/dashboard/rectoria/'
+    | '/dashboard/salon-titular/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/dashboard/band' | '/dashboard/rectoria'
-  id: '__root__' | '/dashboard/band/' | '/dashboard/rectoria/'
+  to: '/dashboard/band' | '/dashboard/rectoria' | '/dashboard/salon-titular'
+  id:
+    | '__root__'
+    | '/dashboard/band/'
+    | '/dashboard/rectoria/'
+    | '/dashboard/salon-titular/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
   DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
+  DashboardSalonTitularIndexRoute: typeof DashboardSalonTitularIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard/salon-titular/': {
+      id: '/dashboard/salon-titular/'
+      path: '/dashboard/salon-titular'
+      fullPath: '/dashboard/salon-titular/'
+      preLoaderRoute: typeof DashboardSalonTitularIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/rectoria/': {
       id: '/dashboard/rectoria/'
       path: '/dashboard/rectoria'
@@ -71,6 +96,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   DashboardBandIndexRoute: DashboardBandIndexRoute,
   DashboardRectoriaIndexRoute: DashboardRectoriaIndexRoute,
+  DashboardSalonTitularIndexRoute: DashboardSalonTitularIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

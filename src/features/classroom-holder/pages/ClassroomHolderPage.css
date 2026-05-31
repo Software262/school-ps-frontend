@@ -1,0 +1,112 @@
+.chp-root {
+  padding: 2rem;
+  min-height: 100%;
+  background-color: var(--content-bg);
+}
+
+.chp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.chp-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+}
+
+.chp-subtitle {
+  margin-top: 0.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.btn-new-incident {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--brand-primary);
+  box-shadow: var(--card-shadow);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-new-incident:hover {
+  background-color: var(--brand-primary-hover);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-new-incident:active {
+  transform: scale(0.95);
+}
+
+.restricted-alert {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--status-yellow-bg);
+  border: 1px solid var(--status-yellow-border);
+}
+
+.restricted-alert-icon {
+  margin-right: 0.75rem;
+  font-size: 1.125rem;
+  color: var(--status-yellow);
+}
+
+.restricted-alert-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.restricted-alert-desc {
+  font-size: var(--font-size-sm);
+  margin-top: 0.125rem;
+  color: var(--text-secondary);
+}
+
+.paz-salvo-banner {
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  border-left: 4px solid;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.paz-salvo-banner--ok {
+  background-color: var(--status-green-bg);
+  border-left-color: var(--status-green);
+  color: var(--status-green);
+}
+
+.paz-salvo-banner--fail {
+  background-color: var(--status-red-bg);
+  border-left-color: var(--status-red);
+  color: var(--status-red);
+}
+
+.paz-salvo-label {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.paz-salvo-message {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}

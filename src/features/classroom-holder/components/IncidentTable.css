@@ -1,0 +1,60 @@
+.incident-table-wrapper {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+.incident-table-th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: var(--status-gray-bg);
+  color: var(--status-gray);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.incident-table-tr {
+  border-bottom: 1px solid var(--card-border);
+  transition: background-color var(--transition-fast);
+}
+
+.incident-table-tr:last-child {
+  border-bottom: none;
+}
+
+.incident-table-tr:hover {
+  background-color: var(--status-gray-bg);
+}
+
+.status-badge {
+  padding: 0.25rem 1rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid;
+  display: inline-block;
+  text-align: center;
+  transition: opacity var(--transition-fast);
+}
+
+.status-badge--pending {
+  background-color: var(--status-yellow-bg);
+  color: var(--status-yellow);
+  border-color: var(--status-yellow-border);
+  cursor: pointer;
+}
+
+.status-badge--pending:hover {
+  opacity: 0.8;
+}
+
+.status-badge--resolved {
+  background-color: var(--status-green-bg);
+  color: var(--status-green);
+  border-color: var(--status-green-border);
+  cursor: default;
+}
