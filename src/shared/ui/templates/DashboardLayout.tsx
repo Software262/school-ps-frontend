@@ -1,12 +1,12 @@
-import { useState, type ReactNode } from "react";
-import { Sidebar } from "../organisms/Sidebar";
-import { Header } from "../organisms/Header";
+import { useState, type ReactNode } from 'react';
+import { Sidebar } from '../organisms/Sidebar';
+import { Header } from '../organisms/Header';
 
 export const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen" style={{ backgroundColor: "#E9E9E7" }}>
+    <div className="flex h-screen" style={{ backgroundColor: '#E9E9E7' }}>
       <Sidebar isOpen={sidebarOpen} />
 
       <div className="flex-1 flex flex-col overflow-hidden">

@@ -1,8 +1,8 @@
-import { useState, useEffect, type SubmitEvent } from "react";
-import { Modal } from "@/shared/ui/Modal";
-import { Spinner } from "@/shared/ui/Spinner";
-import type { Teacher } from "@/entities/teacher/model/types";
-import { updateStatus } from "../api/rectoriaApi";
+import { useState, useEffect, type SubmitEvent } from 'react';
+import { Modal } from '@/shared/ui/atoms/Modal';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
+import type { Teacher } from '@/entities/teacher/model/types';
+import { updateStatus } from '../api/rectoriaApi';
 
 interface UpdateStatusModalProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ export const UpdateStatusModal = ({
   teacher,
   onSuccess,
 }: UpdateStatusModalProps) => {
-  const [motivo, setMotivo] = useState("");
+  const [motivo, setMotivo] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +34,7 @@ export const UpdateStatusModal = ({
   }, [isOpen, teacher]);
 
   function reset() {
-    setMotivo("");
+    setMotivo('');
     setError(null);
   }
 
@@ -57,9 +57,7 @@ export const UpdateStatusModal = ({
       onSuccess();
       onClose();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Error al actualizar el estado",
-      );
+      setError(err instanceof Error ? err.message : 'Error al actualizar el estado');
     } finally {
       setLoading(false);
     }
@@ -75,15 +73,12 @@ export const UpdateStatusModal = ({
       {teacher && (
         <p
           style={{
-            fontSize: "var(--font-size-sm)",
-            color: "var(--text-muted)",
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--text-muted)',
             marginBottom: 16,
           }}
         >
-          Docente:{" "}
-          <strong style={{ color: "var(--text-primary)" }}>
-            {teacher.nombre}
-          </strong>
+          Docente: <strong style={{ color: 'var(--text-primary)' }}>{teacher.nombre}</strong>
         </p>
       )}
 
@@ -92,8 +87,7 @@ export const UpdateStatusModal = ({
       <form id="form-update-status" onSubmit={(e) => void handleSubmit(e)}>
         <div className="form-group">
           <label className="form-label" htmlFor="us-motivo">
-            Nuevo motivo del estado{" "}
-            <span style={{ color: "var(--status-red)" }}>*</span>
+            Nuevo motivo del estado <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <textarea
             id="us-motivo"
@@ -109,9 +103,9 @@ export const UpdateStatusModal = ({
           />
           <span
             style={{
-              fontSize: "var(--font-size-xs)",
-              color: "var(--text-muted)",
-              textAlign: "right",
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--text-muted)',
+              textAlign: 'right',
             }}
           >
             {motivo.length}/400
@@ -134,7 +128,7 @@ export const UpdateStatusModal = ({
             disabled={loading || !motivo.trim()}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
-            {loading ? "Guardando…" : "Actualizar Estado"}
+            {loading ? 'Guardando…' : 'Actualizar Estado'}
           </button>
         </div>
       </form>

@@ -1,6 +1,6 @@
-import type { Teacher } from "../model/types";
-import { Badge } from "@/shared/ui/Badge";
-import "./TeacherCard.css";
+import type { Teacher } from '../model/types';
+import { Badge } from '@/shared/ui/Badge';
+import './TeacherCard.css';
 
 interface TeacherCardActions {
   onCreateStatus: (teacher: Teacher) => void;
@@ -13,10 +13,10 @@ interface TeacherCardProps extends TeacherCardActions {
 }
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("es-CO", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
+  return new Date(iso).toLocaleDateString('es-CO', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
   });
 }
 
@@ -29,10 +29,10 @@ export const TeacherCard = ({
   const hasStatus = teacher.status !== null;
   const lastObs = teacher.observations.at(-1);
   const initials = teacher.nombre
-    .split(" ")
+    .split(' ')
     .slice(0, 2)
     .map((w) => w[0])
-    .join("")
+    .join('')
     .toUpperCase();
 
   return (
@@ -61,9 +61,7 @@ export const TeacherCard = ({
           <span className="detail-label">Motivo:</span>
           <span className="detail-value">{teacher.status.motivo_estado}</span>
           <span className="detail-label">Actualizado:</span>
-          <span className="detail-value">
-            {formatDate(teacher.status.fecha_actualizacion)}
-          </span>
+          <span className="detail-value">{formatDate(teacher.status.fecha_actualizacion)}</span>
           <span className="detail-label">Período:</span>
           <span className="detail-value">#{teacher.status.periodo_id}</span>
         </div>
@@ -83,7 +81,7 @@ export const TeacherCard = ({
         <div className="teacher-obs-count">
           <span className="obs-count-text">
             {teacher.observations.length} observación
-            {teacher.observations.length !== 1 ? "es" : ""}
+            {teacher.observations.length !== 1 ? 'es' : ''}
           </span>
         </div>
       )}

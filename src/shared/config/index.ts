@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const EnvSchema = z.object({
   baseApi: z.coerce.string(),

@@ -1,17 +1,13 @@
-import { FileText } from "lucide-react";
-import { useState } from "react";
-import type { ComplementarioPrueba } from "@/entities/tests/model/types";
+import { FileText } from 'lucide-react';
+import { useState } from 'react';
+import type { ComplementarioPrueba } from '@/entities/tests/model/types';
 
 interface NewTestFormProps {
   onCancel: () => void;
   onSave: () => void;
   initialData?: ComplementarioPrueba;
   onCreateComplementary: (nombre: string, valor: number) => Promise<void>;
-  onUpdateComplementary: (
-    id: number,
-    nombre: string,
-    valor: number,
-  ) => Promise<void>;
+  onUpdateComplementary: (id: number, nombre: string, valor: number) => Promise<void>;
 }
 
 export function NewTestForm({
@@ -21,18 +17,18 @@ export function NewTestForm({
   onCreateComplementary,
   onUpdateComplementary,
 }: NewTestFormProps) {
-  const [nombre, setNombre] = useState(initialData?.nombre ?? "");
-  const [valor, setValor] = useState(initialData?.valor.toString() ?? "");
+  const [nombre, setNombre] = useState(initialData?.nombre ?? '');
+  const [valor, setValor] = useState(initialData?.valor.toString() ?? '');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleSubmit = async () => {
     if (!nombre || !valor) {
-      setError("Completa todos los campos.");
+      setError('Completa todos los campos.');
       return;
     }
     setLoading(true);
-    setError("");
+    setError('');
     try {
       if (initialData) {
         await onUpdateComplementary(initialData.id, nombre, parseInt(valor));
@@ -42,9 +38,7 @@ export function NewTestForm({
       onSave();
     } catch (e) {
       console.error(e);
-      setError(
-        initialData ? "Error al actualizar prueba." : "Error al crear prueba.",
-      );
+      setError(initialData ? 'Error al actualizar prueba.' : 'Error al crear prueba.');
     } finally {
       setLoading(false);
     }
@@ -54,9 +48,7 @@ export function NewTestForm({
     <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6 shadow-sm">
       <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <FileText className="w-5 h-5 text-green-600" />
-        {initialData
-          ? "Editar Prueba Institucional"
-          : "Crear Nueva Prueba Institucional"}
+        {initialData ? 'Editar Prueba Institucional' : 'Crear Nueva Prueba Institucional'}
       </h3>
 
       {error && (
@@ -81,9 +73,7 @@ export function NewTestForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Costo ($)
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Costo ($)</label>
           <input
             type="number"
             value={valor}
@@ -110,11 +100,7 @@ export function NewTestForm({
           disabled={loading}
           className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
         >
-          {loading
-            ? "Guardando..."
-            : initialData
-              ? "Actualizar"
-              : "Crear Prueba"}
+          {loading ? 'Guardando...' : initialData ? 'Actualizar' : 'Crear Prueba'}
         </button>
       </div>
     </div>

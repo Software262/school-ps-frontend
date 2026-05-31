@@ -1,11 +1,11 @@
-import { useState } from "react";
-import "./TopBar.css";
+import { useState } from 'react';
+import './TopBar.css';
 
 interface TopBarProps {
   schoolName?: string;
 }
 
-export const TopBar = ({ schoolName = "Cambridge School" }: TopBarProps) => {
+export const TopBar = ({ schoolName = 'Cambridge School' }: TopBarProps) => {
   const [visible, setVisible] = useState(true);
 
   if (!visible) return null;
@@ -21,9 +21,7 @@ export const TopBar = ({ schoolName = "Cambridge School" }: TopBarProps) => {
       >
         ✕
       </button>
-      <span className="topbar-message">
-        Bienvenido al Sistema de Paz y Salvo - {schoolName}
-      </span>
+      <span className="topbar-message">Bienvenido al Sistema de Paz y Salvo - {schoolName}</span>
     </div>
   );
 };

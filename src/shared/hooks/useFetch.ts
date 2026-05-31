@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface UseFetchState<T> {
   data: T | null;
@@ -10,9 +10,7 @@ interface UseFetchState<T> {
  * Generic hook for fetching data from an API endpoint.
  * Re-fetches whenever `url` changes.
  */
-export function useFetch<T>(
-  url: string,
-): UseFetchState<T> & { refetch: () => void } {
+export function useFetch<T>(url: string): UseFetchState<T> & { refetch: () => void } {
   const [state, setState] = useState<UseFetchState<T>>({
     data: null,
     loading: true,
@@ -38,7 +36,7 @@ export function useFetch<T>(
         const json: unknown = await res.json();
 
         let data: T | null = null;
-        if (typeof json === "object" && json !== null && "data" in json) {
+        if (typeof json === 'object' && json !== null && 'data' in json) {
           const payload = (json as { data?: unknown }).data;
           data = (payload ?? null) as T | null;
         }
@@ -48,8 +46,7 @@ export function useFetch<T>(
         }
       } catch (err: unknown) {
         if (!cancelled) {
-          const message =
-            err instanceof Error ? err.message : "Error desconocido";
+          const message = err instanceof Error ? err.message : 'Error desconocido';
           setState({ data: null, loading: false, error: message });
         }
       }

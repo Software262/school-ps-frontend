@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback, type SubmitEvent } from "react";
-import { TeacherCard } from "@/entities/teacher/ui/TeacherCard";
-import { CreateStatusModal } from "./CreateStatusModal";
-import { UpdateStatusModal } from "./UpdateStatusModal";
-import { CreateObservationModal } from "./CreateObservationModal";
-import { Spinner } from "@/shared/ui/Spinner";
-import { getTeachers } from "../api/rectoriaApi";
-import type { Teacher } from "@/entities/teacher/model/types";
-import "./TeacherList.css";
+import { useState, useEffect, useCallback, type SubmitEvent } from 'react';
+import { TeacherCard } from '@/entities/teacher/ui/TeacherCard';
+import { CreateStatusModal } from './CreateStatusModal';
+import { UpdateStatusModal } from './UpdateStatusModal';
+import { CreateObservationModal } from './CreateObservationModal';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
+import { getTeachers } from '../api/rectoriaApi';
+import type { Teacher } from '@/entities/teacher/model/types';
+import './TeacherList.css';
 
 export const TeacherList = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -14,16 +14,14 @@ export const TeacherList = () => {
   const [error, setError] = useState<string | null>(null);
 
   // Search filters
-  const [filterCode, setFilterCode] = useState("");
-  const [filterName, setFilterName] = useState("");
-  const [searchCode, setSearchCode] = useState("");
-  const [searchName, setSearchName] = useState("");
+  const [filterCode, setFilterCode] = useState('');
+  const [filterName, setFilterName] = useState('');
+  const [searchCode, setSearchCode] = useState('');
+  const [searchName, setSearchName] = useState('');
 
   // Modal state
   const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null);
-  const [modal, setModal] = useState<
-    "createStatus" | "updateStatus" | "createObs" | null
-  >(null);
+  const [modal, setModal] = useState<'createStatus' | 'updateStatus' | 'createObs' | null>(null);
 
   const fetchTeachers = useCallback(async () => {
     setLoading(true);
@@ -32,9 +30,7 @@ export const TeacherList = () => {
       const data = await getTeachers();
       setTeachers(data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Error al cargar los docentes",
-      );
+      setError(err instanceof Error ? err.message : 'Error al cargar los docentes');
     } finally {
       setLoading(false);
     }
@@ -48,9 +44,7 @@ export const TeacherList = () => {
 
   // Apply search filters
   const filtered = teachers.filter((t) => {
-    const matchCode = searchCode
-      ? String(t.id).includes(searchCode.trim())
-      : true;
+    const matchCode = searchCode ? String(t.id).includes(searchCode.trim()) : true;
     const matchName = searchName
       ? t.nombre.toLowerCase().includes(searchName.trim().toLowerCase())
       : true;
@@ -64,10 +58,10 @@ export const TeacherList = () => {
   }
 
   function handleClearSearch() {
-    setFilterCode("");
-    setFilterName("");
-    setSearchCode("");
-    setSearchName("");
+    setFilterCode('');
+    setFilterName('');
+    setSearchCode('');
+    setSearchName('');
   }
 
   function openModal(type: typeof modal, teacher: Teacher) {
@@ -80,7 +74,7 @@ export const TeacherList = () => {
     setSelectedTeacher(null);
   }
 
-  const isSearchActive = searchCode !== "" || searchName !== "";
+  const isSearchActive = searchCode !== '' || searchName !== '';
 
   return (
     <>
@@ -97,11 +91,7 @@ export const TeacherList = () => {
           Ingrese el código o nombre del docente para consultar su estado
         </div>
 
-        <form
-          id="form-search-teachers"
-          className="filter-form"
-          onSubmit={handleSearch}
-        >
+        <form id="form-search-teachers" className="filter-form" onSubmit={handleSearch}>
           <div className="filter-fields">
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label" htmlFor="filter-codigo">
@@ -137,19 +127,11 @@ export const TeacherList = () => {
 
           <div className="filter-actions">
             {isSearchActive && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleClearSearch}
-              >
+              <button type="button" className="btn btn-secondary" onClick={handleClearSearch}>
                 Limpiar
               </button>
             )}
-            <button
-              id="btn-buscar-docentes"
-              type="submit"
-              className="btn btn-primary"
-            >
+            <button id="btn-buscar-docentes" type="submit" className="btn btn-primary">
               🔍 Buscar
             </button>
           </div>
@@ -170,10 +152,7 @@ export const TeacherList = () => {
             <div className="alert alert-error" style={{ maxWidth: 500 }}>
               ⚠ {error}
             </div>
-            <button
-              className="btn btn-secondary"
-              onClick={() => void fetchTeachers()}
-            >
+            <button className="btn btn-secondary" onClick={() => void fetchTeachers()}>
               Reintentar
             </button>
           </div>
@@ -184,8 +163,8 @@ export const TeacherList = () => {
             <span style={{ fontSize: 40 }}>📋</span>
             <p>
               {isSearchActive
-                ? "No se encontraron docentes con ese filtro."
-                : "No hay docentes registrados aún."}
+                ? 'No se encontraron docentes con ese filtro.'
+                : 'No hay docentes registrados aún.'}
             </p>
           </div>
         )}
@@ -194,13 +173,10 @@ export const TeacherList = () => {
           <>
             <div className="teacher-list-meta">
               <span>
-                {filtered.length} docente{filtered.length !== 1 ? "s" : ""}
+                {filtered.length} docente{filtered.length !== 1 ? 's' : ''}
               </span>
               {isSearchActive && (
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={handleClearSearch}
-                >
+                <button className="btn btn-secondary btn-sm" onClick={handleClearSearch}>
                   Quitar filtros
                 </button>
               )}
@@ -211,13 +187,13 @@ export const TeacherList = () => {
                   key={teacher.id}
                   teacher={teacher}
                   onCreateStatus={(t) => {
-                    openModal("createStatus", t);
+                    openModal('createStatus', t);
                   }}
                   onUpdateStatus={(t) => {
-                    openModal("updateStatus", t);
+                    openModal('updateStatus', t);
                   }}
                   onCreateObservation={(t) => {
-                    openModal("createObs", t);
+                    openModal('createObs', t);
                   }}
                 />
               ))}
@@ -228,19 +204,19 @@ export const TeacherList = () => {
 
       {/* Modals */}
       <CreateStatusModal
-        isOpen={modal === "createStatus"}
+        isOpen={modal === 'createStatus'}
         onClose={closeModal}
         teacher={selectedTeacher}
         onSuccess={() => void fetchTeachers()}
       />
       <UpdateStatusModal
-        isOpen={modal === "updateStatus"}
+        isOpen={modal === 'updateStatus'}
         onClose={closeModal}
         teacher={selectedTeacher}
         onSuccess={() => void fetchTeachers()}
       />
       <CreateObservationModal
-        isOpen={modal === "createObs"}
+        isOpen={modal === 'createObs'}
         onClose={closeModal}
         teacher={selectedTeacher}
         onSuccess={() => void fetchTeachers()}

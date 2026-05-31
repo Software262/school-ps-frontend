@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 interface RowBase {
   id?: string | number;
@@ -23,7 +23,7 @@ export function DataTable<TRow extends RowBase>({
   data,
   onSelect,
   selectedRow,
-  emptyMessage = "No se encontraron registros",
+  emptyMessage = 'No se encontraron registros',
 }: DataTableProps<TRow>) {
   if (data.length === 0) {
     return (
@@ -57,11 +57,11 @@ export function DataTable<TRow extends RowBase>({
               return (
                 <tr
                   key={row.id ?? index}
-                  className={`hover:bg-gray-50 transition-colors ${isSelected ? "bg-blue-50" : ""}`}
+                  className={`hover:bg-gray-50 transition-colors ${isSelected ? 'bg-blue-50' : ''}`}
                   onClick={() => {
                     onSelect?.(row);
                   }}
-                  style={{ cursor: onSelect ? "pointer" : "default" }}
+                  style={{ cursor: onSelect ? 'pointer' : 'default' }}
                 >
                   {onSelect && (
                     <td className="px-4 py-3">
@@ -78,25 +78,20 @@ export function DataTable<TRow extends RowBase>({
                   {columns.map((column) => {
                     const cellValue = row[column.key as keyof TRow];
 
-                    let defaultValue: ReactNode = "";
+                    let defaultValue: ReactNode = '';
                     if (
-                      typeof cellValue === "string" ||
-                      typeof cellValue === "number" ||
-                      typeof cellValue === "bigint"
+                      typeof cellValue === 'string' ||
+                      typeof cellValue === 'number' ||
+                      typeof cellValue === 'bigint'
                     ) {
                       defaultValue = String(cellValue);
-                    } else if (typeof cellValue === "boolean") {
-                      defaultValue = cellValue ? "Sí" : "No";
+                    } else if (typeof cellValue === 'boolean') {
+                      defaultValue = cellValue ? 'Sí' : 'No';
                     }
 
                     return (
-                      <td
-                        key={column.key}
-                        className="px-4 py-3 text-sm text-gray-900"
-                      >
-                        {column.render
-                          ? column.render(cellValue, row)
-                          : defaultValue}
+                      <td key={column.key} className="px-4 py-3 text-sm text-gray-900">
+                        {column.render ? column.render(cellValue, row) : defaultValue}
                       </td>
                     );
                   })}

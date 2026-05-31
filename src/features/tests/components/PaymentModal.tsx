@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { DollarSign, X } from "lucide-react";
-import type { PruebaAssignment } from "@/entities/tests/model/types";
+import { useState } from 'react';
+import { DollarSign, X } from 'lucide-react';
+import type { PruebaAssignment } from '@/entities/tests/model/types';
 
 interface PaymentModalProps {
   item: PruebaAssignment;
@@ -16,11 +16,11 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
   const handlePay = async () => {
     const val = parseInt(monto);
     if (isNaN(val) || val <= 0) {
-      alert("Ingresa un monto válido");
+      alert('Ingresa un monto válido');
       return;
     }
     if (val > saldoPendiente) {
-      alert("El monto no puede ser mayor al saldo pendiente");
+      alert('El monto no puede ser mayor al saldo pendiente');
       return;
     }
 
@@ -30,7 +30,7 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
       onClose();
     } catch (e) {
       console.error(e);
-      alert("Error al procesar el pago");
+      alert('Error al procesar el pago');
     } finally {
       setLoading(false);
     }
@@ -44,10 +44,7 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
             <DollarSign className="w-5 h-5 text-blue-600" />
             Registrar Abono
           </h3>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -92,7 +89,7 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
             disabled={loading}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm disabled:opacity-50"
           >
-            {loading ? "Procesando..." : "Confirmar Pago"}
+            {loading ? 'Procesando...' : 'Confirmar Pago'}
           </button>
         </div>
       </div>

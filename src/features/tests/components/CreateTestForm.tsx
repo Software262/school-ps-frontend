@@ -1,5 +1,5 @@
-import { FileText, User, Users, AlertTriangle } from "lucide-react";
-import { useState } from "react";
+import { FileText, User, Users, AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
 import type {
   ComplementarioPrueba,
   Grado,
@@ -7,7 +7,7 @@ import type {
   EstudianteListItem,
   CreatePruebaRequest,
   MassiveAssignRequest,
-} from "@/entities/tests/model/types";
+} from '@/entities/tests/model/types';
 
 interface CreateTestFormProps {
   onCancel: () => void;
@@ -16,9 +16,7 @@ interface CreateTestFormProps {
   grados: Grado[];
   periodos: Periodo[];
   estudiantes: EstudianteListItem[];
-  onAssignIndividual: (
-    req: CreatePruebaRequest,
-  ) => Promise<{ success: boolean; message: string }>;
+  onAssignIndividual: (req: CreatePruebaRequest) => Promise<{ success: boolean; message: string }>;
   onAssignMassive: (req: MassiveAssignRequest) => Promise<{
     success: boolean;
     assigned: number;
@@ -37,15 +35,15 @@ export function CreateTestForm({
   onAssignIndividual,
   onAssignMassive,
 }: CreateTestFormProps) {
-  const [mode, setMode] = useState<"massive" | "individual">("massive");
-  const [gradoId, setGradoId] = useState(grados[0]?.id.toString() ?? "");
-  const [indGradoId, setIndGradoId] = useState("");
-  const [testId, setTestId] = useState("");
-  const [periodoId, setPeriodoId] = useState(periodos[0]?.id.toString() ?? "");
-  const [studentId, setStudentId] = useState("");
-  const [studentSearch, setStudentSearch] = useState("");
+  const [mode, setMode] = useState<'massive' | 'individual'>('massive');
+  const [gradoId, setGradoId] = useState(grados[0]?.id.toString() ?? '');
+  const [indGradoId, setIndGradoId] = useState('');
+  const [testId, setTestId] = useState('');
+  const [periodoId, setPeriodoId] = useState(periodos[0]?.id.toString() ?? '');
+  const [studentId, setStudentId] = useState('');
+  const [studentSearch, setStudentSearch] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
 
   const filteredStudents = estudiantes.filter((s) => {
@@ -61,18 +59,16 @@ export function CreateTestForm({
   const selectedGrado = grados.find((g) => g.id.toString() === gradoId);
   const selectedTest = availableTests.find((t) => t.id.toString() === testId);
   const selectedPeriodo = periodos.find((p) => p.id.toString() === periodoId);
-  const studentsInGrado = estudiantes.filter(
-    (s) => s.grado_id.toString() === gradoId,
-  );
+  const studentsInGrado = estudiantes.filter((s) => s.grado_id.toString() === gradoId);
 
   const handleSubmitMassive = async () => {
     setShowConfirm(false);
     setLoading(true);
-    setErrorMsg("");
+    setErrorMsg('');
     const result = await onAssignMassive({
       grado_id: parseInt(gradoId),
       complementario_id: parseInt(testId),
-      tipo_prueba: selectedTest?.nombre ?? "Institucional",
+      tipo_prueba: selectedTest?.nombre ?? 'Institucional',
       periodo_id: periodoId ? parseInt(periodoId) : null,
     });
     if (result.assigned === 0 && result.skipped > 0) {
@@ -90,17 +86,17 @@ export function CreateTestForm({
 
   const handleSubmitIndividual = async () => {
     if (!testId || !studentId) {
-      setErrorMsg("Selecciona una prueba y un estudiante.");
+      setErrorMsg('Selecciona una prueba y un estudiante.');
       return;
     }
     setLoading(true);
-    setErrorMsg("");
+    setErrorMsg('');
     try {
       const result = await onAssignIndividual({
         estudiante_id: parseInt(studentId),
         complementario_id: parseInt(testId),
-        tipo_prueba: selectedTest?.nombre ?? "Institucional",
-        estado: "pendiente",
+        tipo_prueba: selectedTest?.nombre ?? 'Institucional',
+        estado: 'pendiente',
         valor_pagado: 0,
         periodo_id: periodoId ? parseInt(periodoId) : null,
       });
@@ -111,7 +107,7 @@ export function CreateTestForm({
       }
     } catch (e) {
       console.error(e);
-      setErrorMsg("Error inesperado al asignar la prueba.");
+      setErrorMsg('Error inesperado al asignar la prueba.');
     } finally {
       setLoading(false);
     }
@@ -129,19 +125,19 @@ export function CreateTestForm({
         <div className="flex gap-2 mb-5">
           <button
             onClick={() => {
-              setMode("massive");
-              setErrorMsg("");
+              setMode('massive');
+              setErrorMsg('');
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === "massive" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === 'massive' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
           >
             <Users className="w-4 h-4" /> Masiva (por grado)
           </button>
           <button
             onClick={() => {
-              setMode("individual");
-              setErrorMsg("");
+              setMode('individual');
+              setErrorMsg('');
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === "individual" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === 'individual' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
           >
             <User className="w-4 h-4" /> Individual
           </button>
@@ -154,10 +150,10 @@ export function CreateTestForm({
         )}
 
         <div
-          className={`grid grid-cols-1 gap-4 ${mode === "individual" ? "md:grid-cols-3" : "md:grid-cols-3"}`}
+          className={`grid grid-cols-1 gap-4 ${mode === 'individual' ? 'md:grid-cols-3' : 'md:grid-cols-3'}`}
         >
           {/* Col 1 */}
-          {mode === "massive" ? (
+          {mode === 'massive' ? (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Seleccionar Grado Objetivo
@@ -186,7 +182,7 @@ export function CreateTestForm({
                   value={indGradoId}
                   onChange={(e) => {
                     setIndGradoId(e.target.value);
-                    setStudentId("");
+                    setStudentId('');
                   }}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
@@ -203,12 +199,7 @@ export function CreateTestForm({
                   Estudiante
                   {studentId && (
                     <span className="ml-2 text-blue-600 font-semibold">
-                      ✓{" "}
-                      {
-                        filteredStudents.find(
-                          (s) => s.id.toString() === studentId,
-                        )?.nombre
-                      }
+                      ✓ {filteredStudents.find((s) => s.id.toString() === studentId)?.nombre}
                     </span>
                   )}
                 </label>
@@ -223,9 +214,7 @@ export function CreateTestForm({
                 />
                 <div className="border border-gray-200 rounded-lg overflow-y-auto max-h-48 divide-y divide-gray-100">
                   {filteredStudents.length === 0 ? (
-                    <p className="text-sm text-gray-400 text-center py-4">
-                      Sin resultados
-                    </p>
+                    <p className="text-sm text-gray-400 text-center py-4">Sin resultados</p>
                   ) : (
                     filteredStudents.map((s) => {
                       const isSelected = studentId === s.id.toString();
@@ -238,8 +227,8 @@ export function CreateTestForm({
                           }}
                           className={`w-full text-left px-3 py-2 flex items-center justify-between transition-colors text-sm ${
                             isSelected
-                              ? "bg-blue-50 text-blue-800 font-semibold"
-                              : "hover:bg-gray-50 text-gray-700"
+                              ? 'bg-blue-50 text-blue-800 font-semibold'
+                              : 'hover:bg-gray-50 text-gray-700'
                           }`}
                         >
                           <span>
@@ -324,10 +313,10 @@ export function CreateTestForm({
           </button>
           <button
             onClick={
-              mode === "massive"
+              mode === 'massive'
                 ? () => {
                     if (!testId || !gradoId) {
-                      setErrorMsg("Selecciona una prueba y un grado.");
+                      setErrorMsg('Selecciona una prueba y un grado.');
                       return;
                     }
                     setShowConfirm(true);
@@ -340,10 +329,10 @@ export function CreateTestForm({
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {loading
-              ? "Asignando..."
-              : mode === "massive"
-                ? "Asignar a todo el grado"
-                : "Asignar al estudiante"}
+              ? 'Asignando...'
+              : mode === 'massive'
+                ? 'Asignar a todo el grado'
+                : 'Asignar al estudiante'}
           </button>
         </div>
       </div>
@@ -356,27 +345,22 @@ export function CreateTestForm({
               <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-5 h-5 text-amber-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Confirmar asignación masiva
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900">Confirmar asignación masiva</h3>
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-5 space-y-1.5 text-sm">
               <p className="text-gray-700 mb-2">
-                Se asignará a todos los activos que{" "}
-                <strong>aún no la tengan</strong>.
+                Se asignará a todos los activos que <strong>aún no la tengan</strong>.
               </p>
               {[
-                ["Grado", selectedGrado?.nombre],
-                ["Tipo de Prueba", selectedTest?.nombre],
-                ["Valor", `$${selectedTest?.valor.toLocaleString() ?? "0"}`],
-                ["Período", selectedPeriodo?.nombre ?? "Sin período"],
-                ["Estudiantes en el grado", studentsInGrado.length],
+                ['Grado', selectedGrado?.nombre],
+                ['Tipo de Prueba', selectedTest?.nombre],
+                ['Valor', `$${selectedTest?.valor.toLocaleString() ?? '0'}`],
+                ['Período', selectedPeriodo?.nombre ?? 'Sin período'],
+                ['Estudiantes en el grado', studentsInGrado.length],
               ].map(([label, val]) => (
                 <div key={String(label)} className="flex justify-between">
                   <span className="text-gray-500">{label}:</span>
-                  <span className="font-medium text-gray-900">
-                    {val ?? "—"}
-                  </span>
+                  <span className="font-medium text-gray-900">{val ?? '—'}</span>
                 </div>
               ))}
             </div>

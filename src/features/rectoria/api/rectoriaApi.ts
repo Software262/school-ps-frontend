@@ -1,15 +1,11 @@
-import { env } from "@/shared/config";
-import type {
-  Teacher,
-  TeacherObservation,
-  TeacherStatus,
-} from "@/entities/teacher/model/types";
+import { env } from '@/shared/config';
+import type { Teacher, TeacherObservation, TeacherStatus } from '@/entities/teacher/model/types';
 import type {
   CreateObservationRequest,
   CreateStatusRequest,
   UpdateStatusRequest,
-} from "../model/types";
-import type { ApiResponse } from "@/shared/types/api";
+} from '../model/types';
+import type { ApiResponse } from '@/shared/types/api';
 
 interface RawTeacher {
   id: number;
@@ -27,10 +23,9 @@ async function handleResponse<T>(res: Response): Promise<T> {
 
   if (!res.ok) {
     const fallbackMessage = `Error ${String(res.status)}`;
-    const message =
-      json.message.trim().length > 0 ? json.message : fallbackMessage;
+    const message = json.message.trim().length > 0 ? json.message : fallbackMessage;
 
-    throw new Error(typeof json.details === "string" ? json.details : message);
+    throw new Error(typeof json.details === 'string' ? json.details : message);
   }
 
   return json.data as T;
@@ -45,8 +40,7 @@ export async function getTeachers(): Promise<Teacher[]> {
 
   if (!res.ok) {
     const fallbackMessage = `Error ${String(res.status)}`;
-    const message =
-      json.message.trim().length > 0 ? json.message : fallbackMessage;
+    const message = json.message.trim().length > 0 ? json.message : fallbackMessage;
     throw new Error(message);
   }
 
@@ -62,7 +56,7 @@ export async function getTeachers(): Promise<Teacher[]> {
     return {
       id: item.id,
       nombre: item.nombre,
-      correo: item.correo ?? "", // correo is missing from backend, fallback to empty
+      correo: item.correo ?? '', // correo is missing from backend, fallback to empty
       status: currentStatus,
       observations: item.observaciones ?? [],
     };
@@ -70,12 +64,10 @@ export async function getTeachers(): Promise<Teacher[]> {
 }
 
 /** Create a new administrative observation for a teacher */
-export async function createObservation(
-  data: CreateObservationRequest,
-): Promise<void> {
+export async function createObservation(data: CreateObservationRequest): Promise<void> {
   const res = await fetch(`${BASE_URL}/observations`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);
@@ -84,21 +76,18 @@ export async function createObservation(
 /** Assign a new administrative status (paz y salvo) to a teacher */
 export async function createStatus(data: CreateStatusRequest): Promise<void> {
   const res = await fetch(`${BASE_URL}/status`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);
 }
 
 /** Update an existing administrative status */
-export async function updateStatus(
-  statusId: number,
-  data: UpdateStatusRequest,
-): Promise<void> {
+export async function updateStatus(statusId: number, data: UpdateStatusRequest): Promise<void> {
   const res = await fetch(`${BASE_URL}/status/${String(statusId)}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   });
   await handleResponse<unknown>(res);

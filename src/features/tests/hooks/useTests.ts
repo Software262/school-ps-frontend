@@ -3,9 +3,9 @@
  * Central state hook for the tests module.
  * Components use this hook — they never call fetchApi directly.
  */
-import { useState, useEffect, useCallback } from "react";
-import { testsEntityApi } from "@/entities/tests/api/api";
-import { testsFeatureApi } from "@/features/tests/api/testsApi";
+import { useState, useEffect, useCallback } from 'react';
+import { testsEntityApi } from '@/entities/tests/api/api';
+import { testsFeatureApi } from '@/features/tests/api/testsApi';
 import type {
   PruebaAssignment,
   ComplementarioPrueba,
@@ -14,13 +14,11 @@ import type {
   EstudianteListItem,
   CreatePruebaRequest,
   MassiveAssignRequest,
-} from "@/entities/tests/model/types";
+} from '@/entities/tests/model/types';
 
 export function useTests() {
   const [assignments, setAssignments] = useState<PruebaAssignment[]>([]);
-  const [availableTests, setAvailableTests] = useState<ComplementarioPrueba[]>(
-    [],
-  );
+  const [availableTests, setAvailableTests] = useState<ComplementarioPrueba[]>([]);
   const [grados, setGrados] = useState<Grado[]>([]);
   const [periodos, setPeriodos] = useState<Periodo[]>([]);
   const [estudiantes, setEstudiantes] = useState<EstudianteListItem[]>([]);
@@ -28,14 +26,13 @@ export function useTests() {
   const [error, setError] = useState<string | null>(null);
 
   const loadAll = useCallback(async () => {
-    const [assign, tests, gradoList, periodoList, studentList] =
-      await Promise.all([
-        testsEntityApi.getAssignments(),
-        testsEntityApi.getAvailableTests(),
-        testsEntityApi.getGrados(),
-        testsEntityApi.getPeriodos(),
-        testsEntityApi.getEstudiantes(),
-      ]);
+    const [assign, tests, gradoList, periodoList, studentList] = await Promise.all([
+      testsEntityApi.getAssignments(),
+      testsEntityApi.getAvailableTests(),
+      testsEntityApi.getGrados(),
+      testsEntityApi.getPeriodos(),
+      testsEntityApi.getEstudiantes(),
+    ]);
 
     return { assign, tests, gradoList, periodoList, studentList };
   }, []);
@@ -44,15 +41,14 @@ export function useTests() {
     setLoading(true);
     setError(null);
     try {
-      const { assign, tests, gradoList, periodoList, studentList } =
-        await loadAll();
+      const { assign, tests, gradoList, periodoList, studentList } = await loadAll();
       setAssignments(assign);
       setAvailableTests(tests);
       setGrados(gradoList);
       setPeriodos(periodoList);
       setEstudiantes(studentList);
     } catch (e) {
-      setError("Error al cargar los datos del módulo de pruebas.");
+      setError('Error al cargar los datos del módulo de pruebas.');
       console.error(e);
     } finally {
       setLoading(false);
@@ -98,11 +94,7 @@ export function useTests() {
     await refreshAll();
   };
 
-  const updateComplementary = async (
-    id: number,
-    nombre: string,
-    valor: number,
-  ) => {
+  const updateComplementary = async (id: number, nombre: string, valor: number) => {
     await testsEntityApi.updateComplementary(id, nombre, valor);
     await refreshAll();
   };
@@ -115,9 +107,9 @@ export function useTests() {
   // ── Derived state ──────────────────────────────────────────────────────────
 
   const pendientes = assignments.filter(
-    (a) => a.estado === "pendiente" || a.estado === "pago-parcial",
+    (a) => a.estado === 'pendiente' || a.estado === 'pago-parcial',
   ).length;
-  const pagadas = assignments.filter((a) => a.estado === "pagada").length;
+  const pagadas = assignments.filter((a) => a.estado === 'pagada').length;
   const totalRecaudo = assignments.reduce((acc, a) => acc + a.valor_pagado, 0);
   const totalPendiente = assignments.reduce(
     (acc, a) => acc + Math.max(0, (a.valor ?? 0) - a.valor_pagado),

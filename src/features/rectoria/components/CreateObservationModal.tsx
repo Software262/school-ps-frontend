@@ -1,8 +1,8 @@
-import { useState, type SubmitEvent } from "react";
-import { Modal } from "@/shared/ui/Modal";
-import { Spinner } from "@/shared/ui/Spinner";
-import { createObservation } from "@/features/rectoria/api/rectoriaApi";
-import type { Teacher } from "@/entities/teacher/model/types";
+import { useState, type SubmitEvent } from 'react';
+import { Modal } from '@/shared/ui/atoms/Modal';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
+import { createObservation } from '@/features/rectoria/api/rectoriaApi';
+import type { Teacher } from '@/entities/teacher/model/types';
 
 interface CreateObservationModalProps {
   isOpen: boolean;
@@ -12,12 +12,12 @@ interface CreateObservationModalProps {
 }
 
 const OBSERVATION_TYPES = [
-  "académica",
-  "disciplinaria",
-  "ayuda",
-  "reconocimiento",
-  "administrativa",
-  "otra",
+  'académica',
+  'disciplinaria',
+  'ayuda',
+  'reconocimiento',
+  'administrativa',
+  'otra',
 ];
 
 const DEFAULT_USER_ID = 1;
@@ -28,16 +28,16 @@ export const CreateObservationModal = ({
   teacher,
   onSuccess,
 }: CreateObservationModalProps) => {
-  const [periodoId, setPeriodoId] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [tipoObservacion, setTipoObservacion] = useState("");
+  const [periodoId, setPeriodoId] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [tipoObservacion, setTipoObservacion] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function reset() {
-    setPeriodoId("");
-    setDescripcion("");
-    setTipoObservacion("");
+    setPeriodoId('');
+    setDescripcion('');
+    setTipoObservacion('');
     setError(null);
   }
 
@@ -65,35 +65,23 @@ export const CreateObservationModal = ({
       onSuccess();
       onClose();
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Error al registrar la observación",
-      );
+      setError(err instanceof Error ? err.message : 'Error al registrar la observación');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title="Agregar Observación"
-      width={480}
-    >
+    <Modal isOpen={isOpen} onClose={handleClose} title="Agregar Observación" width={480}>
       {teacher && (
         <p
           style={{
-            fontSize: "var(--font-size-sm)",
-            color: "var(--text-muted)",
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--text-muted)',
             marginBottom: 16,
           }}
         >
-          Docente:{" "}
-          <strong style={{ color: "var(--text-primary)" }}>
-            {teacher.nombre}
-          </strong>
+          Docente: <strong style={{ color: 'var(--text-primary)' }}>{teacher.nombre}</strong>
         </p>
       )}
 
@@ -102,7 +90,7 @@ export const CreateObservationModal = ({
       <form id="form-create-observation" onSubmit={(e) => void handleSubmit(e)}>
         <div className="form-group">
           <label className="form-label" htmlFor="co-periodo">
-            ID de Período <span style={{ color: "var(--status-red)" }}>*</span>
+            ID de Período <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <input
             id="co-periodo"
@@ -120,8 +108,7 @@ export const CreateObservationModal = ({
 
         <div className="form-group">
           <label className="form-label" htmlFor="co-tipo">
-            Tipo de observación{" "}
-            <span style={{ color: "var(--status-red)" }}>*</span>
+            Tipo de observación <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <select
             id="co-tipo"
@@ -131,7 +118,7 @@ export const CreateObservationModal = ({
               setTipoObservacion(e.target.value);
             }}
             required
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           >
             <option value="">Seleccione un tipo…</option>
             {OBSERVATION_TYPES.map((t) => (
@@ -144,7 +131,7 @@ export const CreateObservationModal = ({
 
         <div className="form-group">
           <label className="form-label" htmlFor="co-desc">
-            Descripción <span style={{ color: "var(--status-red)" }}>*</span>
+            Descripción <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <textarea
             id="co-desc"
@@ -160,9 +147,9 @@ export const CreateObservationModal = ({
           />
           <span
             style={{
-              fontSize: "var(--font-size-xs)",
-              color: "var(--text-muted)",
-              textAlign: "right",
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--text-muted)',
+              textAlign: 'right',
             }}
           >
             {descripcion.length}/400
@@ -182,12 +169,10 @@ export const CreateObservationModal = ({
             id="btn-submit-observation"
             type="submit"
             className="btn btn-primary"
-            disabled={
-              loading || !periodoId || !descripcion.trim() || !tipoObservacion
-            }
+            disabled={loading || !periodoId || !descripcion.trim() || !tipoObservacion}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
-            {loading ? "Guardando…" : "Registrar Observación"}
+            {loading ? 'Guardando…' : 'Registrar Observación'}
           </button>
         </div>
       </form>

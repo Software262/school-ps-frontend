@@ -1,8 +1,8 @@
-import { useState, type SubmitEvent } from "react";
-import { Modal } from "@/shared/ui/Modal";
-import { Spinner } from "@/shared/ui/Spinner";
-import { createStatus } from "@/features/rectoria/api/rectoriaApi";
-import type { Teacher } from "@/entities/teacher/model/types";
+import { useState, type SubmitEvent } from 'react';
+import { Modal } from '@/shared/ui/atoms/Modal';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
+import { createStatus } from '@/features/rectoria/api/rectoriaApi';
+import type { Teacher } from '@/entities/teacher/model/types';
 
 interface CreateStatusModalProps {
   isOpen: boolean;
@@ -20,14 +20,14 @@ export const CreateStatusModal = ({
   teacher,
   onSuccess,
 }: CreateStatusModalProps) => {
-  const [periodoId, setPeriodoId] = useState("");
-  const [motivo, setMotivo] = useState("");
+  const [periodoId, setPeriodoId] = useState('');
+  const [motivo, setMotivo] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function reset() {
-    setPeriodoId("");
-    setMotivo("");
+    setPeriodoId('');
+    setMotivo('');
     setError(null);
   }
 
@@ -52,31 +52,23 @@ export const CreateStatusModal = ({
       onSuccess();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al crear el estado");
+      setError(err instanceof Error ? err.message : 'Error al crear el estado');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
-      title="Asignar Estado (Paz y Salvo)"
-      width={480}
-    >
+    <Modal isOpen={isOpen} onClose={handleClose} title="Asignar Estado (Paz y Salvo)" width={480}>
       {teacher && (
         <p
           style={{
-            fontSize: "var(--font-size-sm)",
-            color: "var(--text-muted)",
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--text-muted)',
             marginBottom: 16,
           }}
         >
-          Docente:{" "}
-          <strong style={{ color: "var(--text-primary)" }}>
-            {teacher.nombre}
-          </strong>
+          Docente: <strong style={{ color: 'var(--text-primary)' }}>{teacher.nombre}</strong>
         </p>
       )}
 
@@ -85,7 +77,7 @@ export const CreateStatusModal = ({
       <form id="form-create-status" onSubmit={(e) => void handleSubmit(e)}>
         <div className="form-group">
           <label className="form-label" htmlFor="cs-periodo">
-            ID de Período <span style={{ color: "var(--status-red)" }}>*</span>
+            ID de Período <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <input
             id="cs-periodo"
@@ -103,8 +95,7 @@ export const CreateStatusModal = ({
 
         <div className="form-group">
           <label className="form-label" htmlFor="cs-motivo">
-            Motivo del estado{" "}
-            <span style={{ color: "var(--status-red)" }}>*</span>
+            Motivo del estado <span style={{ color: 'var(--status-red)' }}>*</span>
           </label>
           <textarea
             id="cs-motivo"
@@ -120,9 +111,9 @@ export const CreateStatusModal = ({
           />
           <span
             style={{
-              fontSize: "var(--font-size-xs)",
-              color: "var(--text-muted)",
-              textAlign: "right",
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--text-muted)',
+              textAlign: 'right',
             }}
           >
             {motivo.length}/400
@@ -145,7 +136,7 @@ export const CreateStatusModal = ({
             disabled={loading || !periodoId || !motivo.trim()}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
-            {loading ? "Guardando…" : "Asignar Estado"}
+            {loading ? 'Guardando…' : 'Asignar Estado'}
           </button>
         </div>
       </form>

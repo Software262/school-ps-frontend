@@ -1,7 +1,7 @@
 // Domain types for the tests module
 
 export type TipoPrueba = string;
-export type EstadoPrueba = "pagada" | "pendiente" | "pago-parcial";
+export type EstadoPrueba = 'pagada' | 'pendiente' | 'pago-parcial';
 
 export interface Grado {
   id: number;
