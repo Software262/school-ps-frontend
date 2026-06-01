@@ -1,0 +1,102 @@
+.update-status-container {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+}
+
+.update-status-container h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-status.active-pending {
+  border-color: #1f2937;
+  background-color: #f3f4f6;
+}
+
+.btn-status.active-cancelled {
+  border-color: #1f2937;
+  background-color: #f3f4f6;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-black {
+  background-color: #1f2937;
+}
+.dot-gray {
+  background-color: #d1d5db;
+}
+
+.update-status-container textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-save {
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
