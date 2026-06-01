@@ -1,10 +1,12 @@
+import { AlertTriangle } from 'lucide-react';
+
 export const RestrictedAlert = () => {
   return (
-    <div className="bg-[#FFFDF0] border border-[#E8D98A] rounded-lg p-4 mb-6 flex items-start">
-      <span className="text-[#B8860B] mr-3 text-lg mt-0.5">⚠</span>
+    <div className="restricted-alert">
+      <AlertTriangle className="restricted-alert-icon" size={20} aria-hidden="true" />
       <div>
-        <h3 className="text-sm font-bold text-gray-800">Acceso Restringido</h3>
-        <p className="text-sm text-gray-600 mt-0.5">
+        <h3 className="restricted-alert-title">Acceso Restringido</h3>
+        <p className="restricted-alert-desc">
           Este módulo está disponible únicamente para docentes titulares y administradores.
         </p>
       </div>

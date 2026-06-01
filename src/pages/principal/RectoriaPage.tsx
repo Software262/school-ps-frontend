@@ -1,5 +1,5 @@
 import React from 'react';
-import { TeacherList } from '../features/rectoria/components/TeacherList';
+import { TeacherList } from '@/features/rectoria/components/TeacherList';
 import './RectoriaPage.css';
 
 const RectoriaPage: React.FC = () => {

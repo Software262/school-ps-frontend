@@ -1,4 +1,3 @@
-import React from 'react';
 import './Sidebar.css';
 
 interface NavItem {
@@ -28,10 +27,7 @@ interface SidebarProps {
   onNavigate?: (id: string) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
-  activeItem = 'rectoria',
-  onNavigate,
-}) => {
+export const Sidebar = ({ activeItem = 'rectoria', onNavigate }: SidebarProps) => {
   return (
     <aside className="sidebar" role="navigation" aria-label="Navegación principal">
       {/* Brand */}

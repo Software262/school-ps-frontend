@@ -1,11 +1,9 @@
-import React from 'react';
-
 interface SpinnerProps {
   size?: number;
   color?: string;
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({ size = 20, color = 'var(--brand-primary)' }) => (
+export const Spinner = ({ size = 20, color = 'var(--brand-primary)' }: SpinnerProps) => (
   <span
     role="status"
     aria-label="Cargando…"

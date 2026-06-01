@@ -19,7 +19,9 @@
   font-size: 12px;
   padding: 2px 5px;
   border-radius: var(--radius-sm);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
   flex-shrink: 0;
   line-height: 1;
 }

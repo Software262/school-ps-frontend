@@ -1,15 +1,14 @@
-/* eslint-disable */
-import React, { useState, useEffect, useCallback } from 'react';
-import { TeacherCard } from '../../../entities/teacher/ui/TeacherCard';
+import { useState, useEffect, useCallback, type SubmitEvent } from 'react';
+import { TeacherCard } from '@/entities/teacher/ui/TeacherCard';
 import { CreateStatusModal } from './CreateStatusModal';
 import { UpdateStatusModal } from './UpdateStatusModal';
 import { CreateObservationModal } from './CreateObservationModal';
-import { Spinner } from '../../../shared/ui/Spinner';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
 import { getTeachers } from '../api/rectoriaApi';
-import type { Teacher } from '../../../entities/teacher/model/types';
+import type { Teacher } from '@/entities/teacher/model/types';
 import './TeacherList.css';
 
-export const TeacherList: React.FC = () => {
+export const TeacherList = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +37,9 @@ export const TeacherList: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => { void fetchTeachers(); }, 0);
+    setTimeout(() => {
+      void fetchTeachers();
+    }, 0);
   }, [fetchTeachers]);
 
   // Apply search filters
@@ -50,7 +51,7 @@ export const TeacherList: React.FC = () => {
     return matchCode && matchName;
   });
 
-  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+  function handleSearch(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setSearchCode(filterCode);
     setSearchName(filterName);
@@ -80,7 +81,9 @@ export const TeacherList: React.FC = () => {
       {/* Search / Filter card */}
       <div className="filter-card">
         <div className="filter-header">
-          <span className="filter-icon" aria-hidden="true">🔍</span>
+          <span className="filter-icon" aria-hidden="true">
+            🔍
+          </span>
           <h3 className="filter-title">Filtros de búsqueda</h3>
         </div>
 
@@ -91,44 +94,44 @@ export const TeacherList: React.FC = () => {
         <form id="form-search-teachers" className="filter-form" onSubmit={handleSearch}>
           <div className="filter-fields">
             <div className="form-group" style={{ marginBottom: 0 }}>
-              <label className="form-label" htmlFor="filter-codigo">Código</label>
+              <label className="form-label" htmlFor="filter-codigo">
+                Código
+              </label>
               <input
                 id="filter-codigo"
                 className="form-input"
                 type="text"
                 placeholder="Ingrese código"
                 value={filterCode}
-                onChange={(e) => { setFilterCode(e.target.value); }}
+                onChange={(e) => {
+                  setFilterCode(e.target.value);
+                }}
               />
             </div>
             <div className="form-group" style={{ marginBottom: 0 }}>
-              <label className="form-label" htmlFor="filter-nombre">Nombre</label>
+              <label className="form-label" htmlFor="filter-nombre">
+                Nombre
+              </label>
               <input
                 id="filter-nombre"
                 className="form-input"
                 type="text"
                 placeholder="Ingrese nombre"
                 value={filterName}
-                onChange={(e) => { setFilterName(e.target.value); }}
+                onChange={(e) => {
+                  setFilterName(e.target.value);
+                }}
               />
             </div>
           </div>
 
           <div className="filter-actions">
             {isSearchActive && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleClearSearch}
-              >
+              <button type="button" className="btn btn-secondary" onClick={handleClearSearch}>
                 Limpiar
               </button>
             )}
-            <button
-              id="btn-buscar-docentes"
-              type="submit"
-              className="btn btn-primary"
-            >
+            <button id="btn-buscar-docentes" type="submit" className="btn btn-primary">
               🔍 Buscar
             </button>
           </div>
@@ -169,12 +172,11 @@ export const TeacherList: React.FC = () => {
         {!loading && !error && filtered.length > 0 && (
           <>
             <div className="teacher-list-meta">
-              <span>{filtered.length} docente{filtered.length !== 1 ? 's' : ''}</span>
+              <span>
+                {filtered.length} docente{filtered.length !== 1 ? 's' : ''}
+              </span>
               {isSearchActive && (
-                <button
-                  className="btn btn-secondary btn-sm"
-                  onClick={handleClearSearch}
-                >
+                <button className="btn btn-secondary btn-sm" onClick={handleClearSearch}>
                   Quitar filtros
                 </button>
               )}
@@ -184,9 +186,15 @@ export const TeacherList: React.FC = () => {
                 <TeacherCard
                   key={teacher.id}
                   teacher={teacher}
-                  onCreateStatus={(t) => { openModal('createStatus', t); }}
-                  onUpdateStatus={(t) => { openModal('updateStatus', t); }}
-                  onCreateObservation={(t) => { openModal('createObs', t); }}
+                  onCreateStatus={(t) => {
+                    openModal('createStatus', t);
+                  }}
+                  onUpdateStatus={(t) => {
+                    openModal('updateStatus', t);
+                  }}
+                  onCreateObservation={(t) => {
+                    openModal('createObs', t);
+                  }}
                 />
               ))}
             </div>

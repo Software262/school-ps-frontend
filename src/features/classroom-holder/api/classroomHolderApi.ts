@@ -1,14 +1,17 @@
-import type { Incidencia, IncidenciaCreateRequest, PazYSalvoResponse } from '../model/types';
+import type {
+  EnrollmentBalanceResponse,
+  Incidencia,
+  IncidenciaCreateRequest,
+  PazYSalvoResponse,
+} from '../model/types';
 
-// CAMBIA ESTO:
-// const BASE_URL = 'http://127.0.0.1:8000/api/v1/classroom-holder';
-
-// POR ESTO (Usa localhost para ser consistente con el origen):
-const BASE_URL = 'http://localhost:8000/api/v1/classroom-holder';
+const API_URL = 'http://localhost:8000/api/v1';
+const CLASSROOM_HOLDER_URL = `${API_URL}/classroom-holder`;
+const ENROLLMENT_URL = `${API_URL}/enrollment`;
 
 export const classroomHolderApi = {
   crearIncidencia: async (data: IncidenciaCreateRequest): Promise<Incidencia> => {
-    const response = await fetch(`${BASE_URL}/incidencias`, {
+    const response = await fetch(`${CLASSROOM_HOLDER_URL}/incidencias`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -18,13 +21,13 @@ export const classroomHolderApi = {
   },
 
   obtenerIncidenciasPorEstudiante: async (estudianteId: number): Promise<Incidencia[]> => {
-    const response = await fetch(`${BASE_URL}/incidencias/estudiante/${estudianteId}`);
+    const response = await fetch(`${CLASSROOM_HOLDER_URL}/incidencias/estudiante/${estudianteId}`);
     if (!response.ok) throw new Error('Error al obtener incidencias');
     return response.json();
   },
 
   cerrarIncidencia: async (incidenciaId: number): Promise<Incidencia> => {
-    const response = await fetch(`${BASE_URL}/incidencias/${incidenciaId}/cerrar`, {
+    const response = await fetch(`${CLASSROOM_HOLDER_URL}/incidencias/${incidenciaId}/cerrar`, {
       method: 'PATCH',
     });
     if (!response.ok) throw new Error('Error al cerrar incidencia');
@@ -32,8 +35,14 @@ export const classroomHolderApi = {
   },
 
   verificarPazYSalvo: async (estudianteId: number): Promise<PazYSalvoResponse> => {
-    const response = await fetch(`${BASE_URL}/paz-y-salvo/verificar/${estudianteId}`);
+    const response = await fetch(`${CLASSROOM_HOLDER_URL}/paz-y-salvo/verificar/${estudianteId}`);
     if (!response.ok) throw new Error('Error al verificar paz y salvo');
+    return response.json();
+  },
+
+  obtenerBalanceEstudiante: async (estudianteId: number): Promise<EnrollmentBalanceResponse> => {
+    const response = await fetch(`${ENROLLMENT_URL}/students/${estudianteId}/balance`);
+    if (!response.ok) throw new Error('Error al obtener el estudiante');
     return response.json();
   },
 };

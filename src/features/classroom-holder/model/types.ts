@@ -2,6 +2,28 @@
 
 export type TipoIncidencia = 'danio_material' | 'indisciplina' | 'inasistencia' | 'otro';
 
+export interface StudentInfo {
+  id: number;
+  nombre: string;
+  documento: string;
+  grado_id: number;
+  grado_nombre: string;
+  activo: boolean;
+}
+
+export interface EnrollmentBalanceResponse {
+  estudiante: StudentInfo;
+  anio: number;
+  costo_base_matricula: number;
+  total_complementarios: number;
+  costo_total: number;
+  total_pagado: number;
+  total_pendiente: number;
+  estado_matricula: string;
+  matricula_registrada: boolean;
+  pendiente_base: number;
+}
+
 export interface Incidencia {
   id: number;
   estudiante_id: number;
@@ -26,4 +48,9 @@ export interface PazYSalvoResponse {
   estudiante_id: number;
   cumple_paz_y_salvo: boolean;
   mensaje: string;
+}
+
+export interface IncidenciaConEstudiante extends Incidencia {
+  estudiante_nombre: string;
+  grado_nombre?: string;
 }

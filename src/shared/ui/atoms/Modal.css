@@ -44,7 +44,9 @@
   color: var(--text-muted);
   font-size: 16px;
   line-height: 1;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 .modal-close:hover {
   background: var(--status-gray-bg);
@@ -79,7 +81,9 @@
   color: var(--input-text);
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   outline: none;
 }
 
@@ -119,7 +123,9 @@
   font-size: var(--font-size-base);
   font-weight: 500;
   cursor: pointer;
-  transition: background var(--transition-fast), opacity var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    opacity var(--transition-fast);
   border: none;
   white-space: nowrap;
 }
