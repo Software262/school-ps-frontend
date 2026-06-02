@@ -19,7 +19,7 @@
 .card {
   background: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
 }
 
@@ -33,12 +33,12 @@
 }
 
 .search-info {
-  background-color: #ECFDF5;
-  border: 1px solid #A7F3D0;
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
   border-radius: 6px;
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
-  color: #065F46;
+  color: #065f46;
   margin-bottom: 1.5rem;
 }
 
@@ -101,9 +101,9 @@
 
 /* Error Alert */
 .error-alert {
-  background-color: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #B91C1C;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.875rem;
@@ -142,7 +142,7 @@
 }
 
 .btn-link {
-  color: #3B82F6;
+  color: #3b82f6;
   background: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -216,26 +216,26 @@
 }
 
 .status-badge.pagado {
-  background-color: #ECFDF5;
-  color: #065F46;
-  border-color: #A7F3D0;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
 }
 
 .status-badge.parcial {
-  background-color: #FFFBEB;
-  color: #92400E;
-  border-color: #FDE68A;
+  background-color: #fffbeb;
+  color: #92400e;
+  border-color: #fde68a;
 }
 
 .status-badge.pendiente {
   background-color: white;
-  color: #D97706;
-  border-color: #FCD34D;
+  color: #d97706;
+  border-color: #fcd34d;
 }
 
 .edit-btn {
   background: none;
-  color: #3B82F6;
+  color: #3b82f6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -246,7 +246,7 @@
 }
 
 .edit-btn:hover {
-  background-color: #EFF6FF;
+  background-color: #eff6ff;
 }
 
 .installment-details {
@@ -275,8 +275,12 @@
   font-weight: 600;
 }
 
-.text-green { color: #10B981 !important; }
-.text-red { color: #EF4444 !important; }
+.text-green {
+  color: #10b981 !important;
+}
+.text-red {
+  color: #ef4444 !important;
+}
 
 /* Financial Summary */
 .summary-header {
@@ -300,18 +304,18 @@
 }
 
 .summary-card.green {
-  background-color: #F0FDF4;
-  border-color: #BBF7D0;
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
 }
 
 .summary-card.yellow {
-  background-color: #FEFCE8;
-  border-color: #FEF08A;
+  background-color: #fefce8;
+  border-color: #fef08a;
 }
 
 .summary-card.red {
-  background-color: #FEF2F2;
-  border-color: #FECACA;
+  background-color: #fef2f2;
+  border-color: #fecaca;
 }
 
 .summary-label {
@@ -326,17 +330,29 @@
   margin-bottom: 0.25rem;
 }
 
-.summary-card.green .summary-value { color: #15803D; }
-.summary-card.yellow .summary-value { color: #A16207; }
-.summary-card.red .summary-value { color: #B91C1C; }
+.summary-card.green .summary-value {
+  color: #15803d;
+}
+.summary-card.yellow .summary-value {
+  color: #a16207;
+}
+.summary-card.red .summary-value {
+  color: #b91c1c;
+}
 
 .summary-desc {
   font-size: 0.75rem;
 }
 
-.summary-card.green .summary-desc { color: #16A34A; }
-.summary-card.yellow .summary-desc { color: #CA8A04; }
-.summary-card.red .summary-desc { color: #DC2626; }
+.summary-card.green .summary-desc {
+  color: #16a34a;
+}
+.summary-card.yellow .summary-desc {
+  color: #ca8a04;
+}
+.summary-card.red .summary-desc {
+  color: #dc2626;
+}
 
 /* Modal */
 .modal-overlay {
@@ -345,7 +361,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,7 +374,7 @@
   padding: 2rem;
   width: 400px;
   max-width: 90vw;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -405,5 +421,5 @@
 }
 
 .btn-secondary:hover {
-  background-color: #F9FAFB;
+  background-color: #f9fafb;
 }
