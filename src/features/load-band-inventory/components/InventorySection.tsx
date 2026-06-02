@@ -1,18 +1,18 @@
-import { Badge, DataTable } from '@/shared/ui';
+import { DataTable } from '@/shared/ui';
+import { INVENTORY_COLUMNS } from '@/entities/inventory/ui/inventory-columns';
 import type { Inventory } from '@/entities/inventory/model/types';
-import {
-  getEstadoVariant,
-  getEstadoLabel,
-  INVENTORY_COLUMNS,
-} from '@/entities/inventory/model/inventory-utils';
 
 interface InventorySectionProps {
   inventory: Inventory[];
   searchTerm: string;
   currentPage: number;
   totalPages: number;
+  selectedItem: Inventory | null;
   onSearchChange: (term: string) => void;
   onPageChange: (page: number) => void;
+  onSelectItem: (item: Inventory) => void;
+  onNewItem: () => void;
+  onEditItem: () => void;
 }
 
 export const InventorySection = ({
@@ -20,37 +20,35 @@ export const InventorySection = ({
   searchTerm,
   currentPage,
   totalPages,
+  selectedItem,
   onSearchChange,
   onPageChange,
+  onSelectItem,
+  onNewItem,
+  onEditItem,
 }: InventorySectionProps) => {
-  const itemsPerPage = 10;
-
-  // Filtrar instrumentos
-  const filteredInstruments = inventory.filter(
-    (instrument) =>
-      instrument.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      instrument.observacion.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
-
-  // Paginar
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedData = filteredInstruments.slice(startIndex, startIndex + itemsPerPage);
-
-  // Mapear columnas con renders personalizados
-  const columnsWithRenders = INVENTORY_COLUMNS.map((col) => {
-    if (col.key === 'estado_objeto') {
-      return {
-        ...col,
-        render: (value: unknown) => (
-          <Badge variant={getEstadoVariant(String(value))}>{getEstadoLabel(String(value))}</Badge>
-        ),
-      };
-    }
-    return col;
-  });
-
   return (
     <div className="table-section">
+      {/* Header con acciones */}
+      <div className="inventory-header">
+        <div className="inventory-header-buttons">
+          <button
+            className="btn-edit-item"
+            onClick={onEditItem}
+            disabled={!selectedItem}
+            title={
+              !selectedItem ? 'Selecciona un instrumento de la tabla para editarlo' : undefined
+            }
+          >
+            Editar Instrumento
+          </button>
+          <button className="btn-new-item" onClick={onNewItem}>
+            Nuevo Instrumento
+          </button>
+        </div>
+      </div>
+
+      {/* Filtro de búsqueda */}
       <div className="table-filters">
         <input
           type="text"
@@ -61,12 +59,21 @@ export const InventorySection = ({
             onSearchChange(e.target.value);
           }}
         />
+        {selectedItem && (
+          <span className="inventory-selected-hint">
+            ✓ Seleccionado: <strong>{selectedItem.nombre}</strong>
+          </span>
+        )}
       </div>
+
       <DataTable<Inventory>
-        columns={columnsWithRenders}
-        data={paginatedData}
+        columns={INVENTORY_COLUMNS}
+        data={inventory}
+        onSelect={onSelectItem}
+        selectedRow={selectedItem ?? undefined}
         emptyMessage="No se encontraron instrumentos"
       />
+
       {totalPages > 1 && (
         <div className="pagination-wrapper">
           <button
@@ -75,23 +82,19 @@ export const InventorySection = ({
               onPageChange(currentPage - 1);
             }}
             disabled={currentPage === 1}
-            title="Página anterior"
           >
             ← Anterior
           </button>
-
           <div className="pagination-info">
             Página <span className="pagination-number">{currentPage}</span> de{' '}
             <span className="pagination-number">{totalPages}</span>
           </div>
-
           <button
             className="pagination-btn pagination-btn-next"
             onClick={() => {
               onPageChange(currentPage + 1);
             }}
             disabled={currentPage === totalPages}
-            title="Página siguiente"
           >
             Siguiente →
           </button>

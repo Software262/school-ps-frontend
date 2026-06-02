@@ -9,7 +9,6 @@ export const useInventoryFilters = (inventory: Inventory[]) => {
 
   const filtered = useMemo(() => {
     if (inventory.length === 0) return [];
-
     return inventory.filter(
       (instrument) =>
         instrument.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -18,21 +17,22 @@ export const useInventoryFilters = (inventory: Inventory[]) => {
   }, [inventory, searchTerm]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-
-  // Reset página si el filtro reduce resultados
   const currentPage = Math.min(page, Math.max(1, totalPages));
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setPage(1);
   };
-
   const handlePageChange = (newPage: number) => {
     setPage(Math.max(1, Math.min(newPage, totalPages)));
   };
 
   return {
     filtered,
+    paginatedItems,
     currentPage,
     totalPages,
     searchTerm,

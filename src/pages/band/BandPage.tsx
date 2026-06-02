@@ -1,19 +1,21 @@
-import { useState } from 'react';
-import {
-  BandAlert,
-  BandStats,
-  BandTabs,
-  InventorySection,
-} from '@/features/load-band-inventory/components';
+import { useState, useMemo } from 'react';
+import { BandAlert, BandStats, BandTabs, useBandStats } from '@/features/band';
+import { InventorySection } from '@/features/load-band-inventory/components';
 import { useLoadInventory, useInventoryFilters } from '@/features/load-band-inventory/hooks';
 import { LoansSection } from '@/features/load-band-loans/components';
 import { useLoadLoans, useLoansFilters } from '@/features/load-band-loans/hooks';
+import { NewLoanModal } from '@/features/new-band-loan';
+import { ReturnLoanModal } from '@/features/return-band-loan';
+import { NewItemModal } from '@/features/new-band-item';
+import { EditItemModal } from '@/features/edit-band-item';
+import type { Inventory } from '@/entities/inventory/model/types';
 import './BandPage.css';
 
 export const BandPage = () => {
-  const { inventory } = useLoadInventory();
+  // ── Inventario ──────────────────────────────────────────────────────────
+  const { inventory, refetch: refetchInventory } = useLoadInventory();
   const {
-    filtered: filteredInventory,
+    paginatedItems: paginatedInventory,
     currentPage,
     totalPages,
     searchTerm,
@@ -21,9 +23,11 @@ export const BandPage = () => {
     handlePageChange,
   } = useInventoryFilters(inventory);
 
-  const { loans } = useLoadLoans();
+  // ── Préstamos ────────────────────────────────────────────────────────────
+  const { loans, refetch: refetchLoans } = useLoadLoans();
   const {
-    filtered: filteredLoans,
+    formattedLoans,
+    paginatedItems: paginatedLoans,
     currentPage: loansCurrentPage,
     totalPages: loansTotalPages,
     searchTerm: loansSearchTerm,
@@ -33,30 +37,22 @@ export const BandPage = () => {
     handlePageChange: handleLoansPageChange,
   } = useLoansFilters(loans);
 
+  // ── Estado de UI ─────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState<'inventory' | 'loans'>('inventory');
 
-  const stats = [
-    {
-      label: 'Total Instrumentos',
-      value: '12',
-      variant: 'default' as const,
-    },
-    {
-      label: 'Disponibles',
-      value: '7',
-      variant: 'green' as const,
-    },
-    {
-      label: 'Prestados',
-      value: '3',
-      variant: 'yellow' as const,
-    },
-    {
-      label: 'Mantenimiento',
-      value: '2',
-      variant: 'gray' as const,
-    },
-  ];
+  // Inventario
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
+  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
+  const [isEditItemOpen, setIsEditItemOpen] = useState(false);
+
+  // Préstamos
+  const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
+  const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
+
+  // ── Derivados ────────────────────────────────────────────────────────────
+  const stats = useBandStats(inventory);
+
+  const activeLoans = useMemo(() => formattedLoans.filter((l) => l.enPrestamo), [formattedLoans]);
 
   return (
     <div className="band-page">
@@ -66,25 +62,31 @@ export const BandPage = () => {
       </header>
 
       <BandAlert />
-
       <BandStats stats={stats} />
-
       <BandTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       <div className="band-content">
         {activeTab === 'inventory' && (
           <InventorySection
-            inventory={filteredInventory}
+            inventory={paginatedInventory}
             searchTerm={searchTerm}
             currentPage={currentPage}
             totalPages={totalPages}
+            selectedItem={selectedInventoryItem}
             onSearchChange={handleSearch}
             onPageChange={handlePageChange}
+            onSelectItem={setSelectedInventoryItem}
+            onNewItem={() => {
+              setIsNewItemOpen(true);
+            }}
+            onEditItem={() => {
+              if (selectedInventoryItem) setIsEditItemOpen(true);
+            }}
           />
         )}
         {activeTab === 'loans' && (
           <LoansSection
-            loans={filteredLoans}
+            loans={paginatedLoans}
             searchTerm={loansSearchTerm}
             filter={loansFilter}
             currentPage={loansCurrentPage}
@@ -92,9 +94,55 @@ export const BandPage = () => {
             onSearchChange={handleLoansSearch}
             onFilterChange={handleLoansFilterChange}
             onPageChange={handleLoansPageChange}
+            onNewLoan={() => {
+              setIsNewLoanOpen(true);
+            }}
+            onReturnLoan={() => {
+              setIsReturnLoanOpen(true);
+            }}
           />
         )}
       </div>
+
+      {/* ── Modales de inventario ── */}
+      <NewItemModal
+        isOpen={isNewItemOpen}
+        onClose={() => {
+          setIsNewItemOpen(false);
+        }}
+        onSuccess={refetchInventory}
+      />
+
+      <EditItemModal
+        isOpen={isEditItemOpen}
+        item={selectedInventoryItem}
+        onClose={() => {
+          setIsEditItemOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+          setSelectedInventoryItem(null);
+        }}
+      />
+
+      {/* ── Modales de préstamos ── */}
+      <NewLoanModal
+        isOpen={isNewLoanOpen}
+        inventory={inventory}
+        onClose={() => {
+          setIsNewLoanOpen(false);
+        }}
+        onSuccess={refetchLoans}
+      />
+
+      <ReturnLoanModal
+        isOpen={isReturnLoanOpen}
+        activeLoans={activeLoans}
+        onClose={() => {
+          setIsReturnLoanOpen(false);
+        }}
+        onSuccess={refetchLoans}
+      />
     </div>
   );
 };

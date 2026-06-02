@@ -1,3 +1,6 @@
+export type { LoansFilterType, LoanFormatted } from './loan-utils';
+export { convertTimestampToDate } from './loan-utils';
+
 export interface Loan {
   id: number;
   inventario_id: number;

@@ -247,6 +247,76 @@
   box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
+/* === Inventory Section Header === */
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+  gap: 12px;
+  background-color: var(--content-bg);
+  border-bottom: 2px solid var(--card-border);
+}
+
+.inventory-header-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-new-item {
+  padding: 10px 24px;
+  background-color: var(--status-green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-new-item:hover {
+  background-color: #1f6d38;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 125, 70, 0.2);
+}
+
+.btn-edit-item {
+  padding: 10px 24px;
+  background-color: var(--status-yellow);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-edit-item:hover:not(:disabled) {
+  background-color: #b8860b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.2);
+}
+
+.btn-edit-item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.inventory-selected-hint {
+  font-size: var(--font-size-sm);
+  color: var(--status-green);
+  white-space: nowrap;
+}
+
 /* === Loans Section === */
 .loans-section {
   display: flex;

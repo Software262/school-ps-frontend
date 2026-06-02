@@ -12,8 +12,7 @@ export const BandTabs = ({ activeTab, onTabChange }: BandTabsProps) => {
           onTabChange('inventory');
         }}
       >
-        <span className="tab-icon">♪</span>
-        Inventario
+        <span className="tab-icon">♪</span> Inventario
       </button>
       <button
         className={`tab-button ${activeTab === 'loans' ? 'active' : ''}`}
@@ -21,8 +20,7 @@ export const BandTabs = ({ activeTab, onTabChange }: BandTabsProps) => {
           onTabChange('loans');
         }}
       >
-        <span className="tab-icon">📋</span>
-        Préstamos
+        <span className="tab-icon">📋</span> Préstamos
       </button>
     </div>
   );
