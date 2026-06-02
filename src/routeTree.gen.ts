@@ -8,116 +8,129 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './app/router/__root';
-import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route';
-import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index';
-import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index';
-import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index';
+import { Route as rootRouteImport } from './app/router/__root'
+import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route'
+import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index'
+import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
+import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const DashboardTestsIndexRoute = DashboardTestsIndexRouteImport.update({
   id: '/tests/',
   path: '/tests/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   id: '/rectoria/',
   path: '/rectoria/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   id: '/band/',
   path: '/band/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band/': typeof DashboardBandIndexRoute;
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute;
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/tests/': typeof DashboardTestsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band': typeof DashboardBandIndexRoute;
-  '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests': typeof DashboardTestsIndexRoute;
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/band': typeof DashboardBandIndexRoute
+  '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
+  '/dashboard/tests': typeof DashboardTestsIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band/': typeof DashboardBandIndexRoute;
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute;
+  __root__: typeof rootRouteImport
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/tests/': typeof DashboardTestsIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/dashboard' | '/dashboard/band/' | '/dashboard/rectoria/' | '/dashboard/tests/';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/dashboard' | '/dashboard/band' | '/dashboard/rectoria' | '/dashboard/tests';
-  id: '__root__' | '/dashboard' | '/dashboard/band/' | '/dashboard/rectoria/' | '/dashboard/tests/';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/dashboard'
+    | '/dashboard/band/'
+    | '/dashboard/rectoria/'
+    | '/dashboard/tests/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/dashboard'
+    | '/dashboard/band'
+    | '/dashboard/rectoria'
+    | '/dashboard/tests'
+  id:
+    | '__root__'
+    | '/dashboard'
+    | '/dashboard/band/'
+    | '/dashboard/rectoria/'
+    | '/dashboard/tests/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/dashboard': {
-      id: '/dashboard';
-      path: '/dashboard';
-      fullPath: '/dashboard';
-      preLoaderRoute: typeof DashboardRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/tests/': {
-      id: '/dashboard/tests/';
-      path: '/tests';
-      fullPath: '/dashboard/tests/';
-      preLoaderRoute: typeof DashboardTestsIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/tests/'
+      path: '/tests'
+      fullPath: '/dashboard/tests/'
+      preLoaderRoute: typeof DashboardTestsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/rectoria/': {
-      id: '/dashboard/rectoria/';
-      path: '/rectoria';
-      fullPath: '/dashboard/rectoria/';
-      preLoaderRoute: typeof DashboardRectoriaIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/rectoria/'
+      path: '/rectoria'
+      fullPath: '/dashboard/rectoria/'
+      preLoaderRoute: typeof DashboardRectoriaIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/band/': {
-      id: '/dashboard/band/';
-      path: '/band';
-      fullPath: '/dashboard/band/';
-      preLoaderRoute: typeof DashboardBandIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
+      id: '/dashboard/band/'
+      path: '/band'
+      fullPath: '/dashboard/band/'
+      preLoaderRoute: typeof DashboardBandIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface DashboardRouteRouteChildren {
-  DashboardBandIndexRoute: typeof DashboardBandIndexRoute;
-  DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute;
-  DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute;
+  DashboardBandIndexRoute: typeof DashboardBandIndexRoute
+  DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
+  DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardBandIndexRoute: DashboardBandIndexRoute,
   DashboardRectoriaIndexRoute: DashboardRectoriaIndexRoute,
   DashboardTestsIndexRoute: DashboardTestsIndexRoute,
-};
+}
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
