@@ -6,6 +6,8 @@ import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 import reactX from "eslint-plugin-react-x";
 import reactDom from "eslint-plugin-react-dom";
+import prettierConfig from "eslint-config-prettier";
+import prettierPlugin from "eslint-plugin-prettier";
 
 export default defineConfig([
   globalIgnores(["dist"]),
@@ -20,6 +22,8 @@ export default defineConfig([
       reactRefresh.configs.vite,
       reactX.configs["recommended-typescript"],
       reactDom.configs.recommended,
+      // ✅ Desactiva reglas de ESLint que conflictúan con Prettier
+      prettierConfig,
     ],
     languageOptions: {
       parserOptions: {
@@ -28,6 +32,13 @@ export default defineConfig([
       },
       ecmaVersion: 2020,
       globals: globals.browser,
+    },
+    plugins: {
+      prettier: prettierPlugin,
+    },
+    rules: {
+      // ✅ Reporta diferencias de formato como errores de lint
+      "prettier/prettier": "error",
     },
   },
 ]);

@@ -104,5 +104,3 @@ export function DataTable<TRow extends RowBase>({
     </div>
   );
 }
-
-

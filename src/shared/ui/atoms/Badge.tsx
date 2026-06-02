@@ -30,7 +30,7 @@ const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   },
 };
 
-export const Badge: React.FC<BadgeProps> = ({ variant, children }) => (
+export const Badge = ({ variant, children }: BadgeProps) => (
   <span
     style={{
       ...variantStyles[variant],

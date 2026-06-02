@@ -1,7 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router';
+import { BandPage } from '@pages/band/BandPage';
 
-export const Route = createFileRoute("/dashboard/band/")({
-  component: () => {
-    <h1 className="text-red-500">hola</h1>;
-  },
+export const Route = createFileRoute('/dashboard/band/')({
+  component: BandPage,
 });

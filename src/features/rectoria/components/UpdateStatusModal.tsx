@@ -1,9 +1,7 @@
-/* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import { Modal } from '../../../shared/ui/atoms/Modal';
-import { Spinner } from '../../../shared/ui/atoms/Spinner';
+import { useState, useEffect, type SubmitEvent } from 'react';
+import { Modal, Spinner } from '@/shared/ui';
+import type { Teacher } from '@/entities/teacher/model/types';
 import { updateStatus } from '../api/rectoriaApi';
-import type { Teacher } from '../../../entities/teacher/model/types';
 
 interface UpdateStatusModalProps {
   isOpen: boolean;
@@ -14,12 +12,12 @@ interface UpdateStatusModalProps {
 
 const DEFAULT_USER_ID = 1;
 
-export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
+export const UpdateStatusModal = ({
   isOpen,
   onClose,
   teacher,
   onSuccess,
-}) => {
+}: UpdateStatusModalProps) => {
   const [motivo, setMotivo] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +26,9 @@ export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
   useEffect(() => {
     if (isOpen && teacher?.status) {
       const motivo = teacher.status.motivo_estado;
-      setTimeout(() => setMotivo(motivo), 0);
+      setTimeout(() => {
+        setMotivo(motivo);
+      }, 0);
     }
   }, [isOpen, teacher]);
 
@@ -42,7 +42,7 @@ export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
     onClose();
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!teacher?.status) return;
     setError(null);
@@ -70,7 +70,13 @@ export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
       width={480}
     >
       {teacher && (
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginBottom: 16 }}>
+        <p
+          style={{
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--text-muted)',
+            marginBottom: 16,
+          }}
+        >
           Docente: <strong style={{ color: 'var(--text-primary)' }}>{teacher.nombre}</strong>
         </p>
       )}
@@ -87,18 +93,31 @@ export const UpdateStatusModal: React.FC<UpdateStatusModalProps> = ({
             className="form-textarea"
             placeholder="Actualice el motivo del estado administrativo…"
             value={motivo}
-            onChange={(e) => { setMotivo(e.target.value); }}
+            onChange={(e) => {
+              setMotivo(e.target.value);
+            }}
             minLength={3}
             maxLength={400}
             required
           />
-          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textAlign: 'right' }}>
+          <span
+            style={{
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--text-muted)',
+              textAlign: 'right',
+            }}
+          >
             {motivo.length}/400
           </span>
         </div>
 
         <div className="form-actions">
-          <button type="button" className="btn btn-secondary" onClick={handleClose} disabled={loading}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleClose}
+            disabled={loading}
+          >
             Cancelar
           </button>
           <button
