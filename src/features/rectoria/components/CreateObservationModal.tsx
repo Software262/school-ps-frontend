@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react';
-import { Modal } from '../../../shared/ui/Modal';
-import { Spinner } from '../../../shared/ui/Spinner';
+import { Modal } from '../../../shared/ui/atoms/Modal';
+import { Spinner } from '../../../shared/ui/atoms/Spinner';
 import { createObservation } from '../api/rectoriaApi';
 import type { Teacher } from '../../../entities/teacher/model/types';
 

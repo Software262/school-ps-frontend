@@ -16,6 +16,7 @@ export async function fetchApi<T>(
   if (!response.ok) {
     throw new Error(`API error: ${response.statusText}`);
   }
+  console.log('BASE_URL:', BASE_URL);
 
   return response.json();
 }

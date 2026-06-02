@@ -4,7 +4,7 @@ import { TeacherCard } from '../../../entities/teacher/ui/TeacherCard';
 import { CreateStatusModal } from './CreateStatusModal';
 import { UpdateStatusModal } from './UpdateStatusModal';
 import { CreateObservationModal } from './CreateObservationModal';
-import { Spinner } from '../../../shared/ui/Spinner';
+import { Spinner } from '../../../shared/ui/atoms/Spinner';
 import { getTeachers } from '../api/rectoriaApi';
 import type { Teacher } from '../../../entities/teacher/model/types';
 import './TeacherList.css';
