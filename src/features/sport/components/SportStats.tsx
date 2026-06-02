@@ -1,6 +1,5 @@
 import type { SportStat } from '../hooks/useSportStats';
 
-
 interface SportStatsProps {
   stats: SportStat[];
 }

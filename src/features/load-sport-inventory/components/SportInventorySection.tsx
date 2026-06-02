@@ -35,9 +35,7 @@ export const SportInventorySection = ({
             className="btn-edit-item"
             onClick={onEditItem}
             disabled={!selectedItem}
-            title={
-              !selectedItem ? 'Selecciona un equipo de la tabla para editarlo' : undefined
-            }
+            title={!selectedItem ? 'Selecciona un equipo de la tabla para editarlo' : undefined}
           >
             Editar Equipo
           </button>

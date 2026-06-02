@@ -31,7 +31,6 @@ export async function fetchApi<T>(endpoint: string, options?: RequestInit): Prom
     }
     throw new Error(errorMsg);
   }
-  
 
   return (await response.json()) as T;
 }

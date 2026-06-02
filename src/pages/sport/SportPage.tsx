@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { SportAlert, SportStats, SportTabs, useSportStats } from '@/features/sport';
 import { SportInventorySection } from '@/features/load-sport-inventory/components';
-import { useLoadSportInventory, useSportInventoryFilters } from '@/features/load-sport-inventory/hooks';
+import {
+  useLoadSportInventory,
+  useSportInventoryFilters,
+} from '@/features/load-sport-inventory/hooks';
 import { SportLoansSection } from '@/features/load-sport-loans/components';
 import { useLoadSportLoans, useSportLoansFilters } from '@/features/load-sport-loans/hooks';
 import type { Sport } from '@/entities/sport/model/type';
@@ -37,14 +40,11 @@ export const SportPage = () => {
 
   // Inventario
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Sport | null>(null);
-  
 
   // Préstamos
-  
 
   // ── Derivados ────────────────────────────────────────────────────────────
   const stats = useSportStats(inventory);
-
 
   return (
     <div className="sport-page">
@@ -71,7 +71,6 @@ export const SportPage = () => {
             onNewItem={() => {
               console.log('Funcionalidad pendiente');
             }}
-
             onEditItem={() => {
               console.log('Funcionalidad pendiente');
             }}

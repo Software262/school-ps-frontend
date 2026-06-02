@@ -25,9 +25,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24.15.0"
-          cache: "pnpm"
-          cache-dependency-path: "pnpm-lock.yaml"
+          node-version: '24.15.0'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
         run: pnpm install
