@@ -1,42 +1,140 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
 
 :root {
-  --primary-color: #8D2525;
-  --primary-hover: #751E1E;
-  --bg-color: #F0F2F5;
-  --sidebar-bg: #FFFFFF;
-  --text-dark: #333333;
-  --text-gray: #6B7280;
-  --border-color: #E5E7EB;
-  --card-bg: #FFFFFF;
+  /* === Brand Colors === */
+  --brand-primary: #7b1d1d;
+  --brand-primary-hover: #9b2525;
+  --brand-primary-active: #6b1515;
+  --brand-sidebar-active: #9b2525;
+  --brand-accent: #a83232;
 
-  --font-family: 'Inter', sans-serif;
+  /* === Layout Colors === */
+  --sidebar-bg: #7b1d1d;
+  --sidebar-text: #f5e6e6;
+  --sidebar-text-muted: #d4a0a0;
+  --sidebar-item-hover: rgba(255, 255, 255, 0.1);
+  --sidebar-item-active-bg: #9b2525;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+
+  --topbar-bg: #ffffff;
+  --topbar-border: #e2e2e2;
+  --topbar-notification-bg: #f9f9f9;
+
+  --content-bg: #ebebeb;
+  --card-bg: #ffffff;
+  --card-border: #e0e0e0;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  /* === Text Colors === */
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --text-on-brand: #ffffff;
+
+  /* === Status Colors === */
+  --status-green: #2d7d46;
+  --status-green-bg: #edf7f1;
+  --status-green-border: #a3d4b1;
+  --status-yellow: #b45309;
+  --status-yellow-bg: #fef9ec;
+  --status-yellow-border: #fcd34d;
+  --status-red: #b91c1c;
+  --status-red-bg: #fef2f2;
+  --status-red-border: #fca5a5;
+  --status-gray: #4b5563;
+  --status-gray-bg: #f3f4f6;
+  --status-gray-border: #d1d5db;
+
+  /* === Info Box === */
+  --info-bg: #f0faf4;
+  --info-border: #86efac;
+  --info-text: #166534;
+
+  /* === Input === */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-border-focus: #7b1d1d;
+  --input-text: #1a1a1a;
+  --input-placeholder: #9ca3af;
+
+  /* === Dimensions === */
+  --sidebar-width: 180px;
+  --topbar-height: 40px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* === Transitions === */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+
+  /* === Typography === */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 13px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* === Utility === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
-html, body, #root {
-  height: 100%;
-  width: 100%;
+/* === Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-body {
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color: var(--text-dark);
-  -webkit-font-smoothing: antialiased;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-input, select, textarea {
-  font-family: inherit;
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

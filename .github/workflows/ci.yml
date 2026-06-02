@@ -11,16 +11,16 @@ permissions:
 
 jobs:
   lint-and-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
         with:
-          version: 10
+          version: 11
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -30,10 +30,13 @@ jobs:
           cache-dependency-path: "pnpm-lock.yaml"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Lint
         run: pnpm run lint
+
+      - name: Verify check format
+        run: pnpm run format:check
 
       - name: Build
         run: pnpm run build
