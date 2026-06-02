@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { DataTable } from "../../../shared/ui/molecules/DataTable";
-import { StatusBadge } from "../../../shared/ui/atoms/StatusBadge";
+import { DataTable, StatusBadge } from '@/shared/ui';
 import { Plus, ListPlus, Edit2, Trash2, Search, AlertCircle, CheckCircle2, Clock } from "lucide-react";
 import { CreateTestForm } from "../../../features/tests/ui/CreateTestForm";
 import { NewTestForm } from "../../../features/tests/ui/NewTestForm";
@@ -52,7 +51,9 @@ export function TestsPage() {
     {
       key: "estadoStr",
       label: "Estado",
-      render: (value: string) => <StatusBadge status={value} />,
+      render: (value: unknown) => (
+        <StatusBadge status={String(value)} />
+      ),
     },
     {
       key: "id",
