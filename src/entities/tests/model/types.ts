@@ -61,12 +61,12 @@ export interface CreatePruebaRequest {
   tipo_prueba: string;
   estado: EstadoPrueba;
   valor_pagado: number;
-  periodo_id?: number | null;
+  periodo_id: number;
 }
 
 export interface MassiveAssignRequest {
   grado_id: number;
   complementario_id: number;
   tipo_prueba: string;
-  periodo_id?: number | null;
+  periodo_id: number;
 }
