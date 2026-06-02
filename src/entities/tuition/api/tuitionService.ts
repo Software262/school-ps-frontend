@@ -29,9 +29,7 @@ export const tuitionService = {
     return (await response.json()) as TuitionAccountResponse;
   },
 
-  async registerPayment(
-    request: PaymentCreateRequest
-  ): Promise<TuitionInstallmentResponse> {
+  async registerPayment(request: PaymentCreateRequest): Promise<TuitionInstallmentResponse> {
     const response = await fetch(`${API_BASE_URL}/payment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
