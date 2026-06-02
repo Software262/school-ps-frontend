@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Sidebar } from '../organisms/Sidebar';
-import { Header } from '../organisms/Header';
+import { Header, Sidebar } from '../organisms';
 
 export const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);

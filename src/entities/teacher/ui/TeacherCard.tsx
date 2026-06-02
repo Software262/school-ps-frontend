@@ -1,5 +1,5 @@
 import type { Teacher } from '../model/types';
-import { Badge } from '@/shared/ui/atoms/Badge';
+import { Badge } from '@/shared/ui';
 import './TeacherCard.css';
 
 interface TeacherCardActions {

@@ -1,5 +1,4 @@
-import { DataTable } from '@shared/ui/molecules/DataTable';
-import { Badge } from '@shared/ui/atoms/Badge';
+import { Badge, DataTable } from '@/shared/ui';
 import type { LoanFormatted } from '../hooks/useLoansFilters';
 import type { LoansFilterType } from '../hooks/useLoansFilters';
 

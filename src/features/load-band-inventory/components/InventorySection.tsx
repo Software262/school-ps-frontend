@@ -1,5 +1,4 @@
-import { DataTable } from '@shared/ui/molecules/DataTable';
-import { Badge } from '@shared/ui/atoms/Badge';
+import { Badge, DataTable } from '@/shared/ui';
 import type { Inventory } from '@/entities/inventory/model/types';
 import {
   getEstadoVariant,
