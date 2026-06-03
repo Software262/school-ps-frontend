@@ -1,10 +1,6 @@
 import { env } from '@/shared/config';
 import type { Teacher, TeacherObservation, TeacherStatus } from '@/entities/teacher/model/types';
-import type {
-  CreateObservationRequest,
-  CreateStatusRequest,
-  UpdateStatusRequest,
-} from '../model/types';
+import type { CreateObservationRequest, CreateStatusRequest, UpdateStatusRequest } from '../types';
 import type { ApiResponse } from '@/shared/types/api';
 
 interface RawTeacher {

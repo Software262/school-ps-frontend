@@ -1,6 +1,5 @@
 import { useState, useEffect, type SubmitEvent } from 'react';
-import { Modal } from '@/shared/ui/atoms/Modal';
-import { Spinner } from '@/shared/ui/atoms/Spinner';
+import { Modal, Spinner } from '@/shared/ui';
 import type { Teacher } from '@/entities/teacher/model/types';
 import { updateStatus } from '../api/rectoriaApi';
 
