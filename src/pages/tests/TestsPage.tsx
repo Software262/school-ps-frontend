@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { DataTable } from '@/shared/ui/molecules/DataTable';
-import { StatusBadge } from '@/shared/ui/atoms/StatusBadge';
+import { DataTable, StatusBadge } from '@/shared/ui';
 import {
   Plus,
   ListPlus,
