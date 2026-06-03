@@ -1,1 +1,1 @@
-export { SPORT_LOAN_COLUMNS } from './sport-loan-columns';
+export { LOAN_COLUMNS } from './loan-columns';

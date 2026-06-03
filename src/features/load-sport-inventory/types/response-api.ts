@@ -1,9 +1,9 @@
-import type { Sport } from '@/entities/sport/model/type';
+import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface PaginationLoadSport {
   statusCode: number;
   data: {
-    items: Sport[];
+    items: Inventory[];
     current_page: number;
     page_size: number;
   };

@@ -7,7 +7,7 @@ import {
 } from '@/features/load-sport-inventory/hooks';
 import { SportLoansSection } from '@/features/load-sport-loans/components';
 import { useLoadSportLoans, useSportLoansFilters } from '@/features/load-sport-loans/hooks';
-import type { Sport } from '@/entities/sport/model/type';
+import type { Inventory } from '@/entities/inventory/model/types';
 import './SportPage.css';
 
 export const SportPage = () => {
@@ -39,7 +39,7 @@ export const SportPage = () => {
   const [activeTab, setActiveTab] = useState<'inventory' | 'loans'>('inventory');
 
   // Inventario
-  const [selectedInventoryItem, setSelectedInventoryItem] = useState<Sport | null>(null);
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
 
   // Préstamos
 
@@ -49,7 +49,7 @@ export const SportPage = () => {
   return (
     <div className="sport-page">
       <header className="sport-header">
-        <h1>Módulo de Deportes</h1>
+        <h1>Módulo de Deportes de wilson</h1>
         <p>Gestión de equipos deportivos</p>
       </header>
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Sport } from '@/entities/sport/model/type';
+import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface SportStat {
   label: string;
@@ -8,7 +8,7 @@ export interface SportStat {
 }
 
 /** Calcula las estadísticas de deportes dinámicamente desde el inventario real. */
-export const useSportStats = (inventory: Sport[]): SportStat[] => {
+export const useSportStats = (inventory: Inventory[]): SportStat[] => {
   return useMemo(() => {
     const total = inventory.reduce((sum, item) => sum + item.cantidad, 0);
     const disponibles = inventory

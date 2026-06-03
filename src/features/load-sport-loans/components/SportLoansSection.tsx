@@ -1,5 +1,5 @@
 import { DataTable } from '@/shared/ui';
-import { SPORT_LOAN_COLUMNS } from '@/entities/loan/ui/sport-loan-columns';
+import { LOAN_COLUMNS } from '@/entities/loan/ui/loan-columns';
 import type { LoanFormatted, LoansFilterType } from '@/entities/loan/model/loan-utils';
 
 interface SportLoansSectionProps {
@@ -79,7 +79,7 @@ export const SportLoansSection = ({
       </div>
 
       <DataTable<LoanFormatted>
-        columns={SPORT_LOAN_COLUMNS}
+        columns={LOAN_COLUMNS}
         data={loans}
         emptyMessage="No se encontraron préstamos"
       />

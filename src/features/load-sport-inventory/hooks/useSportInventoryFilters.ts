@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import type { Sport } from '@/entities/sport/model/type';
+import type { Inventory } from '@/entities/inventory/model/types';
 
 const ITEMS_PER_PAGE = 10;
 
-export const useSportInventoryFilters = (inventory: Sport[]) => {
+export const useSportInventoryFilters = (inventory: Inventory[]) => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 

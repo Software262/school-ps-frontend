@@ -1,16 +1,16 @@
 import { DataTable } from '@/shared/ui';
-import { SPORT_INVENTORY_COLUMNS } from '@/entities/sport/ui/sport-inventory-columns';
-import type { Sport } from '@/entities/sport/model/type';
+import { LOAN_COLUMNS } from '@/entities/loan/ui';
+import type { Inventory } from '@/entities/inventory/model/types';
 
 interface SportInventorySectionProps {
-  inventory: Sport[];
+  inventory: Inventory[];
   searchTerm: string;
   currentPage: number;
   totalPages: number;
-  selectedItem: Sport | null;
+  selectedItem: Inventory | null;
   onSearchChange: (term: string) => void;
   onPageChange: (page: number) => void;
-  onSelectItem: (item: Sport) => void;
+  onSelectItem: (item: Inventory) => void;
   onNewItem: () => void;
   onEditItem: () => void;
 }
@@ -62,8 +62,8 @@ export const SportInventorySection = ({
         )}
       </div>
 
-      <DataTable<Sport>
-        columns={SPORT_INVENTORY_COLUMNS}
+      <DataTable<Inventory>
+        columns={LOAN_COLUMNS}
         data={inventory}
         onSelect={onSelectItem}
         selectedRow={selectedItem ?? undefined}
