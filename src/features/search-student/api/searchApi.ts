@@ -10,5 +10,7 @@ export const searchStudents = async (
   if (params.nombre) query.append('nombre', params.nombre);
   if (params.year) query.append('year', params.year.toString());
 
-  return fetchApi<StudentSearchListResponse>(`/enrollment/students?${query.toString()}`, { signal });
+  return fetchApi<StudentSearchListResponse>(`/enrollment/students?${query.toString()}`, {
+    signal,
+  });
 };
