@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './app/router/__root'
 import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route'
 import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index'
 import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
+import { Route as DashboardPensionIndexRouteImport } from './app/router/dashboard/pension/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -29,6 +30,11 @@ const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   path: '/rectoria/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardPensionIndexRoute = DashboardPensionIndexRouteImport.update({
+  id: '/pension/',
+  path: '/pension/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   id: '/band/',
   path: '/band/',
@@ -38,12 +44,14 @@ const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/pension/': typeof DashboardPensionIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
 }
 export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/band': typeof DashboardBandIndexRoute
+  '/dashboard/pension': typeof DashboardPensionIndexRoute
   '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
   '/dashboard/tests': typeof DashboardTestsIndexRoute
 }
@@ -51,6 +59,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/pension/': typeof DashboardPensionIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
 }
@@ -59,18 +68,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/dashboard'
     | '/dashboard/band/'
+    | '/dashboard/pension/'
     | '/dashboard/rectoria/'
     | '/dashboard/tests/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/dashboard'
     | '/dashboard/band'
+    | '/dashboard/pension'
     | '/dashboard/rectoria'
     | '/dashboard/tests'
   id:
     | '__root__'
     | '/dashboard'
     | '/dashboard/band/'
+    | '/dashboard/pension/'
     | '/dashboard/rectoria/'
     | '/dashboard/tests/'
   fileRoutesById: FileRoutesById
@@ -102,6 +114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRectoriaIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/pension/': {
+      id: '/dashboard/pension/'
+      path: '/pension'
+      fullPath: '/dashboard/pension/'
+      preLoaderRoute: typeof DashboardPensionIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/band/': {
       id: '/dashboard/band/'
       path: '/band'
@@ -114,12 +133,14 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
+  DashboardPensionIndexRoute: typeof DashboardPensionIndexRoute
   DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
   DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardBandIndexRoute: DashboardBandIndexRoute,
+  DashboardPensionIndexRoute: DashboardPensionIndexRoute,
   DashboardRectoriaIndexRoute: DashboardRectoriaIndexRoute,
   DashboardTestsIndexRoute: DashboardTestsIndexRoute,
 }
