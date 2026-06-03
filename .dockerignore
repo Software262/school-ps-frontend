@@ -1,0 +1,24 @@
+# Dependencias (se instalan dentro del contenedor)
+node_modules
+
+# Artefactos de build previos
+dist
+
+# Control de versiones
+.git
+.gitignore
+.github
+
+# Config de herramientas de desarrollo
+.prettierrc
+.prettierignore
+eslint.config.js
+
+# Archivos de entorno locales
+.env
+.env.*
+!.env.example
+
+# Archivos de IDE / SO
+.DS_Store
+*.log
