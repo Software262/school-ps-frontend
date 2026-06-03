@@ -1,15 +1,15 @@
 /* === Band Page Layout === */
-.band-page {
+.sport-page {
   padding: 24px;
   background-color: var(--content-bg);
   min-height: 100vh;
 }
 
-.band-header {
+.sport-header {
   margin-bottom: 24px;
 }
 
-.band-header h1 {
+.sport-header h1 {
   font-size: var(--font-size-2xl);
   font-weight: 800;
   color: var(--text-primary);
@@ -17,7 +17,7 @@
   letter-spacing: -0.5px;
 }
 
-.band-header p {
+.sport-header p {
   font-size: var(--font-size-md);
   color: var(--text-secondary);
   margin: 0;
@@ -25,7 +25,7 @@
 }
 
 /* === Alert Box === */
-.band-alert {
+.sport-alert {
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -38,20 +38,20 @@
   box-shadow: 0 2px 8px rgba(45, 125, 70, 0.08);
 }
 
-.band-alert-icon {
+.sport-alert-icon {
   font-size: 24px;
   flex-shrink: 0;
   line-height: 1.5;
 }
 
-.band-alert-content h3 {
+.sport-alert-content h3 {
   font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--info-text);
   margin: 0 0 4px 0;
 }
 
-.band-alert-content p {
+.sport-alert-content p {
   font-size: var(--font-size-sm);
   color: var(--info-text);
   margin: 0;
@@ -59,7 +59,7 @@
 }
 
 /* === Stats Cards === */
-.band-stats {
+.sport-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
@@ -130,7 +130,7 @@
 }
 
 /* === Tabs === */
-.band-tabs {
+.sport-tabs {
   display: flex;
   gap: 0;
   margin-bottom: 24px;
@@ -170,7 +170,7 @@
 }
 
 /* === Content Area === */
-.band-content {
+.sport-content {
   background-color: var(--card-bg);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -454,15 +454,15 @@
 
 /* === Responsive === */
 @media (max-width: 768px) {
-  .band-page {
+  .sport-page {
     padding: 16px;
   }
 
-  .band-header h1 {
+  .sport-header h1 {
     font-size: var(--font-size-xl);
   }
 
-  .band-stats {
+  .sport-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }

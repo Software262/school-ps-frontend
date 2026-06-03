@@ -1,5 +1,5 @@
 import { DataTable } from '@/shared/ui';
-import { LOAN_COLUMNS } from '@/entities/loan/ui';
+import { INVENTORY_COLUMNS } from '@/entities/inventory/ui/inventory-columns';
 import type { Inventory } from '@/entities/inventory/model/types';
 
 interface SportInventorySectionProps {
@@ -63,7 +63,7 @@ export const SportInventorySection = ({
       </div>
 
       <DataTable<Inventory>
-        columns={LOAN_COLUMNS}
+        columns={INVENTORY_COLUMNS}
         data={inventory}
         onSelect={onSelectItem}
         selectedRow={selectedItem ?? undefined}

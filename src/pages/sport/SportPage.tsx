@@ -49,7 +49,7 @@ export const SportPage = () => {
   return (
     <div className="sport-page">
       <header className="sport-header">
-        <h1>Módulo de Deportes de wilson</h1>
+        <h1>Módulo de Deportes</h1>
         <p>Gestión de equipos deportivos</p>
       </header>
 
