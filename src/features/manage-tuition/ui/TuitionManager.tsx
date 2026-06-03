@@ -43,6 +43,7 @@ export const TuitionManager: React.FC = () => {
   const [paymentAmount, setPaymentAmount] = useState<string>('');
   const [justification, setJustification] = useState<string>('');
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const fetchStudentData = async (documento: string) => {
     try {
@@ -75,10 +76,18 @@ export const TuitionManager: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handlePayment = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handlePaymentSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedMonth || !accountData) return;
 
+    const amount = parseFloat(paymentAmount);
+    if (isNaN(amount) || amount <= 0) return;
+
+    setShowConfirmDialog(true);
+  };
+
+  const executePayment = async () => {
+    if (!selectedMonth || !accountData) return;
     const amount = parseFloat(paymentAmount);
     if (isNaN(amount) || amount <= 0) return;
 
@@ -91,9 +100,11 @@ export const TuitionManager: React.FC = () => {
         valor_pagado: amount,
       });
       await fetchStudentData(lastDocumento);
+      setShowConfirmDialog(false);
       setIsModalOpen(false);
     } catch (error: unknown) {
       setErrorMsg(error instanceof Error ? error.message : 'No se pudo registrar el pago.');
+      setShowConfirmDialog(false);
     } finally {
       setPaymentLoading(false);
     }
@@ -341,12 +352,7 @@ export const TuitionManager: React.FC = () => {
                 ✕
               </button>
             </div>
-            <form
-              onSubmit={(e) => {
-                void handlePayment(e);
-              }}
-              className="modal-body"
-            >
+            <form onSubmit={handlePaymentSubmit} className="modal-body">
               <div className="input-group">
                 <label>Valor a pagar o ajustar (COP)</label>
                 <input
@@ -401,10 +407,80 @@ export const TuitionManager: React.FC = () => {
                   className="btn-primary"
                   disabled={paymentLoading || !paymentAmount}
                 >
-                  {paymentLoading ? 'Guardando...' : 'Guardar Pago'}
+                  Continuar
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      {showConfirmDialog && selectedMonth && (
+        <div className="modal-overlay" style={{ zIndex: 1050 }}>
+          <div className="modal-content" style={{ width: '350px', textAlign: 'center' }}>
+            <div style={{ marginBottom: '1rem', color: 'var(--status-yellow)' }}>
+              <svg
+                width="48"
+                height="48"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                style={{ margin: '0 auto' }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
+            <h3
+              style={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginBottom: '0.5rem',
+              }}
+            >
+              Confirmar Abono
+            </h3>
+            <p
+              style={{
+                color: 'var(--text-secondary)',
+                fontSize: '0.875rem',
+                marginBottom: '1.5rem',
+              }}
+            >
+              ¿Está seguro que desea registrar un pago por valor de{' '}
+              <strong style={{ color: 'var(--text-primary)' }}>
+                {formatCurrency(parseFloat(paymentAmount))}
+              </strong>{' '}
+              para el mes de <strong>{MONTH_NAMES[selectedMonth.mes]}</strong>?
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setShowConfirmDialog(false);
+                }}
+                disabled={paymentLoading}
+                style={{ flex: 1 }}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => void executePayment()}
+                disabled={paymentLoading}
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                {paymentLoading ? 'Procesando...' : 'Sí, Confirmar'}
+              </button>
+            </div>
           </div>
         </div>
       )}
