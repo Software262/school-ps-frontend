@@ -17,6 +17,8 @@ RUN pnpm install --frozen-lockfile
 # Copiamos el resto del código fuente
 COPY . .
 
+ENV VITE_BASE_API=http://localhost:8000/api/v1
+
 # Generamos el bundle de producción (tsc + vite build)
 RUN pnpm run build
 
@@ -33,6 +35,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # del lado del cliente, por lo que cualquier ruta desconocida debe servir
 # index.html en lugar de devolver 404).
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+ENV VITE_BASE_API=http://localhost:8000/api/v1
 
 EXPOSE 80
 
