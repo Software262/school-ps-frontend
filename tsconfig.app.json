@@ -13,7 +13,7 @@
       "@shared/*": ["./src/shared/*"],
       "@features/*": ["./src/features/*"],
       "@entities/*": ["./src/entities/*"],
-      "@pages/*": ["./src/pages/*"],
+      "@pages/*": ["./src/pages/*"]
     },
 
     /* Bundler mode */
@@ -28,7 +28,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src"]
 }
