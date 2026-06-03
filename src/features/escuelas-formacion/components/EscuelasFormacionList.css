@@ -1,0 +1,477 @@
+/* search / filter card — replicated locally to avoid cross-feature css coupling */
+.filter-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.25s ease;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.filter-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.filter-info {
+  padding: 9px 13px;
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--info-text);
+  margin-bottom: 16px;
+}
+
+.filter-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-bottom: 1px;
+}
+
+/* period toolbar */
+.ef-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+}
+
+.ef-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-period-label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.ef-period-select-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.ef-select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ef-period-select {
+  appearance: none;
+  padding: 7px 32px 7px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  min-width: 220px;
+}
+
+.ef-period-select:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1);
+}
+
+.ef-select-icon {
+  position: absolute;
+  right: 10px;
+  pointer-events: none;
+  color: var(--text-muted);
+}
+
+/* stats */
+.ef-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ef-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--status-gray-bg);
+  border: 1px solid var(--status-gray-border);
+}
+
+.ef-stat--warn {
+  background: var(--status-yellow-bg);
+  color: var(--status-yellow);
+  border-color: var(--status-yellow-border);
+}
+
+/* program summary cards */
+.ef-programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ef-program-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  appearance: none;
+  cursor: pointer;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.ef-program-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.ef-program-card:focus-visible {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.12);
+}
+
+.ef-program-card--active {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 2px rgba(123, 29, 29, 0.15);
+}
+
+.ef-program-card-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ef-program-card-cost {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--brand-primary);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.ef-program-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ef-program-card-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.ef-program-card-pending {
+  font-size: var(--font-size-xs);
+  color: var(--status-yellow);
+  background: var(--status-yellow-bg);
+  border: 1px solid var(--status-yellow-border);
+  padding: 1px 6px;
+  border-radius: 99px;
+}
+
+/* enroll modal extras */
+.enroll-student-banner {
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+.enroll-student-banner-label {
+  font-size: var(--font-size-xs);
+  color: var(--info-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.enroll-student-banner-name {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.enroll-student-banner-doc {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.enroll-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.enroll-input-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.enroll-input-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.enroll-input-with-icon {
+  padding-left: 30px !important;
+}
+
+@media (max-width: 520px) {
+  .enroll-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* search results */
+.ef-empty-search {
+  margin-top: 12px;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  padding: 10px 0;
+}
+
+.ef-student-results {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-student-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--content-bg);
+  animation: fadeIn 0.18s ease;
+}
+
+.ef-student-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.ef-student-name {
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.ef-student-doc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* enrollments section */
+.ef-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ef-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.ef-section-title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.ef-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 3px 6px 3px 11px;
+  font-family: inherit;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--brand-primary);
+  background: rgba(123, 29, 29, 0.08);
+  border: 1px solid rgba(123, 29, 29, 0.2);
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.ef-filter-chip:hover {
+  background: rgba(123, 29, 29, 0.14);
+}
+
+.ef-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 52px 20px;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.ef-state--empty p {
+  margin: 0;
+}
+
+/* table */
+.ef-table-wrap {
+  overflow-x: auto;
+}
+
+.ef-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.ef-table thead th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--content-bg);
+  border-bottom: 1px solid var(--card-border);
+  white-space: nowrap;
+}
+
+.ef-table tbody tr {
+  border-bottom: 1px solid var(--card-border);
+  transition: background var(--transition-fast);
+}
+
+.ef-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.ef-table tbody tr:hover {
+  background: var(--content-bg);
+}
+
+.ef-table td {
+  padding: 11px 16px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.ef-row--inactive td {
+  opacity: 0.55;
+}
+
+.ef-cell-student {
+  font-weight: 500;
+}
+
+.ef-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ef-btn-withdraw {
+  color: var(--status-red) !important;
+  border-color: var(--status-red-border) !important;
+}
+
+.ef-btn-withdraw:hover:not(:disabled) {
+  background: var(--status-red-bg) !important;
+}
+
+.ef-motivo {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 160px;
+}
+
+@media (max-width: 640px) {
+  .ef-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ef-period-select {
+    min-width: 100%;
+  }
+}

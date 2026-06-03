@@ -1,0 +1,140 @@
+/* withdrawal modal — structured retiro flow */
+.wd-section {
+  margin-bottom: 18px;
+}
+
+.wd-section-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--brand-primary);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+/* student details */
+.wd-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-md);
+}
+
+.wd-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wd-detail-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wd-detail-value {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* obligation summary */
+.wd-money-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.wd-money {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--content-bg);
+}
+
+.wd-money-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wd-money-value {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.wd-money-value--green {
+  color: var(--status-green);
+}
+
+.wd-money-value--red {
+  color: var(--status-red);
+}
+
+.wd-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 9px 13px;
+  background: var(--status-yellow-bg);
+  border: 1px solid var(--status-yellow-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--status-yellow);
+}
+
+.wd-warning svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* withdrawal form */
+.wd-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.wd-date-readonly {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  background: var(--content-bg);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.wd-hint {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+@media (max-width: 560px) {
+  .wd-detail-grid,
+  .wd-money-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wd-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
