@@ -44,6 +44,7 @@ export const TuitionManager: React.FC = () => {
   const [justification, setJustification] = useState<string>('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [paymentErrorModalMsg, setPaymentErrorModalMsg] = useState('');
 
   const fetchStudentData = async (documento: string) => {
     try {
@@ -71,7 +72,7 @@ export const TuitionManager: React.FC = () => {
   const handleOpenModal = (installment: TuitionInstallmentResponse) => {
     if (!installment.faltante) return;
     setSelectedMonth(installment);
-    setPaymentAmount(installment.saldo_pendiente.toString());
+    setPaymentAmount('');
     setJustification('');
     setIsModalOpen(true);
   };
@@ -94,6 +95,7 @@ export const TuitionManager: React.FC = () => {
     try {
       setPaymentLoading(true);
       setErrorMsg('');
+      setPaymentErrorModalMsg('');
       await tuitionService.registerPayment({
         estudiante_id: accountData.estudiante_id,
         mes: selectedMonth.mes,
@@ -103,7 +105,9 @@ export const TuitionManager: React.FC = () => {
       setShowConfirmDialog(false);
       setIsModalOpen(false);
     } catch (error: unknown) {
-      setErrorMsg(error instanceof Error ? error.message : 'No se pudo registrar el pago.');
+      setPaymentErrorModalMsg(
+        error instanceof Error ? error.message : 'No se pudo registrar el pago.',
+      );
       setShowConfirmDialog(false);
     } finally {
       setPaymentLoading(false);
@@ -479,6 +483,62 @@ export const TuitionManager: React.FC = () => {
                 style={{ flex: 1, justifyContent: 'center' }}
               >
                 {paymentLoading ? 'Procesando...' : 'Sí, Confirmar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Dialog */}
+      {paymentErrorModalMsg && (
+        <div className="modal-overlay" style={{ zIndex: 1100 }}>
+          <div className="modal-content" style={{ width: '350px', textAlign: 'center' }}>
+            <div style={{ marginBottom: '1rem', color: 'var(--status-red)' }}>
+              <svg
+                width="48"
+                height="48"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                style={{ margin: '0 auto' }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h3
+              style={{
+                fontSize: '1.25rem',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginBottom: '0.5rem',
+              }}
+            >
+              No se pudo procesar
+            </h3>
+            <p
+              style={{
+                color: 'var(--text-secondary)',
+                fontSize: '0.875rem',
+                marginBottom: '1.5rem',
+              }}
+            >
+              {paymentErrorModalMsg}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  setPaymentErrorModalMsg('');
+                }}
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                Entendido
               </button>
             </div>
           </div>
