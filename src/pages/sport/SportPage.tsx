@@ -8,11 +8,12 @@ import {
 import { SportLoansSection } from '@/features/load-sport-loans/components';
 import { useLoadSportLoans, useSportLoansFilters } from '@/features/load-sport-loans/hooks';
 import type { Inventory } from '@/entities/inventory/model/types';
+import { NewSportItemModal } from '@/features/new-sport-item';
 import './SportPage.css';
 
 export const SportPage = () => {
   // ── Inventario ──────────────────────────────────────────────────────────
-  const { inventory } = useLoadSportInventory();
+  const { inventory, refetch: refetchInventory } = useLoadSportInventory();
   const {
     paginatedItems: paginatedInventory,
     currentPage,
@@ -40,6 +41,7 @@ export const SportPage = () => {
 
   // Inventario
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
+  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
 
   // Préstamos
 
@@ -69,7 +71,7 @@ export const SportPage = () => {
             onPageChange={handlePageChange}
             onSelectItem={setSelectedInventoryItem}
             onNewItem={() => {
-              console.log('Funcionalidad pendiente');
+              setIsNewItemOpen(true);
             }}
             onEditItem={() => {
               console.log('Funcionalidad pendiente');
@@ -95,6 +97,14 @@ export const SportPage = () => {
           />
         )}
       </div>
+      {/* ── Modales de inventario ── */}
+      <NewSportItemModal
+        isOpen={isNewItemOpen}
+        onClose={() => {
+          setIsNewItemOpen(false);
+        }}
+        onSuccess={refetchInventory}
+      />
     </div>
   );
 };
