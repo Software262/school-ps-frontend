@@ -1,12 +1,5 @@
-import React from 'react';
-import { TuitionManager } from '../features/manage-tuition/ui/TuitionManager';
+import { TuitionManager } from '@/features/manage-tuition';
 
-const TuitionPage: React.FC = () => {
-  return (
-    <>
-      <TuitionManager />
-    </>
-  );
-};
+const TuitionPage = () => <TuitionManager />;
 
 export default TuitionPage;
