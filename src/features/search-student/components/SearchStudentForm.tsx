@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
 import { useSearchStudents } from '../hooks/useSearchStudents';
 import type { StudentSearchItem } from '@/entities/student/model/types';
@@ -18,6 +18,7 @@ export const SearchStudentForm = ({
 }: SearchStudentFormProps) => {
   const { loading, fetchStudents } = useSearchStudents();
   const [filters, setFilters] = useState({ documento: '', nombre: '', date: '' });
+  const mountedRef = useRef(true);
 
   const executeSearch = useCallback(
     async (isInitial = false) => {
@@ -26,23 +27,25 @@ export const SearchStudentForm = ({
         const data = await fetchStudents(
           isInitial ? {} : { documento: filters.documento, nombre: filters.nombre },
         );
-        onSearchSuccess(data.estudiantes);
+        if (mountedRef.current && data) {
+          onSearchSuccess(data.estudiantes);
+        }
       } catch (error) {
         console.error('Error fetching students:', error);
       } finally {
-        onSearchEnd();
+        if (mountedRef.current) {
+          onSearchEnd();
+        }
       }
     },
     [filters.documento, filters.nombre, onSearchStart, onSearchEnd, onSearchSuccess, fetchStudents],
   );
 
-  // Fetch initial data on mount
   useEffect(() => {
-    const timer = setTimeout(() => {
-      void executeSearch(true);
-    }, 0);
+    mountedRef.current = true;
+    void executeSearch(true);
     return () => {
-      clearTimeout(timer);
+      mountedRef.current = false;
     };
   }, [executeSearch]);
 
