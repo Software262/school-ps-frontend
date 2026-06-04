@@ -7,6 +7,7 @@ import {
 } from '@/features/load-sport-inventory/hooks';
 import { SportLoansSection } from '@/features/load-sport-loans/components';
 import { useLoadSportLoans, useSportLoansFilters } from '@/features/load-sport-loans/hooks';
+import { NewSportLoanModal } from '@/features/new-sport-loan/components';
 import type { Inventory } from '@/entities/inventory/model/types';
 import { NewSportItemModal } from '@/features/new-sport-item';
 import './SportPage.css';
@@ -24,7 +25,7 @@ export const SportPage = () => {
   } = useSportInventoryFilters(inventory);
 
   // ── Préstamos ────────────────────────────────────────────────────────────
-  const { loans } = useLoadSportLoans();
+  const { loans, refetch: refetchLoans } = useLoadSportLoans();
   const {
     paginatedItems: paginatedLoans,
     currentPage: loansCurrentPage,
@@ -44,7 +45,7 @@ export const SportPage = () => {
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
 
   // Préstamos
-
+  const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   // ── Derivados ────────────────────────────────────────────────────────────
   const stats = useSportStats(inventory);
 
@@ -89,7 +90,7 @@ export const SportPage = () => {
             onFilterChange={handleLoansFilterChange}
             onPageChange={handleLoansPageChange}
             onNewLoan={() => {
-              console.log('Funcionalidad pendiente');
+              setIsNewLoanOpen(true);
             }}
             onReturnLoan={() => {
               console.log('Funcionalidad pendiente');
@@ -97,6 +98,17 @@ export const SportPage = () => {
           />
         )}
       </div>
+
+      {/* ── Modales de préstamos ── */}
+      <NewSportLoanModal
+        isOpen={isNewLoanOpen}
+        inventory={inventory}
+        onClose={() => {
+          setIsNewLoanOpen(false);
+        }}
+        onSuccess={refetchLoans}
+      />
+
       {/* ── Modales de inventario ── */}
       <NewSportItemModal
         isOpen={isNewItemOpen}
