@@ -1,4 +1,4 @@
-import { fetchApi } from '@shared/api';
+import { fetchApi } from '@shared/api/apiClient';
 import type {
   TuitionAccountResponse,
   TuitionInstallmentResponse,
