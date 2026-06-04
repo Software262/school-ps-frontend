@@ -62,7 +62,9 @@ export const InstallmentsGrid = ({ installments, onEditInstallment }: Installmen
                 {instData.faltante && (
                   <button
                     className="edit-btn"
-                    onClick={() => onEditInstallment(instData)}
+                    onClick={() => {
+                      onEditInstallment(instData);
+                    }}
                     title="Registrar Pago o Ajuste"
                   >
                     <svg

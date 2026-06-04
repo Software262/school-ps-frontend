@@ -93,7 +93,9 @@ export const PaymentModal = ({
               <input
                 type="number"
                 value={paymentAmount}
-                onChange={(e) => setPaymentAmount(e.target.value)}
+                onChange={(e) => {
+                  setPaymentAmount(e.target.value);
+                }}
                 max={selectedMonth.saldo_pendiente}
                 min="1"
                 required
@@ -104,7 +106,9 @@ export const PaymentModal = ({
               <label>Motivo / Justificación (Obligatorio)</label>
               <textarea
                 value={justification}
-                onChange={(e) => setJustification(e.target.value)}
+                onChange={(e) => {
+                  setJustification(e.target.value);
+                }}
                 required
                 disabled={paymentLoading}
                 placeholder="Ej: Abono en efectivo / Ajuste autorizado"
@@ -191,7 +195,9 @@ export const PaymentModal = ({
               <button
                 type="button"
                 className="btn-secondary"
-                onClick={() => setShowConfirmDialog(false)}
+                onClick={() => {
+                  setShowConfirmDialog(false);
+                }}
                 disabled={paymentLoading}
                 style={{ flex: 1 }}
               >
@@ -255,7 +261,9 @@ export const PaymentModal = ({
               <button
                 type="button"
                 className="btn-primary"
-                onClick={() => setErrorMsg('')}
+                onClick={() => {
+                  setErrorMsg('');
+                }}
                 style={{ width: '100%', justifyContent: 'center' }}
               >
                 Entendido

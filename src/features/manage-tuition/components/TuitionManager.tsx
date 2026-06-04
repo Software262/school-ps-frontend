@@ -24,7 +24,9 @@ export const TuitionManager = () => {
     setSelectedMonth(installment);
   };
 
-  const handleCloseModal = () => setSelectedMonth(null);
+  const handleCloseModal = () => {
+    setSelectedMonth(null);
+  };
 
   return (
     <div className="tuition-view">
@@ -59,7 +61,9 @@ export const TuitionManager = () => {
               type="text"
               placeholder="Ej: 1023456789"
               value={studentId}
-              onChange={(e) => setStudentId(e.target.value)}
+              onChange={(e) => {
+                setStudentId(e.target.value);
+              }}
               disabled={loading}
             />
           </div>
