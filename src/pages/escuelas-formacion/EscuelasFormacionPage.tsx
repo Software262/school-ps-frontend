@@ -1,8 +1,7 @@
-import React from 'react';
 import { EscuelasFormacionList } from '@/features/escuelas-formacion/components/EscuelasFormacionList';
 import './EscuelasFormacionPage.css';
 
-const EscuelasFormacionPage: React.FC = () => {
+const EscuelasFormacionPage = () => {
   return (
     <main className="ef-page" id="main-content">
       <div className="ef-page-header">

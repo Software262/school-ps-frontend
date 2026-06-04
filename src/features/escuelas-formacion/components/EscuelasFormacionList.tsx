@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef, type SubmitEvent } from 'react';
+import { useState, useEffect, useRef, type SubmitEvent } from 'react';
 import {
   Search,
   UserPlus,
@@ -14,13 +14,8 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/shared/ui/atoms/Badge';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
-import {
-  getEnrollments,
-  getPeriods,
-  getPrograms,
-  searchStudents,
-} from '../api/escuelasFormacionApi';
-import type { Enrollment, Period, Program, Student } from '../model/types';
+import type { Enrollment, Program, Student } from '../model/types';
+import { usePrograms, usePeriods, useEnrollments, useStudentSearch } from '../hooks';
 import { ComprobanteModal } from './ComprobanteModal';
 import { EnrollModal } from './EnrollModal';
 import { PaymentModal } from './PaymentModal';
@@ -43,20 +38,14 @@ function formatDate(iso: string): string {
 }
 
 export const EscuelasFormacionList = () => {
-  const [programs, setPrograms] = useState<Program[]>([]);
-  const [periods, setPeriods] = useState<Period[]>([]);
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('');
-  const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
-  const [loadingEnrollments, setLoadingEnrollments] = useState(false);
+  const { programs } = usePrograms();
+  const { periods, selectedPeriod, setSelectedPeriod } = usePeriods();
+  const { enrollments, loading: loadingEnrollments, fetchEnrollments } = useEnrollments();
+  const studentSearch = useStudentSearch();
+
   // optional table filter by program (set by clicking a program card)
   const [programFilter, setProgramFilter] = useState<number | null>(null);
-
-  // student search
-  const [searchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const [students, setStudents] = useState<Student[]>([]);
-  const [loadingStudents, setLoadingStudents] = useState(false);
-  const [searchError, setSearchError] = useState<string | null>(null);
 
   // modals
   const [modal, setModal] = useState<ModalType>(null);
@@ -67,30 +56,6 @@ export const EscuelasFormacionList = () => {
 
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchCardRef = useRef<HTMLDivElement>(null);
-
-  // init: load programs and periods
-  useEffect(() => {
-    void (async () => {
-      const [prg, per] = await Promise.all([getPrograms(), getPeriods()]);
-      setPrograms(prg);
-      setPeriods(per);
-      if (per.length > 0) {
-        setSelectedPeriod(String(per[0].id));
-      }
-    })();
-  }, []);
-
-  const fetchEnrollments = useCallback(async (periodoId: string): Promise<Enrollment[]> => {
-    if (!periodoId) return [];
-    setLoadingEnrollments(true);
-    try {
-      const data = await getEnrollments(Number(periodoId));
-      setEnrollments(data);
-      return data;
-    } finally {
-      setLoadingEnrollments(false);
-    }
-  }, []);
 
   useEffect(() => {
     if (!selectedPeriod) return;
@@ -121,25 +86,12 @@ export const EscuelasFormacionList = () => {
 
   async function handleSearch(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (searchInput.trim().length < 2) return;
-    setSearchQuery(searchInput.trim());
-    setSearchError(null);
-    setLoadingStudents(true);
-    try {
-      const data = await searchStudents(searchInput.trim());
-      setStudents(data);
-    } catch (err) {
-      setSearchError(err instanceof Error ? err.message : 'Error en la búsqueda');
-    } finally {
-      setLoadingStudents(false);
-    }
+    await studentSearch.search(searchInput);
   }
 
   function clearSearch() {
     setSearchInput('');
-    setSearchQuery('');
-    setStudents([]);
-    setSearchError(null);
+    studentSearch.clear();
   }
 
   function openEnroll(student: Student) {
@@ -342,7 +294,7 @@ export const EscuelasFormacionList = () => {
             </div>
           </div>
           <div className="filter-actions">
-            {searchQuery && (
+            {studentSearch.query && (
               <button type="button" className="btn btn-secondary" onClick={clearSearch}>
                 Limpiar
               </button>
@@ -351,25 +303,30 @@ export const EscuelasFormacionList = () => {
               id="btn-buscar-estudiante"
               type="submit"
               className="btn btn-primary"
-              disabled={searchInput.trim().length < 2 || loadingStudents}
+              disabled={searchInput.trim().length < 2 || studentSearch.loading}
             >
-              {loadingStudents ? <Spinner size={13} color="#fff" /> : <Search size={13} />}
+              {studentSearch.loading ? <Spinner size={13} color="#fff" /> : <Search size={13} />}
               Buscar
             </button>
           </div>
         </form>
 
-        {searchError && (
+        {studentSearch.error && (
           <div className="alert alert-error" style={{ marginTop: 12 }}>
-            {searchError}
+            {studentSearch.error}
           </div>
         )}
-        {!loadingStudents && searchQuery && students.length === 0 && !searchError && (
-          <p className="ef-empty-search">No se encontraron estudiantes con "{searchQuery}".</p>
-        )}
-        {!loadingStudents && students.length > 0 && (
+        {!studentSearch.loading &&
+          studentSearch.query &&
+          studentSearch.students.length === 0 &&
+          !studentSearch.error && (
+            <p className="ef-empty-search">
+              No se encontraron estudiantes con &ldquo;{studentSearch.query}&rdquo;.
+            </p>
+          )}
+        {!studentSearch.loading && studentSearch.students.length > 0 && (
           <div className="ef-student-results">
-            {students.map((s) => (
+            {studentSearch.students.map((s) => (
               <div key={s.id} className="ef-student-row">
                 <div className="ef-student-info">
                   <span className="ef-student-name">{s.nombre}</span>
