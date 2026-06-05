@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import type { TuitionInstallmentResponse } from '@/entities/tuition/model/types';
 import type { PaymentCreateRequest } from '@/entities/tuition/model/types';
 
@@ -46,7 +46,7 @@ export const PaymentModal = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleFormSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     const amount = parseFloat(paymentAmount);
     if (isNaN(amount) || amount <= 0) return;

@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from 'react';
 import { DollarSign, Check } from 'lucide-react';
-import { usePayEnrollment } from '../hooks/usePayEnrollment';
-import type { StudentBalance } from '@/entities/student/model/types';
+import { enrollmentApi } from '@/entities/student/api/enrollment';
+import type { StudentBalance } from '@/entities/student/api/enrollment';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import type { Asign } from '../types';
@@ -25,7 +25,7 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
     });
     return initialAmounts;
   });
-  const { submitPayment, loading: paymentLoading } = usePayEnrollment();
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const handleAmountChange = (key: string, val: string) => {
     setPaymentAmounts((prev) => ({ ...prev, [key]: val }));
@@ -36,6 +36,8 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
     if (!receiptNumber) return;
 
     try {
+      setPaymentLoading(true);
+
       const asignaciones: Asign[] = [];
       for (const key in paymentAmounts) {
         const monto = Number(paymentAmounts[key]);
@@ -59,12 +61,13 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
 
       if (asignaciones.length === 0) {
         alert('Debe ingresar al menos un monto para pagar.');
+        setPaymentLoading(false);
         return;
       }
 
       const matriculaId = balance.matricula_id ?? balance.estudiante.id;
 
-      await submitPayment({
+      await enrollmentApi.registerDirectedPayment({
         matricula_id: matriculaId,
         asignaciones,
         codigo_talonario: receiptNumber,
@@ -77,6 +80,8 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
     } catch (error) {
       console.error('Error registering payment:', error);
       alert('Error al registrar pago. Por favor revise el log.');
+    } finally {
+      setPaymentLoading(false);
     }
   };
 

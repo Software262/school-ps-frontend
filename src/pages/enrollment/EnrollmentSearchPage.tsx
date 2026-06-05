@@ -5,7 +5,6 @@ import type { StudentSearchItem } from '@/entities/student/model/types';
 import { Button } from '@/shared/ui/atoms/Button';
 import { StatusBadge } from '@/entities/student/ui/StatusBadge';
 import { ManualEnrollmentModal } from '@/features/manual-enrollment/components/ManualEnrollmentModal';
-import { MassiveEnrollmentModal } from '@/features/massive-enrollment/components/MassiveEnrollmentModal';
 
 export const EnrollmentSearch = () => {
   const navigate = useNavigate();
@@ -15,7 +14,6 @@ export const EnrollmentSearch = () => {
 
   // Modals state
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
-  const [isMassiveModalOpen, setIsMassiveModalOpen] = useState(false);
 
   const handleSearchStart = useCallback(() => {
     setLoading(true);
@@ -41,11 +39,6 @@ export const EnrollmentSearch = () => {
     void navigate({ to: `/dashboard/enrollment/student/${studentId.toString()}/` });
   };
 
-  const handleMassiveSuccess = () => {
-    // If massive import succeeds, we could just close the modal and prompt user.
-    // The modal itself handles listing stats, so closing will just happen when user clicks Done.
-  };
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       <div>
@@ -53,14 +46,6 @@ export const EnrollmentSearch = () => {
         <p style={{ color: 'var(--text-muted)' }}>Gestión de matrículas y pagos</p>
       </div>
       <div style={{ display: 'flex', gap: '12px' }}>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setIsMassiveModalOpen(true);
-          }}
-        >
-          Cargar CSV Masivo
-        </Button>
         <Button
           variant="primary"
           onClick={() => {
@@ -173,15 +158,6 @@ export const EnrollmentSearch = () => {
           setIsManualModalOpen(false);
         }}
         onSuccess={handleManualSuccess}
-      />
-
-      {/* Massive enrollment modal */}
-      <MassiveEnrollmentModal
-        isOpen={isMassiveModalOpen}
-        onClose={() => {
-          setIsMassiveModalOpen(false);
-        }}
-        onSuccess={handleMassiveSuccess}
       />
     </div>
   );

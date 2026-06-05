@@ -1,12 +1,12 @@
-import React from 'react';
+import type { InputHTMLAttributes, Ref } from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
-  ref?: React.Ref<HTMLInputElement>;
+  ref?: Ref<HTMLInputElement>;
 }
 
-export const Input: React.FC<InputProps> = ({ className = '', label, error, ref, ...props }) => {
+export const Input = ({ className = '', label, error, ref, ...props }: InputProps) => {
   return (
     <div className="input-container">
       {label && <label className="input-label">{label}</label>}

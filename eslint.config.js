@@ -8,12 +8,14 @@ import reactX from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
+import pluginRouter from '@tanstack/eslint-plugin-router';
 
 export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
+      ...pluginRouter.configs['flat/recommended'],
       js.configs.recommended,
       tseslint.configs.recommendedTypeChecked,
       tseslint.configs.strictTypeChecked,
@@ -22,7 +24,6 @@ export default defineConfig([
       reactRefresh.configs.vite,
       reactX.configs['recommended-typescript'],
       reactDom.configs.recommended,
-      // ✅ Desactiva reglas de ESLint que conflictúan con Prettier
       prettierConfig,
     ],
     languageOptions: {
@@ -37,8 +38,24 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      // ✅ Reporta diferencias de formato como errores de lint
       'prettier/prettier': 'error',
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [
+            {
+              from: 'package',
+              package: '@tanstack/router-core',
+              name: 'Redirect',
+            },
+            {
+              from: 'package',
+              package: '@tanstack/router-core',
+              name: 'NotFoundError',
+            },
+          ],
+        },
+      ],
     },
   },
 ]);

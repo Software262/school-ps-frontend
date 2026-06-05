@@ -1,8 +1,7 @@
-import React from 'react';
 import { TeacherList } from '@/features/rectoria/components/TeacherList';
 import './RectoriaPage.css';
 
-const RectoriaPage: React.FC = () => {
+const RectoriaPage = () => {
   return (
     <main className="rectoria-page" id="main-content">
       <div className="rectoria-page-header">

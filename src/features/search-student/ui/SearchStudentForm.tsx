@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect, useRef, type SubmitEvent } from 'react';
+import { useState, useEffect, useCallback, type SubmitEvent } from 'react';
 import { Search } from 'lucide-react';
-import { useSearchStudents } from '../hooks/useSearchStudents';
-import type { StudentSearchItem } from '@/entities/student/model/types';
+import { enrollmentApi } from '@/entities/student/api/enrollment';
+import type { StudentSearchItem } from '@/entities/student/api/enrollment';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 
@@ -16,38 +16,54 @@ export const SearchStudentForm = ({
   onSearchStart,
   onSearchEnd,
 }: SearchStudentFormProps) => {
-  const { loading, fetchStudents } = useSearchStudents();
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({ documento: '', nombre: '', date: '' });
-  const mountedRef = useRef(true);
 
   const executeSearch = useCallback(
     async (isInitial = false) => {
+      setLoading(true);
       onSearchStart();
       try {
-        const data = await fetchStudents(
+        const data = await enrollmentApi.searchStudents(
           isInitial ? {} : { documento: filters.documento, nombre: filters.nombre },
         );
-        if (mountedRef.current && data) {
-          onSearchSuccess(data.estudiantes);
-        }
+        onSearchSuccess(data.estudiantes);
       } catch (error) {
         console.error('Error fetching students:', error);
       } finally {
-        if (mountedRef.current) {
-          onSearchEnd();
-        }
+        setLoading(false);
+        onSearchEnd();
       }
     },
-    [filters.documento, filters.nombre, onSearchStart, onSearchEnd, onSearchSuccess, fetchStudents],
+    [filters.documento, filters.nombre, onSearchStart, onSearchEnd, onSearchSuccess],
   );
 
+  // Fetch initial data on mount
   useEffect(() => {
-    mountedRef.current = true;
-    void executeSearch(true);
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      setLoading(true);
+      onSearchStart();
+      enrollmentApi
+        .searchStudents({})
+        .then((data) => {
+          if (!cancelled) onSearchSuccess(data.estudiantes);
+        })
+        .catch((error: unknown) => {
+          console.error('Error fetching students:', error);
+        })
+        .finally(() => {
+          if (!cancelled) {
+            setLoading(false);
+            onSearchEnd();
+          }
+        });
+    }, 0);
     return () => {
-      mountedRef.current = false;
+      cancelled = true;
+      clearTimeout(timer);
     };
-  }, [executeSearch]);
+  }, [onSearchStart, onSearchEnd, onSearchSuccess]);
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import './TuitionManager.css';
 import { useTuition } from '@/features/manage-tuition/hooks/useTuition';
 import { StudentInfoCard } from '@/features/manage-tuition/components/StudentInfoCard';
@@ -14,7 +14,7 @@ export const TuitionManager = () => {
   const { accountData, loading, errorMsg, fetchStudentData, submitPayment, clearData, refetch } =
     useTuition();
 
-  const handleSearch = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSearch = (e: SubmitEvent) => {
     e.preventDefault();
     if (studentId.trim()) void fetchStudentData(studentId.trim());
   };

@@ -1,7 +1,7 @@
 import { useState, type SubmitEvent } from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { useModifyEnrollment } from '../hooks/useModifyEnrollment';
-import type { StudentBalance } from '@/entities/student/model/types';
+import { enrollmentApi } from '@/entities/student/api/enrollment';
+import type { StudentBalance } from '@/entities/student/api/enrollment';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import { Modal } from '@/shared/ui/molecules/Modal';
@@ -24,7 +24,6 @@ export const ModifyEnrollmentModal = ({
   const [newVal, setNewVal] = useState('');
   const [editReason, setEditReason] = useState('');
   const [editObs, setEditObs] = useState('');
-  const { submitModification, loading } = useModifyEnrollment();
 
   const handleEditSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -66,7 +65,7 @@ export const ModifyEnrollmentModal = ({
         return;
       }
 
-      await submitModification(matriculaId, payload);
+      await enrollmentApi.modifyEnrollment(matriculaId, payload);
 
       onClose();
       await onEditSuccess();
@@ -156,13 +155,8 @@ export const ModifyEnrollmentModal = ({
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancelar
           </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            style={{ backgroundColor: '#991b1b' }}
-            disabled={loading}
-          >
-            {loading ? 'Confirmando...' : 'Confirmar Edición'}
+          <Button type="submit" variant="primary" style={{ backgroundColor: '#991b1b' }}>
+            Confirmar Edición
           </Button>
         </div>
       </form>

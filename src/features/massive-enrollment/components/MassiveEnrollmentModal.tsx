@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, type ChangeEvent, type DragEvent, type SubmitEvent } from 'react';
 import { Upload, AlertCircle, CheckCircle, FileSpreadsheet } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Button } from '@/shared/ui/atoms/Button';
@@ -25,7 +25,7 @@ export const MassiveEnrollmentModal = ({
   const [result, setResult] = useState<MassEnrollmentResponse | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0];
       if (selectedFile.name.toLowerCase().endsWith('.csv')) {
@@ -38,11 +38,11 @@ export const MassiveEnrollmentModal = ({
     }
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     if (e.dataTransfer.files.length > 0) {
       const selectedFile = e.dataTransfer.files[0];
@@ -56,7 +56,7 @@ export const MassiveEnrollmentModal = ({
     }
   };
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!file) {
       setError('Debe seleccionar un archivo CSV antes de enviar.');
