@@ -4,7 +4,12 @@ import { useNewSportLoan } from '../hooks/useNewSportLoan';
 import './NewSportLoanModal.css';
 import type { NewSportLoanModalProps } from '../types';
 
-export const NewSportLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewSportLoanModalProps) => {
+export const NewSportLoanModal = ({
+  isOpen,
+  inventory,
+  onClose,
+  onSuccess,
+}: NewSportLoanModalProps) => {
   const {
     fields,
     errors,
