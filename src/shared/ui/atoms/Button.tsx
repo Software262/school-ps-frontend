@@ -7,7 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   ref?: React.Ref<HTMLButtonElement>;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   className = '',
   variant = 'primary',
   size = 'md',
@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ref,
   ...props
-}) => {
+}: ButtonProps) => {
   return (
     <button
       ref={ref}

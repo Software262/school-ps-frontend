@@ -1,7 +1,7 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import './MainLayout.css';
 
-const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const MainLayout = ({ children }: { children: ReactNode }) => {
   const menuItems = [
     {
       id: 'dashboard',
