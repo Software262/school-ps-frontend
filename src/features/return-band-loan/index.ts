@@ -1,2 +1,2 @@
 export { ReturnLoanModal } from './components';
-export { useReturnLoan } from './hooks';
+export { useReturnLoan, useActiveLoans } from './hooks';

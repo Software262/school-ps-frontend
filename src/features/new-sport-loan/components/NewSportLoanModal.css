@@ -1,0 +1,67 @@
+.new-sport-loan-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.new-sport-loan-form .form-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.new-sport-loan-form .form-select:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1);
+}
+
+.new-sport-loan-form .form-select--error,
+.new-sport-loan-form .form-input--error {
+  border-color: var(--status-red-border);
+}
+
+.new-sport-loan-form .field-error {
+  font-size: var(--font-size-sm);
+  color: var(--status-red);
+  margin-top: 2px;
+}
+
+.new-sport-loan-form .field-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.new-sport-loan-form .selected-item-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--status-green-bg);
+  border: 1px solid var(--status-green-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--status-green);
+  margin-top: 4px;
+}
+
+@media (max-width: 500px) {
+  .new-sport-loan-form .form-row {
+    grid-template-columns: 1fr;
+  }
+}
