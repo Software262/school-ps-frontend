@@ -1,18 +1,41 @@
 import { fetchApi } from '@/shared/api/apiClient';
-import type { LoanBand } from '../types/loan-api';
+import type { LoanBand, PaginationResult } from '../types/loan-api';
 
-export const loadLoans = async (page = 1, limit = 10) => {
+export const loadLoans = async (
+  page = 1,
+  limit = 10,
+  active?: boolean,
+): Promise<PaginationResult> => {
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
   });
 
+  if (active !== undefined) {
+    query.append('active', String(active));
+  }
+
   const res = await fetchApi<LoanBand>(`/musical-band/borrowings?${query.toString()}`);
 
   if (res.statusCode !== 200) {
-    return [];
+    return {
+      items: [],
+      currentPage: page,
+      pageSize: limit,
+      total: 0,
+      totalPages: 0,
+      next: false,
+      previous: false,
+    };
   }
 
-  console.log(res.data.items);
-  return res.data.items;
+  return {
+    items: res.data.items,
+    currentPage: res.data.current_page,
+    pageSize: res.data.page_size,
+    total: res.data.total,
+    totalPages: res.data.total_pages,
+    next: res.data.next,
+    previous: res.data.previous,
+  };
 };
