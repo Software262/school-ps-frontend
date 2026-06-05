@@ -3,7 +3,6 @@ import type { LoanFormatted } from '@/entities/loan/model/loan-utils';
 import { useReturnLoan } from '../hooks/useReturnLoan';
 import './ReturnLoanModal.css';
 
-// Columnas compactas para seleccionar el préstamo a retornar
 const RETURN_COLUMNS = [
   { key: 'nombreEstudiante', label: 'ESTUDIANTE' },
   { key: 'nombreInstrumento', label: 'INSTRUMENTO' },
@@ -14,16 +13,24 @@ const RETURN_COLUMNS = [
 
 interface ReturnLoanModalProps {
   isOpen: boolean;
-  /** Préstamos activos (enPrestamo === true) disponibles para retornar. */
   activeLoans: LoanFormatted[];
+  activeLoansTotal: number;
+  activeLoansPage: number;
+  activeLoansTotalPages: number;
+  activeLoansLoading: boolean;
+  onActiveLoansPageChange: (page: number) => void;
   onClose: () => void;
-  /** Se invoca cuando la devolución se registró exitosamente. */
   onSuccess: () => void;
 }
 
 export const ReturnLoanModal = ({
   isOpen,
   activeLoans,
+  activeLoansTotal,
+  activeLoansPage,
+  activeLoansTotalPages,
+  activeLoansLoading,
+  onActiveLoansPageChange,
   onClose,
   onSuccess,
 }: ReturnLoanModalProps) => {
@@ -57,23 +64,59 @@ export const ReturnLoanModal = ({
 
         <div className="active-count">
           Préstamos activos:
-          <span className="active-count-badge">{activeLoans.length}</span>
+          <span className="active-count-badge">{activeLoansTotal}</span>
         </div>
 
         <div className="loans-table-wrapper">
-          {activeLoans.length === 0 ? (
+          {activeLoansLoading ? (
+            <div className="empty-state">
+              <Spinner size={24} />
+              <p>Cargando préstamos activos...</p>
+            </div>
+          ) : activeLoans.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state-icon">✓</div>
               <p>No hay préstamos activos en este momento.</p>
             </div>
           ) : (
-            <DataTable<LoanFormatted>
-              columns={RETURN_COLUMNS}
-              data={activeLoans}
-              onSelect={handleSelectLoan}
-              selectedRow={selectedLoan ?? undefined}
-              emptyMessage="No hay préstamos activos"
-            />
+            <>
+              <DataTable<LoanFormatted>
+                columns={RETURN_COLUMNS}
+                data={activeLoans}
+                onSelect={handleSelectLoan}
+                selectedRow={selectedLoan ?? undefined}
+                emptyMessage="No hay préstamos activos"
+              />
+
+              {activeLoansTotalPages > 1 && (
+                <div className="pagination-wrapper">
+                  <button
+                    className="pagination-btn pagination-btn-prev"
+                    onClick={() => {
+                      onActiveLoansPageChange(activeLoansPage - 1);
+                    }}
+                    disabled={activeLoansPage === 1}
+                    title="Página anterior"
+                  >
+                    ← Anterior
+                  </button>
+                  <div className="pagination-info">
+                    Página <span className="pagination-number">{activeLoansPage}</span> de{' '}
+                    <span className="pagination-number">{activeLoansTotalPages}</span>
+                  </div>
+                  <button
+                    className="pagination-btn pagination-btn-next"
+                    onClick={() => {
+                      onActiveLoansPageChange(activeLoansPage + 1);
+                    }}
+                    disabled={activeLoansPage === activeLoansTotalPages}
+                    title="Página siguiente"
+                  >
+                    Siguiente →
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -137,7 +180,7 @@ export const ReturnLoanModal = ({
             onClick={() => {
               void handleSubmit();
             }}
-            disabled={loading || !selectedLoan || activeLoans.length === 0}
+            disabled={loading || !selectedLoan || activeLoansTotal === 0}
           >
             {loading ? (
               <>
