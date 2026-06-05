@@ -1,13 +1,13 @@
-import React from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 
 type BadgeVariant = 'green' | 'yellow' | 'red' | 'gray';
 
 interface BadgeProps {
   variant: BadgeVariant;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
+const variantStyles: Record<BadgeVariant, CSSProperties> = {
   green: {
     background: 'var(--status-green-bg)',
     color: 'var(--status-green)',

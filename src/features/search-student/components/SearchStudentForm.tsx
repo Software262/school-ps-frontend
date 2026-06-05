@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, type SubmitEvent } from 'react';
 import { Search } from 'lucide-react';
 import { useSearchStudents } from '../hooks/useSearchStudents';
 import type { StudentSearchItem } from '@/entities/student/model/types';
@@ -49,7 +49,7 @@ export const SearchStudentForm = ({
     };
   }, [executeSearch]);
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     void executeSearch(false);
   };
