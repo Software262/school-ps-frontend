@@ -1,19 +1,11 @@
 import { useState, useMemo } from 'react';
 import type { Loan } from '@/entities/loan/model';
-import {
-  type LoansFilterType,
-  type LoanFormatted,
-  convertTimestampToDate,
-} from '@/entities/loan/model/loan-utils';
+import { type LoanFormatted, convertTimestampToDate } from '@/entities/loan/model/loan-utils';
 
-export type { LoansFilterType, LoanFormatted };
-
-const ITEMS_PER_PAGE = 10;
+export type { LoanFormatted };
 
 export const useLoansFilters = (loans: Loan[]) => {
-  const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<LoansFilterType>('all');
 
   const formattedLoans: LoanFormatted[] = useMemo(() => {
     return loans
@@ -39,44 +31,24 @@ export const useLoansFilters = (loans: Loan[]) => {
 
   const filtered = useMemo(() => {
     if (formattedLoans.length === 0) return [];
+    if (!searchTerm) return formattedLoans;
+    const term = searchTerm.toLowerCase();
     return formattedLoans.filter(
       (loan) =>
-        (filter === 'all' ||
-          (filter === 'active' && loan.enPrestamo) ||
-          (filter === 'inactive' && !loan.enPrestamo)) &&
-        (loan.nombreEstudiante.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          loan.nombreInstrumento.toLowerCase().includes(searchTerm.toLowerCase())),
+        loan.nombreEstudiante.toLowerCase().includes(term) ||
+        loan.nombreInstrumento.toLowerCase().includes(term),
     );
-  }, [formattedLoans, searchTerm, filter]);
-
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const currentPage = Math.min(page, Math.max(1, totalPages));
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedItems = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [formattedLoans, searchTerm]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setPage(1);
-  };
-  const handleFilterChange = (newFilter: LoansFilterType) => {
-    setFilter(newFilter);
-    setPage(1);
-  };
-  const handlePageChange = (newPage: number) => {
-    setPage(Math.max(1, Math.min(newPage, totalPages)));
   };
 
   return {
     formattedLoans,
     filtered,
-    paginatedItems,
-    currentPage,
-    totalPages,
+    paginatedItems: filtered,
     searchTerm,
-    filter,
     handleSearch,
-    handleFilterChange,
-    handlePageChange,
   };
 };
