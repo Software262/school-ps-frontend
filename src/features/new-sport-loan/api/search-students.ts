@@ -22,7 +22,7 @@ export const searchStudents = async (query: string): Promise<StudentResult[]> =>
   const res = await fetchApi<SearchStudentsResponse>(
     `/enrollment/students?query=${encodeURIComponent(query)}`,
   );
-  return (res.estudiantes ?? []).map((s) => ({
+  return res.estudiantes.map((s) => ({
     id: s.estudiante_id,
     nombre: s.nombre,
     documento: s.documento,
