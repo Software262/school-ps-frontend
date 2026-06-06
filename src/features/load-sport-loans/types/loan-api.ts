@@ -14,6 +14,7 @@ export interface SportLoanBand {
   message: string;
   details?: string | null;
 }
+
 export interface PaginationResult {
   items: SportLoanBand['data']['items'];
   currentPage: number;
