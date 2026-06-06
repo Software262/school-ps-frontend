@@ -104,9 +104,7 @@ export const NewSportLoanModal = ({
             }}
             autoComplete="off"
           />
-          {searchingStudents && (
-            <span className="field-hint">Buscando...</span>
-          )}
+          {searchingStudents && <span className="field-hint">Buscando...</span>}
           {errors.estudiante_id && (
             <span className="field-error" role="alert">
               {errors.estudiante_id}
@@ -120,7 +118,9 @@ export const NewSportLoanModal = ({
                 <li
                   key={s.id}
                   className="student-dropdown-item"
-                  onClick={() => { handleSelectStudent(s); }}
+                  onClick={() => {
+                    handleSelectStudent(s);
+                  }}
                 >
                   <span className="student-name">{s.nombre}</span>
                   <span className="student-doc">{s.documento}</span>
