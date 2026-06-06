@@ -36,3 +36,20 @@ export interface SportLoanFormErrors {
   cantidad?: string;
   general?: string;
 }
+
+export interface StudentResult {
+  id: number;
+  nombre: string;
+  documento: string;
+}
+
+interface EnrollmentStudent {
+  estudiante_id: number;
+  nombre: string;
+  documento: string;
+}
+
+export interface SearchStudentsResponse {
+  estudiantes: EnrollmentStudent[];
+  total_resultados: number;
+}

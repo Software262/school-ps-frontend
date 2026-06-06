@@ -2,8 +2,7 @@ import { useState } from 'react';
 import type { Inventory } from '@/entities/inventory/model/types';
 import { createSportLoan } from '../api/create-sport-loan';
 import { searchStudents } from '../api/search-students';
-import type { SportLoanFormFields, SportLoanFormErrors } from '../types';
-import type { StudentResult } from '../api/search-students';
+import type { SportLoanFormFields, SportLoanFormErrors, StudentResult } from '../types';
 
 const toApiDatetime = (datetimeLocal: string): string => {
   const withSeconds = datetimeLocal.length === 16 ? `${datetimeLocal}:00` : datetimeLocal;
@@ -48,8 +47,17 @@ export const useNewSportLoan = (inventory: Inventory[], onSuccess: () => void) =
     }
 
     setSearchingStudents(true);
+
+    const params = new URLSearchParams();
+
+    if (Number(query)) {
+      params.append('documento', encodeURIComponent(query));
+    } else {
+      params.append('nombre', encodeURIComponent(query));
+    }
+
     try {
-      const results = await searchStudents(query);
+      const results = await searchStudents(params.toString());
       setStudentResults(results);
     } catch {
       setStudentResults([]);
