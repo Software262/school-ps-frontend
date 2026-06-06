@@ -16,6 +16,12 @@ export const NewSportLoanModal = ({
     loading,
     availableInventory,
     selectedItem,
+    studentQuery,
+    studentResults,
+    selectedStudent,
+    searchingStudents,
+    handleStudentSearch,
+    handleSelectStudent,
     handleChange,
     handleSubmit,
     reset,
@@ -82,27 +88,55 @@ export const NewSportLoanModal = ({
           )}
         </div>
 
-        {/* ID Estudiante */}
-        <div className="form-group">
+        {/* Buscador de Estudiante */}
+        <div className="form-group" style={{ position: 'relative' }}>
           <label className="form-label" htmlFor="nl-estudiante">
-            ID del Estudiante <span aria-hidden="true">*</span>
+            Estudiante <span aria-hidden="true">*</span>
           </label>
           <input
             id="nl-estudiante"
-            type="number"
-            min={1}
-            step={1}
+            type="text"
             className={`form-input ${errors.estudiante_id ? 'form-input--error' : ''}`}
-            placeholder="Ej: 42"
-            value={fields.estudiante_id}
+            placeholder="Buscar por nombre o documento..."
+            value={studentQuery}
             onChange={(e) => {
-              handleChange('estudiante_id', e.target.value);
+              void handleStudentSearch(e.target.value);
             }}
+            autoComplete="off"
           />
+          {searchingStudents && (
+            <span className="field-hint">Buscando...</span>
+          )}
           {errors.estudiante_id && (
             <span className="field-error" role="alert">
               {errors.estudiante_id}
             </span>
+          )}
+
+          {/* Dropdown de resultados */}
+          {studentResults.length > 0 && (
+            <ul className="student-dropdown">
+              {studentResults.map((s) => (
+                <li
+                  key={s.id}
+                  className="student-dropdown-item"
+                  onClick={() => { handleSelectStudent(s); }}
+                >
+                  <span className="student-name">{s.nombre}</span>
+                  <span className="student-doc">{s.documento}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* Estudiante seleccionado */}
+          {selectedStudent && (
+            <div className="selected-item-info">
+              <span>✓</span>
+              <span>
+                <strong>{selectedStudent.nombre}</strong> — Doc: {selectedStudent.documento}
+              </span>
+            </div>
           )}
         </div>
 
