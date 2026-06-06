@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type SubmitEvent, type ChangeEvent } from 'react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
@@ -43,7 +43,7 @@ export const ManualEnrollmentModal = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -112,7 +112,7 @@ export const ManualEnrollmentModal = ({
           placeholder="Ej: 100293847"
           required
           value={formData.documento}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setFormData((s: ManualEnrollmentPayload) => ({ ...s, documento: e.target.value }));
           }}
           disabled={loading}
@@ -123,7 +123,7 @@ export const ManualEnrollmentModal = ({
           placeholder="Ej: Juan Sebastián Pérez López"
           required
           value={formData.nombre}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setFormData((s: ManualEnrollmentPayload) => ({ ...s, nombre: e.target.value }));
           }}
           disabled={loading}
@@ -133,7 +133,7 @@ export const ManualEnrollmentModal = ({
           <label className="input-label">Grado *</label>
           <select
             value={formData.grado}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
               setFormData((s: ManualEnrollmentPayload) => ({ ...s, grado: e.target.value }));
             }}
             disabled={loading}
@@ -163,7 +163,7 @@ export const ManualEnrollmentModal = ({
           placeholder="Ej: María Clara López (Madre)"
           required
           value={formData.nombre_acudiente}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setFormData((s: ManualEnrollmentPayload) => ({
               ...s,
               nombre_acudiente: e.target.value,
@@ -177,7 +177,7 @@ export const ManualEnrollmentModal = ({
             <label className="input-label">Periodo Académico *</label>
             <select
               value={formData.periodo_id}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 setFormData((s: ManualEnrollmentPayload) => ({
                   ...s,
                   periodo_id: Number(e.target.value),
@@ -210,7 +210,7 @@ export const ManualEnrollmentModal = ({
             type="number"
             required
             value={formData.anio}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setFormData((s: ManualEnrollmentPayload) => ({ ...s, anio: Number(e.target.value) }));
             }}
             disabled={loading}

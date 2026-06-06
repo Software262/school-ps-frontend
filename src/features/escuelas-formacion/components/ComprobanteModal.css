@@ -1,0 +1,405 @@
+.comp-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  animation: backdropIn 0.2s ease;
+}
+
+.comp-panel {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: modalIn 0.22s ease;
+  overflow: hidden;
+}
+
+/* screen-only top bar */
+.comp-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--content-bg);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.comp-actions-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* receipt body */
+.comp-receipt {
+  padding: 26px 30px 22px;
+  position: relative;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #1a1a1a;
+  background: #fff;
+}
+
+/* watermark */
+.comp-watermark {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-size: 40px;
+  font-weight: 900;
+  color: rgba(45, 125, 70, 0.13);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 2px;
+  z-index: 0;
+}
+
+.comp-watermark--gray {
+  color: rgba(75, 85, 99, 0.12);
+}
+
+/* header band */
+.comp-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  border-bottom: 3px solid var(--brand-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.comp-logo-img {
+  width: 56px;
+  height: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.comp-header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.comp-school-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--brand-primary);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.comp-title {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 3px;
+}
+
+.comp-header-right {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.comp-folio-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.comp-folio {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: monospace;
+  color: #1a1a1a;
+}
+
+/* boxed data grid */
+.comp-box {
+  border: 1px solid #cbd1d9;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.comp-box-row {
+  display: flex;
+  border-bottom: 1px solid #e2e6ec;
+}
+
+.comp-box-row:last-child {
+  border-bottom: none;
+}
+
+.comp-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border-right: 1px solid #e2e6ec;
+  min-width: 0;
+}
+
+.comp-field:last-child {
+  border-right: none;
+}
+
+.comp-field--grow {
+  flex: 2;
+}
+
+.comp-field-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.comp-field-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comp-field-value--mono {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* charges table */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+  border: 1px solid #cbd1d9;
+}
+
+.comp-table thead th {
+  text-align: left;
+  padding: 7px 10px;
+  background: var(--brand-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.comp-table thead th:last-child {
+  text-align: right;
+}
+
+.comp-table tbody td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: top;
+  color: #1a1a1a;
+  line-height: 1.5;
+}
+
+.comp-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comp-table-amount {
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.comp-table-amount--green {
+  color: var(--status-green);
+}
+
+.comp-table-note {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* balance row */
+.comp-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: #f4f6f9;
+  border: 1px solid #cbd1d9;
+  border-top: none;
+  position: relative;
+  z-index: 1;
+}
+
+.comp-balance-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+}
+
+.comp-balance-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--status-red);
+}
+
+.comp-balance-value--zero {
+  color: var(--status-green);
+}
+
+/* status + signature footer */
+.comp-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.comp-status-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.comp-status-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 5px 18px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1.5px solid;
+}
+
+.comp-status-badge--green {
+  background: var(--status-green-bg);
+  color: var(--status-green);
+  border-color: var(--status-green-border);
+}
+
+.comp-status-badge--red {
+  background: var(--status-red-bg);
+  color: var(--status-red);
+  border-color: var(--status-red-border);
+}
+
+.comp-status-badge--gray {
+  background: var(--status-gray-bg);
+  color: var(--status-gray);
+  border-color: var(--status-gray-border);
+}
+
+.comp-motivo {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 320px;
+}
+
+.comp-sign {
+  text-align: center;
+  flex-shrink: 0;
+  width: 200px;
+}
+
+.comp-sign-line {
+  border-top: 1px solid #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.comp-sign-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.comp-legend {
+  margin: 18px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #e2e6ec;
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+/* print styles: isolate the receipt so nothing else on the page prints */
+@media print {
+  /* hide the whole app... */
+  body * {
+    visibility: hidden;
+  }
+
+  /* ...then reveal only the receipt panel */
+  .comp-panel,
+  .comp-panel * {
+    visibility: visible;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .comp-backdrop {
+    position: static;
+    inset: auto;
+    background: none;
+    padding: 0;
+    overflow: visible;
+    display: block;
+  }
+
+  .comp-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .comp-receipt {
+    padding: 16px;
+  }
+
+  /* keep brand colors and the watermark in print */
+  .comp-header,
+  .comp-table thead th,
+  .comp-logo-img,
+  .comp-watermark,
+  .comp-status-badge,
+  .comp-balance-value,
+  .comp-balance-row {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

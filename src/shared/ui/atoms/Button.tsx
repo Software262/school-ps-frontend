@@ -1,13 +1,13 @@
-import React from 'react';
+import type { ButtonHTMLAttributes, Ref } from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
-  ref?: React.Ref<HTMLButtonElement>;
+  ref?: Ref<HTMLButtonElement>;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   className = '',
   variant = 'primary',
   size = 'md',
@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   ref,
   ...props
-}) => {
+}: ButtonProps) => {
   return (
     <button
       ref={ref}
