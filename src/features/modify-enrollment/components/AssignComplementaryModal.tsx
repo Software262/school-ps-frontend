@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, type SubmitEvent } from 'react';
 import { Plus, Minus, Loader, AlertCircle } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Button } from '@/shared/ui/atoms/Button';
@@ -68,7 +68,7 @@ export const AssignComplementaryModal = ({
     }
   }, [isOpen, loadConcepts]);
 
-  const handleCreateConcept = async (e: React.SyntheticEvent) => {
+  const handleCreateConcept = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!newConceptName.trim() || !newConceptValue) return;
 
@@ -111,7 +111,7 @@ export const AssignComplementaryModal = ({
     }
   };
 
-  const handleAssign = async (e: React.SyntheticEvent) => {
+  const handleAssign = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!selectedConceptId) return;
 

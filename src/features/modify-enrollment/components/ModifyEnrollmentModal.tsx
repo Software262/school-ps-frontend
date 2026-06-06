@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useModifyEnrollment } from '../hooks/useModifyEnrollment';
 import type { StudentBalance } from '@/entities/student/model/types';
@@ -26,7 +26,7 @@ export const ModifyEnrollmentModal = ({
   const [editObs, setEditObs] = useState('');
   const { submitModification, loading } = useModifyEnrollment();
 
-  const handleEditSubmit = async (e: React.SyntheticEvent) => {
+  const handleEditSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!concept || !newVal) return;
 

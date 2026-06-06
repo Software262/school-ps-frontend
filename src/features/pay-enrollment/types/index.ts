@@ -14,3 +14,10 @@ export interface PaymentResultResponse {
   matricula_pagada: boolean;
   mensaje: string;
 }
+
+export interface Asign {
+  concepto: string;
+  monto: number;
+  complementario_id?: number;
+  detalle_id?: number;
+}

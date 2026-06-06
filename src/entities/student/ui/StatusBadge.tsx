@@ -1,12 +1,11 @@
-import React from 'react';
-import { Badge } from '../../../shared/ui/atoms/Badge';
+import { Badge } from '@/shared/ui/atoms/Badge';
 
 interface StatusBadgeProps {
   status: string;
   label?: string;
 }
 
-export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, label }) => {
+export const StatusBadge = ({ status, label }: StatusBadgeProps) => {
   let variant: 'green' | 'yellow' | 'red' | 'gray' = 'gray';
   let defaultLabel = status;
 

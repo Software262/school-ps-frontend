@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "4.3.0",
-    "lucide-react": "^1.16.0",
+    "lucide-react": "1.16.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "tailwindcss": "4.3.0",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@tanstack/eslint-plugin-router": "1.162.0",
     "@tanstack/react-router": "1.170.8",
     "@tanstack/react-router-devtools": "1.167.0",
     "@tanstack/router-plugin": "1.168.11",
