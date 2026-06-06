@@ -10,9 +10,6 @@
 
 import { Route as rootRouteImport } from './app/router/__root'
 import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route'
-import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index'
-import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
-import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 import { Route as IndexRouteImport } from './app/router/index'
 import { Route as DashboardIndexRouteImport } from './app/router/dashboard/index'
 import { Route as DashboardTuitionIndexRouteImport } from './app/router/dashboard/tuition/index'
@@ -76,25 +73,6 @@ const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   path: '/band/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-
-export interface FileRoutesByFullPath {
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/band/': typeof DashboardBandIndexRoute
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute
-}
-export interface FileRoutesByTo {
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/band': typeof DashboardBandIndexRoute
-  '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
-  '/dashboard/tests': typeof DashboardTestsIndexRoute
-}
-export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/band/': typeof DashboardBandIndexRoute
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute
 const DashboardEnrollmentStudentIdIndexRoute =
   DashboardEnrollmentStudentIdIndexRouteImport.update({
     id: '/enrollment/student/$id/',
@@ -144,25 +122,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/dashboard'
-    | '/dashboard/band/'
-    | '/dashboard/rectoria/'
-    | '/dashboard/tests/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/dashboard'
-    | '/dashboard/band'
-    | '/dashboard/rectoria'
-    | '/dashboard/tests'
-  id:
-    | '__root__'
-    | '/dashboard'
-    | '/dashboard/band/'
-    | '/dashboard/rectoria/'
-    | '/dashboard/tests/'
-  fileRoutesById: FileRoutesById
-}
-export interface RootRouteChildren {
     | '/'
     | '/dashboard'
     | '/dashboard/'
@@ -291,8 +250,6 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
-  DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
-  DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute
   DashboardDeportesIndexRoute: typeof DashboardDeportesIndexRoute
   DashboardEnrollmentIndexRoute: typeof DashboardEnrollmentIndexRoute
   DashboardEscuelasFormacionIndexRoute: typeof DashboardEscuelasFormacionIndexRoute
