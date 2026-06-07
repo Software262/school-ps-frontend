@@ -1,6 +1,5 @@
 import { useState, type SubmitEvent } from 'react';
-import { Modal } from '@/shared/ui/atoms/Modal';
-import { Spinner } from '@/shared/ui/atoms/Spinner';
+import { Modal, Spinner } from '@/shared/ui';
 import { createObservation } from '@/features/rectoria/api/rectoriaApi';
 import type { Teacher } from '@/entities/teacher/model/types';
 

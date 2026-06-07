@@ -23,8 +23,8 @@ const modules = [
     icon: Shield,
     highlight: true,
   },
-  { path: '/dashboard/matricula', label: 'Matrícula', icon: CreditCard },
-  { path: '/dashboard/pension', label: 'Pensión', icon: Calendar },
+  { path: '/dashboard/enrollment', label: 'Matrícula', icon: CreditCard },
+  { path: '/dashboard/tuition', label: 'Pensión', icon: Calendar },
   {
     path: '/dashboard/escuelas-formacion',
     label: 'Escuelas de Formación',

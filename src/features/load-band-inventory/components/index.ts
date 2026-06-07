@@ -1,0 +1,1 @@
+export { InventorySection } from './InventorySection';

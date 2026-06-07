@@ -1,0 +1,21 @@
+.ef-page {
+  width: 100%;
+}
+
+.ef-page-header {
+  margin-bottom: 22px;
+}
+
+.ef-page-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.ef-page-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  margin: 0;
+}
