@@ -1,0 +1,1 @@
+export { useChessInventory } from './useChessInventory';

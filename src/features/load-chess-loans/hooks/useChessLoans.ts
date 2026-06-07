@@ -1,22 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { ChessInventory } from '@/features/chess/model/types';
-import { getChessType, getChessInventory } from '@/features/chess/api/chessApi';
+import type { ChessLoan } from '@/features/chess/model/types';
+import { getChessType } from '@/features/chess/api/chessApi';
+import { getChessBorrowings } from '@/features/load-chess-loans/api/load-chess-loans';
 
-export const useChessInventory = () => {
-  const [inventory, setInventory] = useState<ChessInventory[]>([]);
+export const useChessLoans = () => {
+  const [loans, setLoans] = useState<ChessLoan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
     getChessType()
-      .then((typeData) => getChessInventory(typeData.id))
+      .then((typeData) => getChessBorrowings(typeData.id))
       .then((resp) => {
-        setInventory(resp.items);
+        setLoans(resp.items);
         setError('');
       })
       .catch((err: unknown) => {
-        setError(err instanceof Error ? err.message : 'Error al cargar inventario');
+        setError(err instanceof Error ? err.message : 'Error al cargar préstamos');
       })
       .finally(() => {
         setLoading(false);
@@ -28,5 +29,5 @@ export const useChessInventory = () => {
     setRefetchKey((k) => k + 1);
   }, []);
 
-  return { inventory, loading, error, refetch };
+  return { loans, loading, error, refetch };
 };

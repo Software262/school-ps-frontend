@@ -1,5 +1,5 @@
 import { useState, type SyntheticEvent } from 'react';
-import { returnChessBorrow } from '@/features/chess/api/chessApi';
+import { returnChessBorrow } from '@/features/return-chess-loan/api/return-chess-loan';
 import type { ChessLoan } from '@/features/chess/model/types';
 
 interface Props {

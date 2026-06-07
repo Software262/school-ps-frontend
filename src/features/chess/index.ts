@@ -1,8 +1,2 @@
-export {
-  ChessAlert,
-  ChessStats,
-  ChessTabs,
-  ChessInventorySection,
-  ChessLoansSection,
-} from './components';
-export { useChessInventory, useChessLoans, useChessStats } from './hooks';
+export { ChessAlert, ChessStats, ChessTabs } from './components';
+export { useChessStats } from './hooks';

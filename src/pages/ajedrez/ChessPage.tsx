@@ -1,15 +1,12 @@
 import { useState } from 'react';
-import { useChessInventory, useChessLoans, useChessStats } from '@/features/chess/hooks';
-import {
-  ChessAlert,
-  ChessStats,
-  ChessTabs,
-  ChessInventorySection,
-  ChessLoansSection,
-  NewChessLoanModal,
-  ReturnChessLoanModal,
-  ResolveChessLoanModal,
-} from '@/features/chess/components';
+import { ChessAlert, ChessStats, ChessTabs, useChessStats } from '@/features/chess';
+import { useChessInventory } from '@/features/load-chess-inventory/hooks';
+import { useChessLoans } from '@/features/load-chess-loans/hooks';
+import { ChessInventorySection } from '@/features/load-chess-inventory/components';
+import { ChessLoansSection } from '@/features/load-chess-loans/components';
+import { NewChessLoanModal } from '@/features/new-chess-loan/components';
+import { ReturnChessLoanModal } from '@/features/return-chess-loan/components';
+import { ResolveChessLoanModal } from '@/features/resolve-chess-loan/components';
 import type { ChessInventory, ChessLoan } from '@/features/chess/model/types';
 import '@/pages/sport/SportPage.css';
 import '@/pages/ajedrez/ChessPage.css';
