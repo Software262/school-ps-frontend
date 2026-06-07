@@ -1,0 +1,1 @@
+export { useCloseClassroomIncident } from './useCloseClassroomIncident';

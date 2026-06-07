@@ -1,11 +1,13 @@
 import { Check, Eye, Inbox, X } from 'lucide-react';
 import { useState } from 'react';
-import type { IncidenciaConEstudiante, TipoIncidencia } from '../model/types';
+import type { IncidenciaConEstudiante, TipoIncidencia } from '@/features/classroom-holder/model/types';
 import './IncidentTable.css';
 
 interface Props {
   incidencias: IncidenciaConEstudiante[];
   onResolve: (incidencia: IncidenciaConEstudiante) => void;
+  isLoading?: boolean;
+  hasLoadedIncidents?: boolean;
 }
 
 const incidentTypeLabels: Record<TipoIncidencia, string> = {
@@ -22,8 +24,20 @@ const formatDate = (date: string): string =>
     day: '2-digit',
   }).format(new Date(date));
 
-export const IncidentTable = ({ incidencias, onResolve }: Props) => {
+export const IncidentTable = ({ incidencias, onResolve, isLoading = false, hasLoadedIncidents = false }: Props) => {
   const [selectedIncident, setSelectedIncident] = useState<IncidenciaConEstudiante | null>(null);
+
+  if (isLoading) {
+    return (
+      <div className="incident-empty-state">
+        <div className="incident-empty-icon" aria-hidden="true">
+          <Inbox size={34} />
+        </div>
+        <h3>Cargando incidencias</h3>
+        <p>Estamos consultando la informacion del estudiante seleccionado.</p>
+      </div>
+    );
+  }
 
   if (incidencias.length === 0) {
     return (
@@ -31,8 +45,12 @@ export const IncidentTable = ({ incidencias, onResolve }: Props) => {
         <div className="incident-empty-icon" aria-hidden="true">
           <Inbox size={34} />
         </div>
-        <h3>No existen incidencias registradas</h3>
-        <p>Cuando registre una nueva incidencia, aparecerá en este listado.</p>
+        <h3>{hasLoadedIncidents ? 'No existen incidencias registradas' : 'Cargando incidencias'}</h3>
+        <p>
+          {hasLoadedIncidents
+            ? 'Cuando registre una nueva incidencia, aparecera en este listado.'
+            : 'Estamos preparando el listado general de incidencias.'}
+        </p>
       </div>
     );
   }
@@ -44,11 +62,11 @@ export const IncidentTable = ({ incidencias, onResolve }: Props) => {
           <table className="incident-table">
             <thead>
               <tr>
-                <th className="incident-table-th">Código</th>
+                <th className="incident-table-th">Codigo</th>
                 <th className="incident-table-th">Estudiante</th>
                 <th className="incident-table-th">Curso</th>
                 <th className="incident-table-th">Tipo</th>
-                <th className="incident-table-th">Descripción</th>
+                <th className="incident-table-th">Descripcion</th>
                 <th className="incident-table-th">Fecha</th>
                 <th className="incident-table-th">Estado</th>
                 <th className="incident-table-th incident-table-actions-head">Acciones</th>
@@ -128,7 +146,7 @@ export const IncidentTable = ({ incidencias, onResolve }: Props) => {
 
             <dl className="incident-detail-grid">
               <div>
-                <dt>Código</dt>
+                <dt>Codigo</dt>
                 <dd>{selectedIncident.estudiante_id}</dd>
               </div>
               <div>
@@ -152,7 +170,7 @@ export const IncidentTable = ({ incidencias, onResolve }: Props) => {
                 <dd>{selectedIncident.esta_abierta ? 'Pendiente' : 'Resuelto'}</dd>
               </div>
               <div className="incident-detail-description">
-                <dt>Descripción</dt>
+                <dt>Descripcion</dt>
                 <dd>{selectedIncident.descripcion}</dd>
               </div>
             </dl>

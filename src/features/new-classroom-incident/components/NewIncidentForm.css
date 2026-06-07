@@ -32,6 +32,103 @@
   margin-bottom: 1.2rem;
 }
 
+.incident-selected-student {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--status-gray-bg);
+}
+
+.incident-selected-student p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.incident-selected-student h3 {
+  margin: 0.2rem 0 0;
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+  font-weight: 800;
+}
+
+.incident-selected-student span {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.student-search-field {
+  position: relative;
+}
+
+.student-search-input-wrap {
+  position: relative;
+}
+
+.student-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  color: var(--input-placeholder);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.student-search-results {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  right: 0;
+  left: 0;
+  z-index: 20;
+  max-height: 220px;
+  margin: 0;
+  padding: 0.25rem;
+  overflow-y: auto;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  list-style: none;
+}
+
+.student-search-option {
+  display: grid;
+  width: 100%;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.student-search-option:hover {
+  background-color: var(--status-gray-bg);
+}
+
+.student-search-option span,
+.student-search-message {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.student-search-message {
+  padding: 0.75rem;
+  text-align: center;
+}
+
 .incident-form-label {
   display: block;
   margin-bottom: 0.5rem;
@@ -53,6 +150,10 @@
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
+}
+
+.incident-form-input.student-search-input--with-icon {
+  padding-left: 2.5rem;
 }
 
 .incident-form-input:focus {

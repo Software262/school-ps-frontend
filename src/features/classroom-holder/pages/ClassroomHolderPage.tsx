@@ -1,36 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, Plus } from 'lucide-react';
-import { IncidentForm } from '../components/IncidentForm';
-import { IncidentTable } from '../components/IncidentTable';
-import { useClassroomHolder } from '../hooks/useClassroomHolder';
+import { useCloseClassroomIncident } from '@/features/close-classroom-incident';
+import { IncidentTable, useLoadClassroomIncidents } from '@/features/load-classroom-incidents';
+import { NewIncidentForm } from '@/features/new-classroom-incident';
 import type { IncidenciaConEstudiante } from '../model/types';
 import './ClassroomHolderPage.css';
-
-const DEFAULT_STUDENT_ID = 1;
 
 export const ClassroomHolderPage = () => {
   const [showForm, setShowForm] = useState(false);
   const {
-    incidencias,
-    isLoading,
-    error,
-    registrarIncidencia,
-    resolverIncidencia,
-    buscarEstudiante,
-    cargarEstudiante,
-  } = useClassroomHolder();
-
-  useEffect(() => {
-    void buscarEstudiante(DEFAULT_STUDENT_ID);
-  }, []);
+    incidents,
+    loading: incidentsLoading,
+    error: incidentsError,
+    hasLoaded,
+    refetch: refetchIncidents,
+  } = useLoadClassroomIncidents();
+  const {
+    closeIncident,
+    loading: closeLoading,
+    error: closeError,
+  } = useCloseClassroomIncident(refetchIncidents);
 
   const handleResolve = (incidencia: IncidenciaConEstudiante) => {
     if (!incidencia.esta_abierta) return;
 
-    const confirmed = window.confirm('¿Está seguro de cerrar esta incidencia?');
+    const confirmed = window.confirm('Esta seguro de cerrar esta incidencia?');
     if (!confirmed) return;
 
-    void resolverIncidencia(incidencia.id, incidencia.estudiante_id);
+    void closeIncident(incidencia.id);
   };
 
   return (
@@ -51,7 +48,7 @@ export const ClassroomHolderPage = () => {
       {!showForm && (
         <header className="chp-header">
           <div>
-            <h1 className="chp-title">Salón Titular</h1>
+            <h1 className="chp-title">Salon Titular</h1>
             <p className="chp-subtitle">Registro de incidencias</p>
           </div>
 
@@ -69,19 +66,27 @@ export const ClassroomHolderPage = () => {
       )}
 
       <div className="chp-content-stack">
-        {error && <div className="chp-error-banner">{error}</div>}
+        {(incidentsError || closeError) && (
+          <div className="chp-error-banner">{incidentsError ?? closeError}</div>
+        )}
 
         {showForm ? (
-          <IncidentForm
-            onSubmit={registrarIncidencia}
+          <NewIncidentForm
             onCancel={() => {
               setShowForm(false);
             }}
-            onStudentLookup={cargarEstudiante}
-            isLoading={isLoading}
+            onSuccess={() => {
+              refetchIncidents();
+              setShowForm(false);
+            }}
           />
         ) : (
-          <IncidentTable incidencias={incidencias} onResolve={handleResolve} />
+          <IncidentTable
+            incidencias={incidents}
+            onResolve={handleResolve}
+            isLoading={incidentsLoading || closeLoading}
+            hasLoadedIncidents={hasLoaded}
+          />
         )}
       </div>
     </div>

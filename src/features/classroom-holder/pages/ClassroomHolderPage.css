@@ -93,6 +93,47 @@
   font-weight: 700;
 }
 
+.chp-student-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.chp-student-label {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.chp-student-summary h2 {
+  margin: 0.25rem 0 0;
+  color: var(--text-primary);
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+}
+
+.chp-student-summary span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--status-gray-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--status-gray-bg);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .paz-salvo-banner--ok,
 .paz-salvo-banner--fail {
   padding: 1rem 1.25rem;
@@ -132,6 +173,11 @@
 
   .chp-header {
     align-items: stretch;
+    flex-direction: column;
+  }
+
+  .chp-student-summary {
+    align-items: flex-start;
     flex-direction: column;
   }
 
