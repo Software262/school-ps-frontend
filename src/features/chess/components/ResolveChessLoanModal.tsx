@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { resolveChessReturn } from '@/features/chess/api/chessApi';
+import { useState, type SyntheticEvent } from 'react';
+import { resolveChessBorrowNovelty } from '@/features/chess/api/chessApi';
 import type { ChessLoan } from '@/features/chess/model/types';
 
 interface Props {
@@ -10,16 +10,22 @@ interface Props {
 }
 
 export const ResolveChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props) => {
+  const [notas, setNotas] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
 
-  const handleResolve = async () => {
+  const handleResolve = async (e: SyntheticEvent) => {
+    e.preventDefault();
     if (!loan) return;
     try {
       setLoading(true);
       setError('');
-      await resolveChessReturn(loan.id);
+      await resolveChessBorrowNovelty(loan.id, {
+        notas_resolucion: notas,
+        usuario_auditoria_id: 1,
+      });
+      setNotas('');
       setDone(true);
       onSuccess();
     } catch (err: unknown) {
@@ -84,29 +90,48 @@ export const ResolveChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Prop
               </div>
             )}
             {error && <div className="error-alert">{error}</div>}
-            <div className="modal-body" style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
-                El estudiante ha repuesto el material faltante.
+            <form
+              onSubmit={(e) => {
+                void handleResolve(e);
+              }}
+              className="modal-body"
+            >
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                El estudiante ha repuesto el material faltante. Describa los detalles de la
+                reposición.
               </p>
-              <p style={{ color: 'var(--text-secondary)' }}>
-                Se marcará como completo y se liberará el paz y salvo.
-              </p>
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn-secondary" onClick={onClose} disabled={loading}>
-                Cancelar
-              </button>
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => {
-                  void handleResolve();
-                }}
-                disabled={loading}
-              >
-                {loading ? 'Procesando...' : 'Confirmar Reposición'}
-              </button>
-            </div>
+              <div className="input-group">
+                <label>Notas de Reposición</label>
+                <textarea
+                  value={notas}
+                  onChange={(e) => {
+                    setNotas(e.target.value);
+                  }}
+                  required
+                  disabled={loading}
+                  placeholder="Detalle cómo se repuso el material (mín. 5 caracteres)"
+                  rows={3}
+                  className="form-textarea"
+                />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={onClose}
+                  disabled={loading}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  disabled={loading || notas.length < 5}
+                >
+                  {loading ? 'Procesando...' : 'Confirmar Reposición'}
+                </button>
+              </div>
+            </form>
           </>
         )}
       </div>

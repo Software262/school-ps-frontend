@@ -27,9 +27,7 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
       const finalObservacion =
         observacion || (piezasDevueltas === 32 ? 'Devuelto en buen estado' : '');
       const res = await returnChessBorrow(loan.id, {
-        inventario_id: loan.inventario_id,
-        estudiante_id: loan.estudiante_id,
-        piezas_devueltas: piezasDevueltas,
+        conteo_piezas: piezasDevueltas,
         observacion: finalObservacion,
       });
       setResult({ mensaje: res.mensaje, novedad_creada: res.novedad_creada });

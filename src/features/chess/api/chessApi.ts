@@ -5,6 +5,7 @@ import type {
   CreateChessBorrowRequest,
   ReturnChessRequest,
   ReturnChessResponse,
+  ResolveBorrowNoveltyRequest,
 } from '@/features/chess/model/types';
 
 interface ApiWrapper<T> {
@@ -46,14 +47,14 @@ export const createChessBorrow = (data: CreateChessBorrowRequest) =>
     body: JSON.stringify(data),
   }).then((res) => res.data);
 
-export const returnChessBorrow = (borrowId: number, data: ReturnChessRequest) =>
-  fetchApi<ApiWrapper<ReturnChessResponse>>(`/chess/borrow/${String(borrowId)}/return`, {
-    method: 'PATCH',
+export const returnChessBorrow = (prestamoId: number, data: ReturnChessRequest) =>
+  fetchApi<ApiWrapper<ReturnChessResponse>>(`/chess/return/${String(prestamoId)}`, {
+    method: 'POST',
     body: JSON.stringify(data),
   }).then((res) => res.data);
 
-export const resolveChessReturn = (borrowId: number) =>
+export const resolveChessBorrowNovelty = (prestamoId: number, data: ResolveBorrowNoveltyRequest) =>
   fetchApi<ApiWrapper<{ id: number; mensaje: string }>>(
-    `/chess/borrow/${String(borrowId)}/resolve`,
-    { method: 'PATCH' },
+    `/chess/borrow/${String(prestamoId)}/resolve-novelty`,
+    { method: 'POST', body: JSON.stringify(data) },
   ).then((res) => res.data);

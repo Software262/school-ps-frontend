@@ -27,9 +27,7 @@ export interface CreateChessBorrowRequest {
 }
 
 export interface ReturnChessRequest {
-  inventario_id: number;
-  estudiante_id: number;
-  piezas_devueltas: number;
+  conteo_piezas: number;
   observacion: string;
 }
 
@@ -38,6 +36,11 @@ export interface ReturnChessResponse {
   estado_prestamo: boolean;
   novedad_creada: boolean;
   mensaje: string;
+}
+
+export interface ResolveBorrowNoveltyRequest {
+  notas_resolucion: string;
+  usuario_auditoria_id: number;
 }
 
 export interface ChessStats {
