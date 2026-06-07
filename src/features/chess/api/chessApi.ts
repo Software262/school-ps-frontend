@@ -13,12 +13,12 @@ export const getChessType = () =>
 
 export const getChessInventory = (typeId: number, page = 1, limit = 50) =>
   fetchApi<PaginatedResponse<ChessInventory>>(
-    `/inventory/items?type_id=${typeId}&page=${page}&limit=${limit}`,
+    `/inventory/items?type_id=${String(typeId)}&page=${String(page)}&limit=${String(limit)}`,
   );
 
 export const getChessBorrowings = (typeId: number, page = 1, limit = 50) =>
   fetchApi<PaginatedResponse<ChessLoan>>(
-    `/inventory/borrow?type_id=${typeId}&page=${page}&limit=${limit}`,
+    `/inventory/borrow?type_id=${String(typeId)}&page=${String(page)}&limit=${String(limit)}`,
   );
 
 export const createChessBorrow = (data: CreateChessBorrowRequest) =>
@@ -28,7 +28,7 @@ export const createChessBorrow = (data: CreateChessBorrowRequest) =>
   });
 
 export const returnChessBorrow = (borrowId: number, data: ReturnChessRequest) =>
-  fetchApi<ReturnChessResponse>(`/chess/borrow/${borrowId}/return`, {
+  fetchApi<ReturnChessResponse>(`/chess/borrow/${String(borrowId)}/return`, {
     method: 'PATCH',
     body: JSON.stringify(data),
   });

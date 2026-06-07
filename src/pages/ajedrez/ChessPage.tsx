@@ -29,13 +29,13 @@ export const ChessPage = () => {
   };
 
   const handleReturnSuccess = () => {
-    void refetchLoans();
-    void refetchInventory();
+    refetchLoans();
+    refetchInventory();
   };
 
   const handleNewLoanSuccess = () => {
-    void refetchLoans();
-    void refetchInventory();
+    refetchLoans();
+    refetchInventory();
   };
 
   return (
@@ -55,14 +55,13 @@ export const ChessPage = () => {
             inventory={inventory}
             selectedItem={selectedItem}
             onSelectItem={setSelectedItem}
-            onNewLoan={() => setIsNewLoanOpen(true)}
+            onNewLoan={() => {
+              setIsNewLoanOpen(true);
+            }}
           />
         )}
         {activeTab === 'loans' && (
-          <ChessLoansSection
-            loans={loans}
-            onReturnLoan={handleReturnLoan}
-          />
+          <ChessLoansSection loans={loans} onReturnLoan={handleReturnLoan} />
         )}
       </div>
 

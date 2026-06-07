@@ -17,7 +17,7 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!loan) return;
     try {
@@ -47,7 +47,13 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Devolver Material de Ajedrez" width={520}>
       {loan && (
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+        <p
+          style={{
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--text-secondary)',
+            marginBottom: '1rem',
+          }}
+        >
           Préstamo #{loan.id} — <strong>{loan.nombre_articulo}</strong>
         </p>
       )}
@@ -68,17 +74,23 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
             color: 'var(--status-red)',
           }}
         >
-          ⚠ El material está incompleto o dañado. Se generará una novedad y se bloqueará
-          el paz y salvo del estudiante.
+          ⚠ El material está incompleto o dañado. Se generará una novedad y se bloqueará el paz y
+          salvo del estudiante.
         </div>
       )}
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(e);
+        }}
+      >
         <div className="input-group">
           <label>Piezas Devueltas (máx 32)</label>
           <input
             type="number"
             value={piezasDevueltas}
-            onChange={(e) => setPiezasDevueltas(Number(e.target.value))}
+            onChange={(e) => {
+              setPiezasDevueltas(Number(e.target.value));
+            }}
             min={0}
             max={32}
             required
@@ -88,20 +100,28 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
         <div className="input-group" style={{ marginTop: '1rem' }}>
           <label>¿El reloj funciona correctamente?</label>
           <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <label
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+            >
               <input
                 type="radio"
                 checked={relojFunciona}
-                onChange={() => setRelojFunciona(true)}
+                onChange={() => {
+                  setRelojFunciona(true);
+                }}
                 disabled={loading}
               />
               Sí
             </label>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <label
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}
+            >
               <input
                 type="radio"
                 checked={!relojFunciona}
-                onChange={() => setRelojFunciona(false)}
+                onChange={() => {
+                  setRelojFunciona(false);
+                }}
                 disabled={loading}
               />
               No
@@ -112,7 +132,9 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
           <label>Observación</label>
           <textarea
             value={observacion}
-            onChange={(e) => setObservacion(e.target.value)}
+            onChange={(e) => {
+              setObservacion(e.target.value);
+            }}
             required
             disabled={loading}
             placeholder="Describa el estado del material devuelto"

@@ -18,9 +18,7 @@ export const ChessInventorySection = ({
     <div className="inventory-header">
       <div className="inventory-header-buttons">
         {selectedItem && (
-          <span className="inventory-selected-hint">
-            Seleccionado: {selectedItem.nombre}
-          </span>
+          <span className="inventory-selected-hint">Seleccionado: {selectedItem.nombre}</span>
         )}
         <button
           className="btn-new-item"
@@ -67,7 +65,9 @@ export const ChessInventorySection = ({
         { key: 'observacion', label: 'Observación' },
       ]}
       data={inventory}
-      onSelect={(row) => onSelectItem(selectedItem?.id === row.id ? null : row)}
+      onSelect={(row) => {
+        onSelectItem(selectedItem?.id === row.id ? null : row);
+      }}
       selectedRow={selectedItem ?? undefined}
       emptyMessage="No hay tableros de ajedrez registrados"
     />
