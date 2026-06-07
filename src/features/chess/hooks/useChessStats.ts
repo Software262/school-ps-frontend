@@ -1,17 +1,15 @@
 import { useMemo } from 'react';
-import type { ChessInventory, ChessStats } from '@/features/chess/model/types';
+import type { ChessInventory, ChessLoan, ChessStats } from '@/features/chess/model/types';
 
-export const useChessStats = (inventory: ChessInventory[]): ChessStats => {
+export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): ChessStats => {
   return useMemo(() => {
-    const totalItems = inventory.length;
-    const availableItems = inventory.filter((i) => i.estado_objeto === 'Disponible').length;
-    const borrowedItems = inventory.filter(
-      (i) => i.estado_objeto === 'Prestado' || i.cantidad === 0,
-    ).length;
-    const damagedItems = inventory.filter(
-      (i) => i.estado_objeto === 'Dañado' || i.estado_objeto === 'Incompleto',
-    ).length;
+    const totalItems = inventory.reduce((sum, i) => sum + i.cantidad, 0);
+    const borrowedItems = loans.filter((l) => l.estado_prestamo).length;
+    const damagedItems = inventory
+      .filter((i) => i.estado_objeto === 'Dañado' || i.estado_objeto === 'Incompleto')
+      .reduce((sum, i) => sum + i.cantidad, 0);
+    const availableItems = totalItems - borrowedItems - damagedItems;
 
     return { totalItems, availableItems, borrowedItems, damagedItems };
-  }, [inventory]);
+  }, [inventory, loans]);
 };

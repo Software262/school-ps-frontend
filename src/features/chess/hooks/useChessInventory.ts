@@ -12,7 +12,7 @@ export const useChessInventory = () => {
     getChessType()
       .then((typeData) => getChessInventory(typeData.id))
       .then((resp) => {
-        setInventory(resp.data);
+        setInventory(resp.items);
         setError('');
       })
       .catch((err: unknown) => {

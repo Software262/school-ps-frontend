@@ -20,24 +20,15 @@ export const ChessInventorySection = ({
         {selectedItem && (
           <span className="inventory-selected-hint">Seleccionado: {selectedItem.nombre}</span>
         )}
-        <button
-          className="btn-new-item"
-          onClick={onNewLoan}
-          disabled={!selectedItem}
-          style={{
-            opacity: !selectedItem ? 0.45 : 1,
-            cursor: !selectedItem ? 'not-allowed' : 'pointer',
-          }}
-        >
+        <button className="btn-new-item" onClick={onNewLoan} disabled={!selectedItem}>
           + Nuevo Préstamo
         </button>
       </div>
     </div>
     <DataTable
       columns={[
-        { key: 'id', label: 'ID' },
         { key: 'nombre', label: 'Nombre' },
-        { key: 'cantidad', label: 'Cantidad' },
+        { key: 'cantidad', label: 'Tableros' },
         {
           key: 'estado_objeto',
           label: 'Estado',
@@ -51,11 +42,8 @@ export const ChessInventorySection = ({
             };
             return (
               <span
-                style={{
-                  color: colorMap[estado] ?? '#555',
-                  fontWeight: 600,
-                  fontSize: 'var(--font-size-sm)',
-                }}
+                className="text-secondary"
+                style={{ color: colorMap[estado] ?? '#555', fontWeight: 600 }}
               >
                 {estado}
               </span>

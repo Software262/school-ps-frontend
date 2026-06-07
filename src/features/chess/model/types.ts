@@ -10,9 +10,10 @@ export interface ChessLoan {
   estudiante_id: number;
   nombre_articulo: string;
   nombre_estudiante: string;
-  fecha_salida: number;
-  fecha_devolucion?: number | null;
+  fecha_salida: string;
+  fecha_devolucion?: string | null;
   estado_prestamo: boolean;
+  novedad_pendiente: boolean;
   cantidad: number;
   observacion?: string | null;
 }
@@ -20,6 +21,7 @@ export interface ChessLoan {
 export interface CreateChessBorrowRequest {
   inventario_id: number;
   estudiante_id: number;
+  fecha_salida: string;
   cantidad: number;
   observacion?: string;
 }
@@ -28,7 +30,6 @@ export interface ReturnChessRequest {
   inventario_id: number;
   estudiante_id: number;
   piezas_devueltas: number;
-  reloj_funciona: boolean;
   observacion: string;
 }
 
@@ -44,19 +45,4 @@ export interface ChessStats {
   availableItems: number;
   borrowedItems: number;
   damagedItems: number;
-}
-
-export interface PaginatedResponse<T> {
-  statusCode: number;
-  data: T[];
-  message: string;
-  details: string | null;
-  pagination: {
-    current_page: number;
-    page_size: number;
-    total: number;
-    total_pages: number;
-    previous: boolean;
-    next: boolean;
-  };
 }

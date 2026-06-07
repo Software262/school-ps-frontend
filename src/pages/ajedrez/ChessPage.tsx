@@ -8,8 +8,11 @@ import {
   ChessLoansSection,
   NewChessLoanModal,
   ReturnChessLoanModal,
+  ResolveChessLoanModal,
 } from '@/features/chess/components';
 import type { ChessInventory, ChessLoan } from '@/features/chess/model/types';
+import '@/pages/sport/SportPage.css';
+import '@/pages/ajedrez/ChessPage.css';
 
 export const ChessPage = () => {
   const { inventory, refetch: refetchInventory } = useChessInventory();
@@ -19,13 +22,19 @@ export const ChessPage = () => {
   const [selectedItem, setSelectedItem] = useState<ChessInventory | null>(null);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
+  const [isResolveLoanOpen, setIsResolveLoanOpen] = useState(false);
   const [selectedLoan, setSelectedLoan] = useState<ChessLoan | null>(null);
 
-  const stats = useChessStats(inventory);
+  const stats = useChessStats(inventory, loans);
 
   const handleReturnLoan = (loan: ChessLoan) => {
     setSelectedLoan(loan);
     setIsReturnLoanOpen(true);
+  };
+
+  const handleResolveLoan = (loan: ChessLoan) => {
+    setSelectedLoan(loan);
+    setIsResolveLoanOpen(true);
   };
 
   const handleReturnSuccess = () => {
@@ -61,7 +70,11 @@ export const ChessPage = () => {
           />
         )}
         {activeTab === 'loans' && (
-          <ChessLoansSection loans={loans} onReturnLoan={handleReturnLoan} />
+          <ChessLoansSection
+            loans={loans}
+            onReturnLoan={handleReturnLoan}
+            onResolveLoan={handleResolveLoan}
+          />
         )}
       </div>
 
@@ -79,6 +92,15 @@ export const ChessPage = () => {
         loan={selectedLoan}
         onClose={() => {
           setIsReturnLoanOpen(false);
+          setSelectedLoan(null);
+        }}
+        onSuccess={handleReturnSuccess}
+      />
+      <ResolveChessLoanModal
+        isOpen={isResolveLoanOpen}
+        loan={selectedLoan}
+        onClose={() => {
+          setIsResolveLoanOpen(false);
           setSelectedLoan(null);
         }}
         onSuccess={handleReturnSuccess}

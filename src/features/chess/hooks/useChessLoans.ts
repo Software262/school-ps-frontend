@@ -12,7 +12,7 @@ export const useChessLoans = () => {
     getChessType()
       .then((typeData) => getChessBorrowings(typeData.id))
       .then((resp) => {
-        setLoans(resp.data);
+        setLoans(resp.items);
         setError('');
       })
       .catch((err: unknown) => {
