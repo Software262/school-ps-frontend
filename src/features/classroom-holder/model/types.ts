@@ -1,6 +1,6 @@
 // src/features/classroom-holder/model/types.ts
 
-export type TipoIncidencia = 'danio_material' | 'indisciplina' | 'inasistencia' | 'otro';
+export type TipoIncidencia = 'danio_material' | 'otro' | 'inasistencia' | 'indisciplina';
 
 export interface StudentInfo {
   id: number;

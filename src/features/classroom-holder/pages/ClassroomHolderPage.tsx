@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { IncidentForm } from '../components/IncidentForm';
 import { IncidentTable } from '../components/IncidentTable';
-import { RestrictedAlert } from '../components/RestrictedAlert';
 import { useClassroomHolder } from '../hooks/useClassroomHolder';
 import type { IncidenciaConEstudiante } from '../model/types';
 import './ClassroomHolderPage.css';
@@ -11,11 +9,9 @@ import './ClassroomHolderPage.css';
 const DEFAULT_STUDENT_ID = 1;
 
 export const ClassroomHolderPage = () => {
-  const navigate = useNavigate();
   const [showForm, setShowForm] = useState(false);
   const {
     incidencias,
-    pazYSalvoStatus,
     isLoading,
     error,
     registrarIncidencia,
@@ -39,47 +35,41 @@ export const ClassroomHolderPage = () => {
 
   return (
     <div className="chp-root">
-      <button
-        type="button"
-        className="chp-back-button"
-        onClick={() => {
-          void navigate({ to: '/dashboard' });
-        }}
-      >
-        <ArrowLeft size={18} aria-hidden="true" />
-        Volver
-      </button>
+      {showForm && (
+        <button
+          type="button"
+          className="chp-back-button"
+          onClick={() => {
+            setShowForm(false);
+          }}
+        >
+          <ArrowLeft size={18} aria-hidden="true" />
+          Volver
+        </button>
+      )}
 
-      <header className="chp-header">
-        <div>
-          <h1 className="chp-title">Salón Titular</h1>
-          <p className="chp-subtitle">Registro de incidencias</p>
-        </div>
-        {!showForm && (
+      {!showForm && (
+        <header className="chp-header">
+          <div>
+            <h1 className="chp-title">Salón Titular</h1>
+            <p className="chp-subtitle">Registro de incidencias</p>
+          </div>
+
           <button
             type="button"
+            className="btn-new-incident"
             onClick={() => {
               setShowForm(true);
             }}
-            className="btn-new-incident"
           >
             <Plus size={19} aria-hidden="true" />
             Nueva Incidencia
           </button>
-        )}
-      </header>
+        </header>
+      )}
 
       <div className="chp-content-stack">
-        <RestrictedAlert />
-
         {error && <div className="chp-error-banner">{error}</div>}
-
-        {pazYSalvoStatus && (
-          <div className={pazYSalvoStatus.cumple_paz_y_salvo ? 'paz-salvo-banner--ok' : 'paz-salvo-banner--fail'}>
-            <p className="paz-salvo-label">Estado Paz y Salvo</p>
-            <p className="paz-salvo-message">{pazYSalvoStatus.mensaje}</p>
-          </div>
-        )}
 
         {showForm ? (
           <IncidentForm

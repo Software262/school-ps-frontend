@@ -9,10 +9,10 @@ interface Props {
 }
 
 const incidentTypeLabels: Record<TipoIncidencia, string> = {
-  danio_material: 'Daño Material',
-  indisciplina: 'Indisciplina',
-  inasistencia: 'Inasistencia',
+  danio_material: 'Daño',
   otro: 'Otro',
+  inasistencia: 'Inasistencia',
+  indisciplina: 'Indisciplina',
 };
 
 const formatDate = (date: string): string =>
@@ -55,48 +55,52 @@ export const IncidentTable = ({ incidencias, onResolve }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {incidencias.map((incidencia) => (
-                <tr key={incidencia.id} className="incident-table-tr">
-                  <td className="incident-table-td incident-table-code">{incidencia.estudiante_id}</td>
-                  <td className="incident-table-td incident-table-student">{incidencia.estudiante_nombre}</td>
-                  <td className="incident-table-td">{incidencia.grado_nombre ?? 'Sin curso'}</td>
-                  <td className="incident-table-td">{incidentTypeLabels[incidencia.tipo_incidencia]}</td>
-                  <td className="incident-table-td incident-table-description">{incidencia.descripcion}</td>
-                  <td className="incident-table-td">{formatDate(incidencia.fecha)}</td>
-                  <td className="incident-table-td">
-                    <span className={incidencia.esta_abierta ? 'status-badge--pending' : 'status-badge--resolved'}>
-                      {incidencia.esta_abierta ? 'Pendiente' : 'Resuelto'}
-                    </span>
-                  </td>
-                  <td className="incident-table-td">
-                    <div className="incident-actions">
-                      <button
-                        type="button"
-                        className="incident-action-button"
-                        onClick={() => {
-                          setSelectedIncident(incidencia);
-                        }}
-                        aria-label="Ver incidencia"
-                        title="Ver incidencia"
-                      >
-                        <Eye size={16} aria-hidden="true" />
-                      </button>
-                      <button
-                        type="button"
-                        className="incident-action-button incident-action-button--resolve"
-                        onClick={() => {
-                          onResolve(incidencia);
-                        }}
-                        disabled={!incidencia.esta_abierta}
-                        aria-label="Resolver incidencia"
-                        title="Resolver incidencia"
-                      >
-                        <Check size={16} aria-hidden="true" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {incidencias.map((incidencia) => {
+                const studentName = incidencia.estudiante_nombre || `Estudiante #${incidencia.estudiante_id}`;
+
+                return (
+                  <tr key={incidencia.id} className="incident-table-tr">
+                    <td className="incident-table-td incident-table-code">{incidencia.estudiante_id}</td>
+                    <td className="incident-table-td incident-table-student">{studentName}</td>
+                    <td className="incident-table-td">{incidencia.grado_nombre ?? 'Sin curso'}</td>
+                    <td className="incident-table-td">{incidentTypeLabels[incidencia.tipo_incidencia]}</td>
+                    <td className="incident-table-td incident-table-description">{incidencia.descripcion}</td>
+                    <td className="incident-table-td">{formatDate(incidencia.fecha)}</td>
+                    <td className="incident-table-td">
+                      <span className={incidencia.esta_abierta ? 'status-badge--pending' : 'status-badge--resolved'}>
+                        {incidencia.esta_abierta ? 'Pendiente' : 'Resuelto'}
+                      </span>
+                    </td>
+                    <td className="incident-table-td">
+                      <div className="incident-actions">
+                        <button
+                          type="button"
+                          className="incident-action-button"
+                          onClick={() => {
+                            setSelectedIncident(incidencia);
+                          }}
+                          aria-label="Ver incidencia"
+                          title="Ver incidencia"
+                        >
+                          <Eye size={16} aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
+                          className="incident-action-button incident-action-button--resolve"
+                          onClick={() => {
+                            onResolve(incidencia);
+                          }}
+                          disabled={!incidencia.esta_abierta}
+                          aria-label="Resolver incidencia"
+                          title="Resolver incidencia"
+                        >
+                          <Check size={16} aria-hidden="true" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

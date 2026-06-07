@@ -45,4 +45,12 @@ export const classroomHolderApi = {
     if (!response.ok) throw new Error('Error al obtener el estudiante');
     return response.json();
   },
+
+  // 🌟 NUEVA FUNCIÓN: Llama a tu propio backend para buscar por nombre
+  buscarEstudiantes: async (query: string): Promise<Array<{id: number, nombre: string, grado_nombre: string}>> => {
+    if (!query) return [];
+    const response = await fetch(`${CLASSROOM_HOLDER_URL}/buscar-estudiantes?q=${query}`);
+    if (!response.ok) return [];
+    return response.json();
+  },
 };

@@ -83,35 +83,6 @@
   transform: translateY(1px);
 }
 
-.restricted-alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--status-yellow-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--status-yellow-bg);
-}
-
-.restricted-alert-icon {
-  flex: 0 0 auto;
-  margin-top: 0.1rem;
-  color: var(--status-yellow);
-}
-
-.restricted-alert-title {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: var(--font-size-md);
-  font-weight: 800;
-}
-
-.restricted-alert-desc {
-  margin: 0.25rem 0 0;
-  color: var(--text-secondary);
-  font-size: var(--font-size-md);
-}
-
 .chp-error-banner {
   padding: 0.9rem 1rem;
   border: 1px solid var(--status-red-border);
