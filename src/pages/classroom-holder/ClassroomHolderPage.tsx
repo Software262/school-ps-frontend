@@ -3,7 +3,7 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import { useCloseClassroomIncident } from '@/features/close-classroom-incident';
 import { IncidentTable, useLoadClassroomIncidents } from '@/features/load-classroom-incidents';
 import { NewIncidentForm } from '@/features/new-classroom-incident';
-import type { IncidenciaConEstudiante } from '../model/types';
+import type { IncidenciaConEstudiante } from '@/features/classroom-holder/model/types';
 import './ClassroomHolderPage.css';
 
 export const ClassroomHolderPage = () => {
