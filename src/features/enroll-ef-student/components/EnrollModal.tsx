@@ -1,19 +1,8 @@
-import { useState, useEffect, type SubmitEvent } from 'react';
 import { DollarSign, Hash } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
-import { enrollStudent } from '../api/escuelasFormacionApi';
-import { RESPONSABLE_USUARIO_ID } from '../model/constants';
-import type { Period, Program, Student } from '../model/types';
-
-interface EnrollModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  student: Student | null;
-  programs: Program[];
-  periods: Period[];
-  onSuccess: (enrollmentId: number) => void;
-}
+import type { Program, Period, Student } from '@/features/escuelas-formacion/model/types';
+import { useEnrollStudent } from '../hooks/useEnrollStudent';
 
 const MESES = [
   'Enero',
@@ -30,6 +19,15 @@ const MESES = [
   'Diciembre',
 ];
 
+interface EnrollModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  student: Student | null;
+  programs: Program[];
+  periods: Period[];
+  onSuccess: (enrollmentId: number) => void;
+}
+
 export const EnrollModal = ({
   isOpen,
   onClose,
@@ -38,82 +36,26 @@ export const EnrollModal = ({
   periods,
   onSuccess,
 }: EnrollModalProps) => {
-  const [complementarioId, setComplementarioId] = useState('');
-  const [periodoId, setPeriodoId] = useState('');
-  const [mes, setMes] = useState('');
-  const [observaciones, setObservaciones] = useState('');
-  const [valorAcordado, setValorAcordado] = useState('');
-  const [numeroComprobante, setNumeroComprobante] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const selectedProgram = programs.find((p) => p.id === Number(complementarioId));
-
-  // set the program and pre-fill its base price (still editable afterwards)
-  function handleProgramChange(value: string) {
-    setComplementarioId(value);
-    const prog = programs.find((p) => p.id === Number(value));
-    setValorAcordado(prog ? String(prog.valor) : '');
-  }
-
-  // auto-select first period when the modal opens (deferred to keep the effect body pure)
-  useEffect(() => {
-    if (!isOpen || periods.length === 0 || periodoId) return;
-    const t = setTimeout(() => {
-      setPeriodoId(String(periods[0].id));
-    }, 0);
-    return () => {
-      clearTimeout(t);
-    };
-  }, [isOpen, periods, periodoId]);
-
-  function reset() {
-    setComplementarioId('');
-    setPeriodoId('');
-    setMes('');
-    setObservaciones('');
-    setValorAcordado('');
-    setNumeroComprobante('');
-    setError(null);
-  }
+  const {
+    form,
+    loading,
+    error,
+    selectedProgram,
+    isGratis,
+    canSubmit,
+    handleProgramChange,
+    handleChange,
+    handleSubmit,
+    reset,
+  } = useEnrollStudent(student, programs, periods, isOpen, onSuccess);
 
   function handleClose() {
     reset();
     onClose();
   }
 
-  const valorNum = Number(valorAcordado);
-  const isGratis = valorNum === 0;
-
-  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!student) return;
-    setError(null);
-    setLoading(true);
-    try {
-      const created = await enrollStudent({
-        estudiante_id: student.id,
-        complementario_id: Number(complementarioId),
-        periodo_id: Number(periodoId),
-        mes,
-        usuario_id: RESPONSABLE_USUARIO_ID,
-        observaciones: observaciones.trim() || undefined,
-        valor_acordado: valorNum,
-        numero_comprobante: numeroComprobante.trim() || undefined,
-      });
-      reset();
-      // parent refreshes the list and opens the printable receipt for this record
-      onSuccess(created.id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al inscribir el estudiante');
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Registrar Inscripción" width={560}>
-      {/* student info banner */}
       {student && (
         <div className="enroll-student-banner">
           <div className="enroll-student-banner-label">Estudiante seleccionado</div>
@@ -124,9 +66,14 @@ export const EnrollModal = ({
 
       {error && <div className="alert alert-error">{error}</div>}
 
-      <form id="form-enroll-student" onSubmit={(e) => void handleSubmit(e)}>
+      <form
+        id="form-enroll-student"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void handleSubmit();
+        }}
+      >
         <div className="enroll-form-grid">
-          {/* programa */}
           <div className="form-group">
             <label className="form-label" htmlFor="enroll-programa">
               Programa <span style={{ color: 'var(--status-red)' }}>*</span>
@@ -134,7 +81,7 @@ export const EnrollModal = ({
             <select
               id="enroll-programa"
               className="form-input"
-              value={complementarioId}
+              value={form.complementarioId}
               onChange={(e) => {
                 handleProgramChange(e.target.value);
               }}
@@ -150,7 +97,6 @@ export const EnrollModal = ({
             </select>
           </div>
 
-          {/* período */}
           <div className="form-group">
             <label className="form-label" htmlFor="enroll-periodo">
               Período académico <span style={{ color: 'var(--status-red)' }}>*</span>
@@ -158,9 +104,9 @@ export const EnrollModal = ({
             <select
               id="enroll-periodo"
               className="form-input"
-              value={periodoId}
+              value={form.periodoId}
               onChange={(e) => {
-                setPeriodoId(e.target.value);
+                handleChange('periodoId', e.target.value);
               }}
               required
             >
@@ -173,7 +119,6 @@ export const EnrollModal = ({
             </select>
           </div>
 
-          {/* mes */}
           <div className="form-group">
             <label className="form-label" htmlFor="enroll-mes">
               Mes de inicio <span style={{ color: 'var(--status-red)' }}>*</span>
@@ -181,9 +126,9 @@ export const EnrollModal = ({
             <select
               id="enroll-mes"
               className="form-input"
-              value={mes}
+              value={form.mes}
               onChange={(e) => {
-                setMes(e.target.value);
+                handleChange('mes', e.target.value);
               }}
               required
             >
@@ -196,7 +141,6 @@ export const EnrollModal = ({
             </select>
           </div>
 
-          {/* valor matrícula */}
           <div className="form-group">
             <label className="form-label" htmlFor="enroll-valor">
               Valor matrícula (COP)
@@ -209,9 +153,9 @@ export const EnrollModal = ({
                 type="number"
                 min={0}
                 placeholder="0"
-                value={valorAcordado}
+                value={form.valorAcordado}
                 onChange={(e) => {
-                  setValorAcordado(e.target.value);
+                  handleChange('valorAcordado', e.target.value);
                 }}
               />
             </div>
@@ -224,7 +168,6 @@ export const EnrollModal = ({
             )}
           </div>
 
-          {/* comprobante físico */}
           <div className="form-group">
             <label className="form-label" htmlFor="enroll-comprobante">
               N.° Comprobante Físico
@@ -237,16 +180,15 @@ export const EnrollModal = ({
                 type="text"
                 placeholder="Ej: 2153000000167125"
                 maxLength={100}
-                value={numeroComprobante}
+                value={form.numeroComprobante}
                 onChange={(e) => {
-                  setNumeroComprobante(e.target.value);
+                  handleChange('numeroComprobante', e.target.value);
                 }}
               />
             </div>
           </div>
         </div>
 
-        {/* observaciones full-width */}
         <div className="form-group">
           <label className="form-label" htmlFor="enroll-obs">
             Observaciones
@@ -255,9 +197,9 @@ export const EnrollModal = ({
             id="enroll-obs"
             className="form-textarea"
             placeholder="Notas adicionales sobre la inscripción…"
-            value={observaciones}
+            value={form.observaciones}
             onChange={(e) => {
-              setObservaciones(e.target.value);
+              handleChange('observaciones', e.target.value);
             }}
             maxLength={400}
             rows={2}
@@ -270,7 +212,7 @@ export const EnrollModal = ({
               display: 'block',
             }}
           >
-            {observaciones.length}/400
+            {form.observaciones.length}/400
           </span>
         </div>
 
@@ -287,7 +229,7 @@ export const EnrollModal = ({
             id="btn-submit-enroll"
             type="submit"
             className="btn btn-primary"
-            disabled={loading || !complementarioId || !periodoId || !mes}
+            disabled={loading || !canSubmit}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
             {loading ? 'Guardando…' : 'Guardar Inscripción'}

@@ -1,31 +1,9 @@
-import { useState, type SubmitEvent } from 'react';
 import { CalendarDays, LogOut, User, AlertTriangle } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
-import { withdrawStudent } from '../api/escuelasFormacionApi';
-import { RESPONSABLE_USUARIO_ID } from '../model/constants';
-import type { Enrollment } from '../model/types';
+import type { Enrollment } from '@/features/escuelas-formacion/model/types';
+import { useWithdrawStudent, MOTIVOS } from '../hooks/useWithdrawStudent';
 import './WithdrawModal.css';
-
-interface WithdrawModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  enrollment: Enrollment | null;
-  studentName: string;
-  programName: string;
-  onSuccess: () => void;
-}
-
-// predefined reasons keep the traceability field consistent across withdrawals
-const MOTIVOS = [
-  'Retiro voluntario',
-  'Cambio de institución',
-  'Motivos económicos',
-  'Bajo rendimiento o desempeño',
-  'Motivos de salud',
-  'Finalización del programa',
-  'Otro',
-];
 
 function money(value: number): string {
   return `$${value.toLocaleString('es-CO')}`;
@@ -39,6 +17,15 @@ function fmt(iso: string): string {
   });
 }
 
+interface WithdrawModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  enrollment: Enrollment | null;
+  studentName: string;
+  programName: string;
+  onSuccess: () => void;
+}
+
 export const WithdrawModal = ({
   isOpen,
   onClose,
@@ -47,53 +34,25 @@ export const WithdrawModal = ({
   programName,
   onSuccess,
 }: WithdrawModalProps) => {
-  const [motivoReason, setMotivoReason] = useState('');
-  const [customReason, setCustomReason] = useState('');
-  const [observaciones, setObservaciones] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  // captured once so render stays pure (no new Date() during render)
-  const [hoy] = useState(() =>
-    new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }),
-  );
-
-  const isOtro = motivoReason === 'Otro';
-  const baseReason = isOtro ? customReason.trim() : motivoReason;
-  // the api stores a single motivo field; fold the optional note into it for traceability
-  const finalMotivo = observaciones.trim() ? `${baseReason} — ${observaciones.trim()}` : baseReason;
-  const canSubmit = baseReason.length >= 5 && finalMotivo.length >= 5;
-
-  function reset() {
-    setMotivoReason('');
-    setCustomReason('');
-    setObservaciones('');
-    setError(null);
-  }
+  const {
+    motivoReason,
+    setMotivoReason,
+    customReason,
+    setCustomReason,
+    observaciones,
+    setObservaciones,
+    loading,
+    error,
+    isOtro,
+    canSubmit,
+    hoy,
+    handleSubmit,
+    reset,
+  } = useWithdrawStudent(enrollment, onSuccess, onClose);
 
   function handleClose() {
     reset();
     onClose();
-  }
-
-  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!enrollment || !canSubmit) return;
-    setError(null);
-    setLoading(true);
-    try {
-      await withdrawStudent({
-        enrollment_id: enrollment.id,
-        motivo: finalMotivo,
-        usuario_id: RESPONSABLE_USUARIO_ID,
-      });
-      reset();
-      onSuccess();
-      onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al registrar el retiro');
-    } finally {
-      setLoading(false);
-    }
   }
 
   if (!enrollment) return null;
@@ -105,8 +64,13 @@ export const WithdrawModal = ({
     <Modal isOpen={isOpen} onClose={handleClose} title="Retirar Estudiante" width={620}>
       {error && <div className="alert alert-error">{error}</div>}
 
-      <form id="form-withdraw-student" onSubmit={(e) => void handleSubmit(e)}>
-        {/* selected student details */}
+      <form
+        id="form-withdraw-student"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void handleSubmit();
+        }}
+      >
         <section className="wd-section">
           <header className="wd-section-header">
             <User size={14} />
@@ -140,7 +104,6 @@ export const WithdrawModal = ({
           </div>
         </section>
 
-        {/* obligation summary (this module is single-obligation, not monthly pension) */}
         <section className="wd-section">
           <header className="wd-section-header">
             <span>Resumen de la obligación</span>
@@ -174,7 +137,6 @@ export const WithdrawModal = ({
           )}
         </section>
 
-        {/* withdrawal info */}
         <section className="wd-section">
           <header className="wd-section-header">
             <LogOut size={14} />

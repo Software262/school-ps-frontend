@@ -1,0 +1,1 @@
+export { ComprobanteModal } from './components';

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Printer } from 'lucide-react';
-import type { Enrollment, Program } from '../model/types';
+import type { Enrollment, Program } from '@/features/escuelas-formacion/model/types';
 import './ComprobanteModal.css';
 
-// served from public/ — referenced by url, not imported
 const ESCUDO_URL = '/escudo.png';
 
 interface ComprobanteModalProps {
@@ -33,7 +32,6 @@ export const ComprobanteModal = ({
   program,
   periodoAnio,
 }: ComprobanteModalProps) => {
-  // captured when the receipt opens so the render stays pure
   const [printedAt, setPrintedAt] = useState('');
 
   const handleEsc = useCallback(
@@ -45,7 +43,6 @@ export const ComprobanteModal = ({
 
   useEffect(() => {
     if (!isOpen) return;
-    // deferred to keep the effect body free of synchronous setState
     const t = setTimeout(() => {
       setPrintedAt(new Date().toLocaleString('es-CO'));
     }, 0);
@@ -87,7 +84,6 @@ export const ComprobanteModal = ({
         aria-modal="true"
         aria-label="Comprobante de inscripción"
       >
-        {/* screen-only actions */}
         <div className="comp-actions no-print">
           <span className="comp-actions-title">Comprobante de inscripción</span>
           <div style={{ display: 'flex', gap: 8 }}>
@@ -106,13 +102,10 @@ export const ComprobanteModal = ({
           </div>
         </div>
 
-        {/* printable receipt */}
         <div className="comp-receipt" id="comp-receipt-print">
-          {/* watermark */}
           {pagado && <div className="comp-watermark">YA FUE HECHO EL PAGO</div>}
           {retirado && <div className="comp-watermark comp-watermark--gray">RETIRADO</div>}
 
-          {/* header band */}
           <div className="comp-header">
             <img
               className="comp-logo-img"
@@ -129,7 +122,6 @@ export const ComprobanteModal = ({
             </div>
           </div>
 
-          {/* boxed data grid */}
           <div className="comp-box">
             <div className="comp-box-row">
               <div className="comp-field comp-field--grow">
@@ -177,7 +169,6 @@ export const ComprobanteModal = ({
             </div>
           </div>
 
-          {/* charges table */}
           <table className="comp-table">
             <thead>
               <tr>
@@ -210,7 +201,6 @@ export const ComprobanteModal = ({
             </tbody>
           </table>
 
-          {/* balance footer */}
           <div className="comp-balance-row">
             <span className="comp-balance-label">Saldo pendiente</span>
             <span
@@ -220,7 +210,6 @@ export const ComprobanteModal = ({
             </span>
           </div>
 
-          {/* status + signature footer */}
           <div className="comp-footer">
             <div className="comp-status-block">
               <div className={`comp-status-badge ${estadoClass}`}>{estadoLabel}</div>

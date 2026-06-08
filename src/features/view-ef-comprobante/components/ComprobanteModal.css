@@ -353,12 +353,10 @@
 
 /* print styles: isolate the receipt so nothing else on the page prints */
 @media print {
-  /* hide the whole app... */
   body * {
     visibility: hidden;
   }
 
-  /* ...then reveal only the receipt panel */
   .comp-panel,
   .comp-panel * {
     visibility: visible;
@@ -391,7 +389,6 @@
     padding: 16px;
   }
 
-  /* keep brand colors and the watermark in print */
   .comp-header,
   .comp-table thead th,
   .comp-logo-img,

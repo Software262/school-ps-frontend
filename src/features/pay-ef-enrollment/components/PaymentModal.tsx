@@ -1,9 +1,7 @@
-import { useState, type SubmitEvent } from 'react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
-import { registerPayment } from '../api/escuelasFormacionApi';
-import { RESPONSABLE_USUARIO_ID } from '../model/constants';
-import type { Enrollment } from '../model/types';
+import type { Enrollment } from '@/features/escuelas-formacion/model/types';
+import { usePayEnrollment } from '../hooks/usePayEnrollment';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -22,43 +20,12 @@ export const PaymentModal = ({
   programName,
   onSuccess,
 }: PaymentModalProps) => {
-  const [monto, setMonto] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  function reset() {
-    setMonto('');
-    setError(null);
-  }
+  const { monto, setMonto, loading, error, montoNum, saldo, exceeds, handleSubmit, reset } =
+    usePayEnrollment(enrollment, onSuccess);
 
   function handleClose() {
     reset();
     onClose();
-  }
-
-  const montoNum = Number(monto);
-  const saldo = enrollment?.saldo_pendiente ?? 0;
-  const exceeds = montoNum > saldo;
-
-  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!enrollment) return;
-    setError(null);
-    setLoading(true);
-    try {
-      await registerPayment({
-        enrollment_id: enrollment.id,
-        monto: montoNum,
-        usuario_id: RESPONSABLE_USUARIO_ID,
-      });
-      reset();
-      // parent refreshes the list and opens the printable receipt for this record
-      onSuccess(enrollment.id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al registrar el pago');
-    } finally {
-      setLoading(false);
-    }
   }
 
   return (
@@ -87,7 +54,13 @@ export const PaymentModal = ({
 
       {error && <div className="alert alert-error">{error}</div>}
 
-      <form id="form-register-payment" onSubmit={(e) => void handleSubmit(e)}>
+      <form
+        id="form-register-payment"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void handleSubmit();
+        }}
+      >
         <div className="form-group">
           <label className="form-label" htmlFor="pay-monto">
             Monto a pagar (COP) <span style={{ color: 'var(--status-red)' }}>*</span>

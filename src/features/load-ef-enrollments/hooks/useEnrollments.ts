@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { getEnrollments } from '../api/escuelasFormacionApi';
-import type { Enrollment } from '../model/types';
+import { getEnrollments } from '../api/get-enrollments';
+import type { Enrollment } from '@/features/escuelas-formacion/model/types';
 
 export const useEnrollments = () => {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
