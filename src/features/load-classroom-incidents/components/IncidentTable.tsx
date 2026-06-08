@@ -84,8 +84,7 @@ export const IncidentTable = ({
             </thead>
             <tbody>
               {incidencias.map((incidencia) => {
-                const studentName =
-                  incidencia.estudiante_nombre ?? `Estudiante #${String(incidencia.estudiante_id)}`;
+                const studentName = incidencia.estudiante_nombre;
 
                 return (
                   <tr key={incidencia.id} className="incident-table-tr">

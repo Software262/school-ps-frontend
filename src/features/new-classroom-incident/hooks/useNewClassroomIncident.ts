@@ -26,13 +26,11 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
   return fallback;
 };
 
-const omitError = <Key extends keyof IncidentFormErrors>(
+const omitError = (
   errors: IncidentFormErrors,
-  field: Key,
-): IncidentFormErrors => {
-  const { [field]: _removed, ...nextErrors } = errors;
-  return nextErrors;
-};
+  field: keyof IncidentFormErrors,
+): IncidentFormErrors =>
+  Object.fromEntries(Object.entries(errors).filter(([key]) => key !== field)) as IncidentFormErrors;
 
 export const useNewClassroomIncident = (onSuccess: () => void) => {
   const [fields, setFields] = useState<IncidentFormFields>(INITIAL_FIELDS);
@@ -96,7 +94,7 @@ export const useNewClassroomIncident = (onSuccess: () => void) => {
     setFields((current) => ({
       ...current,
       estudiante_id: String(student.id),
-      curso_grupo: student.grado_nombre ?? 'Sin curso',
+      curso_grupo: student.grado_nombre,
     }));
     setIsDropdownOpen(false);
     clearError('estudiante_id');
