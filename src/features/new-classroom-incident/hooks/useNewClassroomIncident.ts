@@ -26,6 +26,14 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
   return fallback;
 };
 
+const omitError = <Key extends keyof IncidentFormErrors>(
+  errors: IncidentFormErrors,
+  field: Key,
+): IncidentFormErrors => {
+  const { [field]: _removed, ...nextErrors } = errors;
+  return nextErrors;
+};
+
 export const useNewClassroomIncident = (onSuccess: () => void) => {
   const [fields, setFields] = useState<IncidentFormFields>(INITIAL_FIELDS);
   const [errors, setErrors] = useState<IncidentFormErrors>({});
@@ -64,11 +72,7 @@ export const useNewClassroomIncident = (onSuccess: () => void) => {
   }, [clearStudentResults, searchStudents, searchTerm]);
 
   const clearError = (field: keyof IncidentFormErrors) => {
-    setErrors((current) => {
-      const nextErrors = { ...current };
-      delete nextErrors[field];
-      return nextErrors;
-    });
+    setErrors((current) => omitError(current, field));
   };
 
   const handleChange = (field: keyof IncidentFormFields, value: string) => {
@@ -92,7 +96,7 @@ export const useNewClassroomIncident = (onSuccess: () => void) => {
     setFields((current) => ({
       ...current,
       estudiante_id: String(student.id),
-      curso_grupo: student.grado_nombre || 'Sin curso',
+      curso_grupo: student.grado_nombre ?? 'Sin curso',
     }));
     setIsDropdownOpen(false);
     clearError('estudiante_id');

@@ -4,7 +4,7 @@ import type { PazYSalvoResponse } from '@/features/classroom-holder/model/types'
 
 export const verifyClassroomClearance = async (studentId: number): Promise<PazYSalvoResponse> => {
   return withTimeout((signal) =>
-    fetchApi<PazYSalvoResponse>(`/classroom-holder/paz-y-salvo/verificar/${studentId}`, {
+    fetchApi<PazYSalvoResponse>(`/classroom-holder/paz-y-salvo/verificar/${String(studentId)}`, {
       headers: getAuthHeaders(),
       signal,
     }),

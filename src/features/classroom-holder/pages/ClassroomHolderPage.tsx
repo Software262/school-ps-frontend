@@ -66,7 +66,7 @@ export const ClassroomHolderPage = () => {
       )}
 
       <div className="chp-content-stack">
-        {(incidentsError || closeError) && (
+        {(incidentsError ?? closeError) && (
           <div className="chp-error-banner">{incidentsError ?? closeError}</div>
         )}
 

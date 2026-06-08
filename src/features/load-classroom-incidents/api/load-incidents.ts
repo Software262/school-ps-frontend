@@ -9,7 +9,7 @@ import type {
 
 const loadStudent = async (studentId: number): Promise<StudentInfo> => {
   const balance = await withTimeout((signal) =>
-    fetchApi<EnrollmentBalanceResponse>(`/enrollment/students/${studentId}/balance`, {
+    fetchApi<EnrollmentBalanceResponse>(`/enrollment/students/${String(studentId)}/balance`, {
       headers: getAuthHeaders(),
       signal,
     }),
@@ -32,7 +32,7 @@ const enrichIncidents = async (items: Incidencia[]): Promise<IncidenciaConEstudi
     const student = students[index];
     return {
       ...incident,
-      estudiante_nombre: student?.nombre ?? `Estudiante #${incident.estudiante_id}`,
+      estudiante_nombre: student?.nombre ?? `Estudiante #${String(incident.estudiante_id)}`,
       grado_nombre: student?.grado_nombre,
     };
   });

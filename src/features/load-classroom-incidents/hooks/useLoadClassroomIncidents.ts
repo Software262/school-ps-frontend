@@ -15,7 +15,6 @@ export const useLoadClassroomIncidents = () => {
   const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
-    setLoading(true);
     loadClassroomIncidents()
       .then((items) => {
         setIncidents(items);

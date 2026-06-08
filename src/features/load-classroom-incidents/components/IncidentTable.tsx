@@ -85,7 +85,7 @@ export const IncidentTable = ({
             <tbody>
               {incidencias.map((incidencia) => {
                 const studentName =
-                  incidencia.estudiante_nombre || `Estudiante #${incidencia.estudiante_id}`;
+                  incidencia.estudiante_nombre ?? `Estudiante #${String(incidencia.estudiante_id)}`;
 
                 return (
                   <tr key={incidencia.id} className="incident-table-tr">
@@ -157,7 +157,7 @@ export const IncidentTable = ({
           >
             <div className="incident-modal-header">
               <div>
-                <p className="incident-modal-eyebrow">Incidencia #{selectedIncident.id}</p>
+                <p className="incident-modal-eyebrow">Incidencia #{String(selectedIncident.id)}</p>
                 <h2 id="incident-modal-title">Detalle de incidencia</h2>
               </div>
               <button

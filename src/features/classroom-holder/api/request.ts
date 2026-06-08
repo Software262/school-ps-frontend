@@ -15,7 +15,7 @@ export const withTimeout = async <T>(request: (signal: AbortSignal) => Promise<T
     return await request(controller.signal);
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new Error('La solicitud tardo demasiado. Intente nuevamente.');
+      throw new Error('La solicitud tardo demasiado. Intente nuevamente.', { cause: error });
     }
     throw error;
   } finally {
