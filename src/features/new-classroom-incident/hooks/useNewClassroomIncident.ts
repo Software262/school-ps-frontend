@@ -30,7 +30,7 @@ const omitError = (
   errors: IncidentFormErrors,
   field: keyof IncidentFormErrors,
 ): IncidentFormErrors =>
-  Object.fromEntries(Object.entries(errors).filter(([key]) => key !== field)) as IncidentFormErrors;
+  Object.fromEntries(Object.entries(errors).filter(([key]) => key !== field));
 
 export const useNewClassroomIncident = (onSuccess: () => void) => {
   const [fields, setFields] = useState<IncidentFormFields>(INITIAL_FIELDS);
