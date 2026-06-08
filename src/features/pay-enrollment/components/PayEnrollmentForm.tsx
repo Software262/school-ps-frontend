@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { DollarSign, Check } from 'lucide-react';
 import { usePayEnrollment } from '../hooks/usePayEnrollment';
 import type { StudentBalance } from '@/entities/student/model/types';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
+import type { Asign } from '../types';
 
 interface PayEnrollmentFormProps {
   balance: StudentBalance;
@@ -30,12 +31,12 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
     setPaymentAmounts((prev) => ({ ...prev, [key]: val }));
   };
 
-  const handlePayment = async (e: React.SyntheticEvent) => {
+  const handlePayment = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!receiptNumber) return;
 
     try {
-      const asignaciones = [];
+      const asignaciones: Asign[] = [];
       for (const key in paymentAmounts) {
         const monto = Number(paymentAmounts[key]);
         if (monto > 0) {

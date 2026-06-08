@@ -1,0 +1,113 @@
+.return-loan-modal .section-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+/* Contador de préstamos activos */
+.return-loan-modal .active-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.return-loan-modal .active-count-badge {
+  background: var(--status-yellow-bg);
+  color: var(--status-yellow);
+  border: 1px solid var(--status-yellow-border);
+  border-radius: 99px;
+  padding: 1px 8px;
+  font-weight: 600;
+}
+
+/* Tabla de préstamos activos */
+.return-loan-modal .loans-table-wrapper {
+  max-height: 260px;
+  overflow-y: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border);
+  margin-bottom: 20px;
+}
+
+/* Panel de confirmación (aparece al seleccionar) */
+.return-loan-modal .confirm-panel {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 4px;
+  background: var(--status-green-bg);
+  animation: fadeInPanel 0.18s ease;
+}
+
+@keyframes fadeInPanel {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.return-loan-modal .confirm-panel-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--status-green);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.return-loan-modal .confirm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+
+.return-loan-modal .confirm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.return-loan-modal .confirm-field-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.return-loan-modal .confirm-field-value {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Empty state */
+.return-loan-modal .empty-state {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.return-loan-modal .empty-state-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 560px) {
+  .return-loan-modal .confirm-grid {
+    grid-template-columns: 1fr;
+  }
+}

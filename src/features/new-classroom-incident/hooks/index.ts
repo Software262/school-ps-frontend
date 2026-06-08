@@ -1,0 +1,1 @@
+export { useNewClassroomIncident } from './useNewClassroomIncident';

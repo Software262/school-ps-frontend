@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, type SubmitEvent } from 'react';
 import { Search } from 'lucide-react';
 import { useSearchStudents } from '../hooks/useSearchStudents';
 import type { StudentSearchItem } from '@/entities/student/model/types';
@@ -24,9 +24,19 @@ export const SearchStudentForm = ({
     async (isInitial = false) => {
       onSearchStart();
       try {
-        const data = await fetchStudents(
-          isInitial ? {} : { documento: filters.documento, nombre: filters.nombre },
-        );
+        const params: { documento?: string; nombre?: string; year?: number } = {};
+        if (!isInitial) {
+          if (filters.documento) params.documento = filters.documento;
+          if (filters.nombre) params.nombre = filters.nombre;
+          if (filters.date) {
+            const yearStr = filters.date.split('-')[0];
+            const parsedYear = parseInt(yearStr, 10);
+            if (!isNaN(parsedYear)) {
+              params.year = parsedYear;
+            }
+          }
+        }
+        const data = await fetchStudents(params);
         if (mountedRef.current && data) {
           onSearchSuccess(data.estudiantes);
         }
@@ -38,7 +48,15 @@ export const SearchStudentForm = ({
         }
       }
     },
-    [filters.documento, filters.nombre, onSearchStart, onSearchEnd, onSearchSuccess, fetchStudents],
+    [
+      filters.documento,
+      filters.nombre,
+      filters.date,
+      onSearchStart,
+      onSearchEnd,
+      onSearchSuccess,
+      fetchStudents,
+    ],
   );
 
   useEffect(() => {
@@ -49,7 +67,7 @@ export const SearchStudentForm = ({
     };
   }, [executeSearch]);
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     void executeSearch(false);
   };

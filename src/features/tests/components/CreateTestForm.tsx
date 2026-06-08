@@ -69,7 +69,7 @@ export function CreateTestForm({
       grado_id: parseInt(gradoId),
       complementario_id: parseInt(testId),
       tipo_prueba: selectedTest?.nombre ?? 'Institucional',
-      periodo_id: periodoId ? parseInt(periodoId) : null,
+      periodo_id: parseInt(periodoId),
     });
     if (result.assigned === 0 && result.skipped > 0) {
       setErrorMsg(
@@ -98,7 +98,7 @@ export function CreateTestForm({
         tipo_prueba: selectedTest?.nombre ?? 'Institucional',
         estado: 'pendiente',
         valor_pagado: 0,
-        periodo_id: periodoId ? parseInt(periodoId) : null,
+        periodo_id: parseInt(periodoId),
       });
       if (result.success) {
         onSave();
@@ -285,7 +285,7 @@ export function CreateTestForm({
           {/* Período */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Periodo Académico (Opcional)
+              Periodo Académico
             </label>
             <select
               value={periodoId}
@@ -294,7 +294,6 @@ export function CreateTestForm({
               }}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
-              <option value="">Sin período</option>
               {periodos.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.nombre}

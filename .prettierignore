@@ -4,4 +4,4 @@ build
 coverage
 .env*
 *.lock
-routeTree.gen.ts
+src/routeTree.gen.ts

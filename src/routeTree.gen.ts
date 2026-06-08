@@ -17,10 +17,18 @@ import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/b
 import { Route as rootRouteImport } from './app/router/__root'
 import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route'
 import { Route as IndexRouteImport } from './app/router/index'
+import { Route as DashboardIndexRouteImport } from './app/router/dashboard/index'
+import { Route as DashboardTuitionIndexRouteImport } from './app/router/dashboard/tuition/index'
 import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index'
+import { Route as DashboardSalonTitularIndexRouteImport } from './app/router/dashboard/salon-titular/index'
+import { Route as DashboardSalonTesoreriaIndexRouteImport } from './app/router/dashboard/salon-tesoreria/index'
 import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
+import { Route as DashboardPazYSalvoIndexRouteImport } from './app/router/dashboard/paz-y-salvo/index'
+import { Route as DashboardEscuelasFormacionIndexRouteImport } from './app/router/dashboard/escuelas-formacion/index'
 import { Route as DashboardEnrollmentIndexRouteImport } from './app/router/dashboard/enrollment/index'
+import { Route as DashboardDeportesIndexRouteImport } from './app/router/dashboard/deportes/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
+import { Route as DashboardAjedrezIndexRouteImport } from './app/router/dashboard/ajedrez/index'
 import { Route as DashboardEnrollmentStudentIdIndexRouteImport } from './app/router/dashboard/enrollment/student/$id/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -33,11 +41,33 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTuitionIndexRoute = DashboardTuitionIndexRouteImport.update({
+  id: '/tuition/',
+  path: '/tuition/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardTestsIndexRoute = DashboardTestsIndexRouteImport.update({
   id: '/tests/',
   path: '/tests/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardSalonTitularIndexRoute =
+  DashboardSalonTitularIndexRouteImport.update({
+    id: '/salon-titular/',
+    path: '/salon-titular/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardSalonTesoreriaIndexRoute =
+  DashboardSalonTesoreriaIndexRouteImport.update({
+    id: '/salon-tesoreria/',
+    path: '/salon-tesoreria/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   id: '/rectoria/',
   path: '/rectoria/',
@@ -49,15 +79,36 @@ const DashboardCafeteriaIndexRoute = DashboardCafeteriaIndexRouteImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any);
 } as any)
+const DashboardPazYSalvoIndexRoute = DashboardPazYSalvoIndexRouteImport.update({
+  id: '/paz-y-salvo/',
+  path: '/paz-y-salvo/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardEscuelasFormacionIndexRoute =
+  DashboardEscuelasFormacionIndexRouteImport.update({
+    id: '/escuelas-formacion/',
+    path: '/escuelas-formacion/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardEnrollmentIndexRoute =
   DashboardEnrollmentIndexRouteImport.update({
     id: '/enrollment/',
     path: '/enrollment/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardDeportesIndexRoute = DashboardDeportesIndexRouteImport.update({
+  id: '/deportes/',
+  path: '/deportes/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   id: '/band/',
   path: '/band/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardAjedrezIndexRoute = DashboardAjedrezIndexRouteImport.update({
+  id: '/ajedrez/',
+  path: '/ajedrez/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardEnrollmentStudentIdIndexRoute =
@@ -114,29 +165,52 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById;
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
+  '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo/': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-tesoreria/': typeof DashboardSalonTesoreriaIndexRoute
+  '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
+  '/dashboard/tuition/': typeof DashboardTuitionIndexRoute
   '/dashboard/enrollment/student/$id/': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/ajedrez': typeof DashboardAjedrezIndexRoute
   '/dashboard/band': typeof DashboardBandIndexRoute
+  '/dashboard/deportes': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment': typeof DashboardEnrollmentIndexRoute
+  '/dashboard/escuelas-formacion': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-tesoreria': typeof DashboardSalonTesoreriaIndexRoute
+  '/dashboard/salon-titular': typeof DashboardSalonTitularIndexRoute
   '/dashboard/tests': typeof DashboardTestsIndexRoute
+  '/dashboard/tuition': typeof DashboardTuitionIndexRoute
   '/dashboard/enrollment/student/$id': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
+  '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo/': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
+  '/dashboard/salon-tesoreria/': typeof DashboardSalonTesoreriaIndexRoute
+  '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
+  '/dashboard/tuition/': typeof DashboardTuitionIndexRoute
   '/dashboard/enrollment/student/$id/': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -144,28 +218,51 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/dashboard/'
+    | '/dashboard/ajedrez/'
     | '/dashboard/band/'
+    | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
+    | '/dashboard/escuelas-formacion/'
+    | '/dashboard/paz-y-salvo/'
     | '/dashboard/rectoria/'
+    | '/dashboard/salon-tesoreria/'
+    | '/dashboard/salon-titular/'
     | '/dashboard/tests/'
+    | '/dashboard/tuition/'
     | '/dashboard/enrollment/student/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
+    | '/dashboard/ajedrez'
     | '/dashboard/band'
+    | '/dashboard/deportes'
     | '/dashboard/enrollment'
+    | '/dashboard/escuelas-formacion'
+    | '/dashboard/paz-y-salvo'
     | '/dashboard/rectoria'
+    | '/dashboard/salon-tesoreria'
+    | '/dashboard/salon-titular'
     | '/dashboard/tests'
+    | '/dashboard/tuition'
     | '/dashboard/enrollment/student/$id'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/dashboard/'
+    | '/dashboard/ajedrez/'
     | '/dashboard/band/'
+    | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
+    | '/dashboard/escuelas-formacion/'
+    | '/dashboard/paz-y-salvo/'
     | '/dashboard/rectoria/'
+    | '/dashboard/salon-tesoreria/'
+    | '/dashboard/salon-titular/'
     | '/dashboard/tests/'
+    | '/dashboard/tuition/'
     | '/dashboard/enrollment/student/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -190,11 +287,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/tuition/': {
+      id: '/dashboard/tuition/'
+      path: '/tuition'
+      fullPath: '/dashboard/tuition/'
+      preLoaderRoute: typeof DashboardTuitionIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/tests/': {
       id: '/dashboard/tests/'
       path: '/tests'
       fullPath: '/dashboard/tests/'
       preLoaderRoute: typeof DashboardTestsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/salon-titular/': {
+      id: '/dashboard/salon-titular/'
+      path: '/salon-titular'
+      fullPath: '/dashboard/salon-titular/'
+      preLoaderRoute: typeof DashboardSalonTitularIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/salon-tesoreria/': {
+      id: '/dashboard/salon-tesoreria/'
+      path: '/salon-tesoreria'
+      fullPath: '/dashboard/salon-tesoreria/'
+      preLoaderRoute: typeof DashboardSalonTesoreriaIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/rectoria/': {
@@ -217,6 +342,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRectoriaIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/paz-y-salvo/': {
+      id: '/dashboard/paz-y-salvo/'
+      path: '/paz-y-salvo'
+      fullPath: '/dashboard/paz-y-salvo/'
+      preLoaderRoute: typeof DashboardPazYSalvoIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/escuelas-formacion/': {
+      id: '/dashboard/escuelas-formacion/'
+      path: '/escuelas-formacion'
+      fullPath: '/dashboard/escuelas-formacion/'
+      preLoaderRoute: typeof DashboardEscuelasFormacionIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/enrollment/': {
       id: '/dashboard/enrollment/'
       path: '/enrollment'
@@ -224,11 +363,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardEnrollmentIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/deportes/': {
+      id: '/dashboard/deportes/'
+      path: '/deportes'
+      fullPath: '/dashboard/deportes/'
+      preLoaderRoute: typeof DashboardDeportesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/band/': {
       id: '/dashboard/band/'
       path: '/band'
       fullPath: '/dashboard/band/'
       preLoaderRoute: typeof DashboardBandIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/ajedrez/': {
+      id: '/dashboard/ajedrez/'
+      path: '/ajedrez'
+      fullPath: '/dashboard/ajedrez/'
+      preLoaderRoute: typeof DashboardAjedrezIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/enrollment/student/$id/': {
@@ -246,19 +399,35 @@ interface DashboardRouteRouteChildren {
   DashboardCafeteriaIndexRoute: typeof DashboardCafeteriaIndexRoute;
   DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute;
   DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute;
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAjedrezIndexRoute: typeof DashboardAjedrezIndexRoute
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
+  DashboardDeportesIndexRoute: typeof DashboardDeportesIndexRoute
   DashboardEnrollmentIndexRoute: typeof DashboardEnrollmentIndexRoute
+  DashboardEscuelasFormacionIndexRoute: typeof DashboardEscuelasFormacionIndexRoute
+  DashboardPazYSalvoIndexRoute: typeof DashboardPazYSalvoIndexRoute
   DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
+  DashboardSalonTesoreriaIndexRoute: typeof DashboardSalonTesoreriaIndexRoute
+  DashboardSalonTitularIndexRoute: typeof DashboardSalonTitularIndexRoute
   DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute
+  DashboardTuitionIndexRoute: typeof DashboardTuitionIndexRoute
   DashboardEnrollmentStudentIdIndexRoute: typeof DashboardEnrollmentStudentIdIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAjedrezIndexRoute: DashboardAjedrezIndexRoute,
   DashboardBandIndexRoute: DashboardBandIndexRoute,
   DashboardCafeteriaIndexRoute: DashboardCafeteriaIndexRoute,
+  DashboardDeportesIndexRoute: DashboardDeportesIndexRoute,
   DashboardEnrollmentIndexRoute: DashboardEnrollmentIndexRoute,
+  DashboardEscuelasFormacionIndexRoute: DashboardEscuelasFormacionIndexRoute,
+  DashboardPazYSalvoIndexRoute: DashboardPazYSalvoIndexRoute,
   DashboardRectoriaIndexRoute: DashboardRectoriaIndexRoute,
+  DashboardSalonTesoreriaIndexRoute: DashboardSalonTesoreriaIndexRoute,
+  DashboardSalonTitularIndexRoute: DashboardSalonTitularIndexRoute,
   DashboardTestsIndexRoute: DashboardTestsIndexRoute,
+  DashboardTuitionIndexRoute: DashboardTuitionIndexRoute,
   DashboardEnrollmentStudentIdIndexRoute:
     DashboardEnrollmentStudentIdIndexRoute,
 }

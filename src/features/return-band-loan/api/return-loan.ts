@@ -17,7 +17,7 @@ export const returnLoan = async (
   loanId: number,
   payload: ReturnLoanPayload,
 ): Promise<ReturnLoanResponse> => {
-  return fetchApi<ReturnLoanResponse>(`/inventory/borrow/${String(loanId)}`, {
+  return fetchApi<ReturnLoanResponse>(`/musical-band/borrowings/${String(loanId)}`, {
     method: 'PATCH',
     body: JSON.stringify(payload),
   });

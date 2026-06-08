@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { BandAlert, BandStats, BandTabs, useBandStats } from '@/features/band';
 import { InventorySection } from '@/features/load-band-inventory/components';
 import { useLoadInventory, useInventoryFilters } from '@/features/load-band-inventory/hooks';
@@ -6,53 +6,66 @@ import { LoansSection } from '@/features/load-band-loans/components';
 import { useLoadLoans, useLoansFilters } from '@/features/load-band-loans/hooks';
 import { NewLoanModal } from '@/features/new-band-loan';
 import { ReturnLoanModal } from '@/features/return-band-loan';
+import { useActiveLoans } from '@/features/return-band-loan/hooks';
 import { NewItemModal } from '@/features/new-band-item';
 import { EditItemModal } from '@/features/edit-band-item';
 import type { Inventory } from '@/entities/inventory/model/types';
 import './BandPage.css';
 
 export const BandPage = () => {
-  // ── Inventario ──────────────────────────────────────────────────────────
-  const { inventory, refetch: refetchInventory } = useLoadInventory();
+  const {
+    inventory,
+    refetch: refetchInventory,
+    page: inventoryPage,
+    totalPages: inventoryTotalPages,
+    handlePageChange: handleInventoryPageChange,
+  } = useLoadInventory();
+
   const {
     paginatedItems: paginatedInventory,
-    currentPage,
-    totalPages,
     searchTerm,
     handleSearch,
-    handlePageChange,
   } = useInventoryFilters(inventory);
 
-  // ── Préstamos ────────────────────────────────────────────────────────────
-  const { loans, refetch: refetchLoans } = useLoadLoans();
   const {
-    formattedLoans,
-    paginatedItems: paginatedLoans,
-    currentPage: loansCurrentPage,
+    loans,
+    refetch: refetchLoans,
+    page: loansPage,
     totalPages: loansTotalPages,
-    searchTerm: loansSearchTerm,
     filter: loansFilter,
-    handleSearch: handleLoansSearch,
-    handleFilterChange: handleLoansFilterChange,
     handlePageChange: handleLoansPageChange,
+    handleFilterChange: handleLoansFilterChange,
+  } = useLoadLoans();
+
+  const {
+    paginatedItems: paginatedLoans,
+    searchTerm: loansSearchTerm,
+    handleSearch: handleLoansSearch,
   } = useLoansFilters(loans);
 
-  // ── Estado de UI ─────────────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<'inventory' | 'loans'>('inventory');
+  const {
+    paginatedItems: activeLoansPaginated,
+    page: activeLoansPage,
+    totalPages: activeLoansTotalPages,
+    total: activeLoansTotal,
+    loading: activeLoansLoading,
+    handlePageChange: handleActiveLoansPageChange,
+    refetch: refetchActiveLoans,
+    reset: resetActiveLoans,
+  } = useActiveLoans();
 
-  // Inventario
+  const [activeTab, setActiveTab] = useState<'inventory' | 'loans'>('inventory');
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
-
-  // Préstamos
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
-
-  // ── Derivados ────────────────────────────────────────────────────────────
   const stats = useBandStats(inventory);
 
-  const activeLoans = useMemo(() => formattedLoans.filter((l) => l.enPrestamo), [formattedLoans]);
+  const handleOpenReturnLoan = () => {
+    resetActiveLoans();
+    setIsReturnLoanOpen(true);
+  };
 
   return (
     <div className="band-page">
@@ -70,11 +83,11 @@ export const BandPage = () => {
           <InventorySection
             inventory={paginatedInventory}
             searchTerm={searchTerm}
-            currentPage={currentPage}
-            totalPages={totalPages}
+            currentPage={inventoryPage}
+            totalPages={inventoryTotalPages}
             selectedItem={selectedInventoryItem}
             onSearchChange={handleSearch}
-            onPageChange={handlePageChange}
+            onPageChange={handleInventoryPageChange}
             onSelectItem={setSelectedInventoryItem}
             onNewItem={() => {
               setIsNewItemOpen(true);
@@ -89,7 +102,7 @@ export const BandPage = () => {
             loans={paginatedLoans}
             searchTerm={loansSearchTerm}
             filter={loansFilter}
-            currentPage={loansCurrentPage}
+            currentPage={loansPage}
             totalPages={loansTotalPages}
             onSearchChange={handleLoansSearch}
             onFilterChange={handleLoansFilterChange}
@@ -97,9 +110,7 @@ export const BandPage = () => {
             onNewLoan={() => {
               setIsNewLoanOpen(true);
             }}
-            onReturnLoan={() => {
-              setIsReturnLoanOpen(true);
-            }}
+            onReturnLoan={handleOpenReturnLoan}
           />
         )}
       </div>
@@ -132,16 +143,27 @@ export const BandPage = () => {
         onClose={() => {
           setIsNewLoanOpen(false);
         }}
-        onSuccess={refetchLoans}
+        onSuccess={() => {
+          refetchLoans();
+          refetchActiveLoans();
+        }}
       />
 
       <ReturnLoanModal
         isOpen={isReturnLoanOpen}
-        activeLoans={activeLoans}
+        activeLoans={activeLoansPaginated}
+        activeLoansTotal={activeLoansTotal}
+        activeLoansPage={activeLoansPage}
+        activeLoansTotalPages={activeLoansTotalPages}
+        activeLoansLoading={activeLoansLoading}
+        onActiveLoansPageChange={handleActiveLoansPageChange}
         onClose={() => {
           setIsReturnLoanOpen(false);
         }}
-        onSuccess={refetchLoans}
+        onSuccess={() => {
+          refetchLoans();
+          refetchActiveLoans();
+        }}
       />
     </div>
   );

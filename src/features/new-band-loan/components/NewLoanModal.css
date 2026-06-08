@@ -60,6 +60,49 @@
   margin-top: 4px;
 }
 
+.new-loan-form .student-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 4px 0 0 0;
+  padding: 4px 0;
+}
+
+.new-loan-form .student-dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  gap: 12px;
+}
+
+.new-loan-form .student-dropdown-item:hover {
+  background: var(--status-green-bg);
+}
+
+.new-loan-form .student-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.new-loan-form .student-doc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 @media (max-width: 500px) {
   .new-loan-form .form-row {
     grid-template-columns: 1fr;
