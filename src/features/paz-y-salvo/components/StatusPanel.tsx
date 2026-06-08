@@ -25,12 +25,11 @@ export const StatusPanel = ({ entityId, entityType }: StatusPanelProps) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    setStatus(null);
-    setCertificate(null);
-    setError('');
-    setLoading(true);
-
     const load = async () => {
+      setStatus(null);
+      setCertificate(null);
+      setError('');
+      setLoading(true);
       try {
         const data =
           entityType === 'student'
@@ -47,20 +46,22 @@ export const StatusPanel = ({ entityId, entityType }: StatusPanelProps) => {
     void load();
   }, [entityId, entityType]);
 
-  const handleGenerate = async () => {
-    setGenerating(true);
-    setError('');
-    try {
-      const data =
-        entityType === 'student'
-          ? await generateStudentPazYSalvo(entityId)
-          : await generateTeacherPazYSalvo(entityId);
-      setCertificate(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al generar el paz y salvo');
-    } finally {
-      setGenerating(false);
-    }
+  const handleGenerate = () => {
+    void (async () => {
+      setGenerating(true);
+      setError('');
+      try {
+        const data =
+          entityType === 'student'
+            ? await generateStudentPazYSalvo(entityId)
+            : await generateTeacherPazYSalvo(entityId);
+        setCertificate(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error al generar el paz y salvo');
+      } finally {
+        setGenerating(false);
+      }
+    })();
   };
 
   if (loading) {
@@ -100,7 +101,7 @@ export const StatusPanel = ({ entityId, entityType }: StatusPanelProps) => {
           {'grado' in status.entidad && (
             <div>
               <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Grado</p>
-              <p style={{ fontWeight: 500 }}>{(status.entidad as Record<string, string>).grado}</p>
+              <p style={{ fontWeight: 500 }}>{(status.entidad as { grado: string }).grado}</p>
             </div>
           )}
         </div>
@@ -136,7 +137,12 @@ export const StatusPanel = ({ entityId, entityType }: StatusPanelProps) => {
       <ModuleStatusGrid modulos={status.modulos} />
 
       {certificate && (
-        <CertificateResult certificate={certificate} onClose={() => setCertificate(null)} />
+        <CertificateResult
+          certificate={certificate}
+          onClose={() => {
+            setCertificate(null);
+          }}
+        />
       )}
     </div>
   );

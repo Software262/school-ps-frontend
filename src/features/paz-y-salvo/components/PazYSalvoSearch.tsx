@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type FormEvent } from 'react';
+import { useState, useEffect, useRef, useCallback, type SyntheticEvent } from 'react';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import { searchStudents, searchTeachers } from '@/features/paz-y-salvo/api/pazYSalvoApi';
 import type { SearchStudent, SearchTeacher } from '@/features/paz-y-salvo/model/types';
@@ -17,26 +17,29 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
   const [results, setResults] = useState<(SearchStudent | SearchTeacher)[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const doSearch = async (term: string) => {
-    if (term.length < 2) {
-      setResults([]);
-      return;
-    }
-    setLoading(true);
-    setError('');
-    try {
-      const data =
-        searchType === 'student' ? await searchStudents(term) : await searchTeachers(term);
-      setResults(data);
-    } catch {
-      setError('Error al buscar');
-      setResults([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const doSearch = useCallback(
+    async (term: string) => {
+      if (term.length < 2) {
+        setResults([]);
+        return;
+      }
+      setLoading(true);
+      setError('');
+      try {
+        const data =
+          searchType === 'student' ? await searchStudents(term) : await searchTeachers(term);
+        setResults(data);
+      } catch {
+        setError('Error al buscar');
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [searchType],
+  );
 
   useEffect(() => {
     if (debounceRef.current) {
@@ -45,7 +48,6 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
 
     const term = query.trim();
     if (term.length < 2) {
-      setResults([]);
       return;
     }
 
@@ -58,9 +60,9 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
         clearTimeout(debounceRef.current);
       }
     };
-  }, [query, searchType]);
+  }, [query, doSearch]);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -112,14 +114,18 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
         <button
           type="button"
           className={`btn btn-sm ${searchType === 'student' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => handleTypeToggle('student')}
+          onClick={() => {
+            handleTypeToggle('student');
+          }}
         >
           Estudiante
         </button>
         <button
           type="button"
           className={`btn btn-sm ${searchType === 'teacher' ? 'btn-primary' : 'btn-secondary'}`}
-          onClick={() => handleTypeToggle('teacher')}
+          onClick={() => {
+            handleTypeToggle('teacher');
+          }}
         >
           Docente
         </button>
@@ -143,7 +149,9 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
                   : 'Ej: María Gómez o 87654321'
               }
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
               autoFocus
             />
           </div>
@@ -151,7 +159,13 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
 
         <div className="filter-actions">
           {isSearchActive && (
-            <button type="button" className="btn btn-secondary" onClick={handleClear}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                handleClear();
+              }}
+            >
               Limpiar
             </button>
           )}
@@ -199,7 +213,9 @@ export const PazYSalvoSearch = ({ onSelectStudent, onSelectTeacher }: PazYSalvoS
                     <button
                       type="button"
                       className="btn btn-sm btn-primary"
-                      onClick={() => handleSelect(r)}
+                      onClick={() => {
+                        handleSelect(r);
+                      }}
                     >
                       Consultar
                     </button>

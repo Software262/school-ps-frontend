@@ -20,13 +20,13 @@ export const CertificateResult = ({ certificate, onClose }: CertificateResultPro
     const title = isStudent
       ? 'Certificado de Paz y Salvo Estudiantil'
       : 'Certificado de Paz y Salvo Docente';
-    const entityFields = isStudent
-      ? `
-        <div>
+    const gradeField =
+      isStudent && certificate.entidad.grado
+        ? `<div>
           <p class="info-label">Grado</p>
           <p class="info-value">${certificate.entidad.grado}</p>
         </div>`
-      : '';
+        : '';
 
     const cardsHtml = certificate.detalles
       .map(
@@ -43,75 +43,75 @@ export const CertificateResult = ({ certificate, onClose }: CertificateResultPro
       )
       .join('');
 
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Paz y Salvo - ${certificate.codigo}</title>
-          <style>
-            @page { margin: 15mm; size: A4; }
-            * { box-sizing: border-box; }
-            body { font-family: 'Inter', system-ui, sans-serif; padding: 0; margin: 0; color: #1a1a1a; }
-            .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 12px; }
-            .header__left h1 { font-size: 20px; margin: 0; }
-            .header__left .codigo { font-size: 12px; color: #888; margin: 2px 0 0; }
-            .badge-final { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #edf7f1; color: #2d7d46; }
-            .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; background: #f9fafb; border-radius: 8px; padding: 14px 18px; border: 1px solid #e5e7eb; }
-            .info-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 2px; }
-            .info-value { font-weight: 600; font-size: 14px; margin: 0; }
-            .mod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-            .mod-card { border-radius: 8px; padding: 12px 14px; border: 1px solid #e5e7eb; break-inside: avoid; }
-            .mod-card--ok { background: #f0fdf4; border-color: #bbf7d0; }
-            .mod-card--error { background: #fef2f2; border-color: #fecaca; }
-            .mod-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-            .mod-card__name { font-weight: 700; font-size: 13px; }
-            .mod-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
-            .mod-badge--ok { background: #dcfce7; color: #166534; }
-            .mod-badge--error { background: #fee2e2; color: #991b1b; }
-            .mod-card__detail { font-size: 11px; color: #666; margin: 0; line-height: 1.4; }
-            .footer { margin-top: 8px; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 10px; color: #aaa; text-align: center; }
-            @media print {
-              .no-print { display: none !important; }
-              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <div class="header__left">
-              <h1>${title}</h1>
-              <p class="codigo">Código: ${certificate.codigo}</p>
-            </div>
-            <span class="badge-final">Paz y Salvo</span>
-          </div>
-          <div class="info-grid">
-            <div>
-              <p class="info-label">Nombre</p>
-              <p class="info-value">${certificate.entidad.nombre}</p>
-            </div>
-            <div>
-              <p class="info-label">Documento</p>
-              <p class="info-value">${certificate.entidad.documento}</p>
-            </div>
-            ${entityFields}
-            <div>
-              <p class="info-label">Periodo</p>
-              <p class="info-value">${certificate.periodo.nombre}</p>
-            </div>
-            <div>
-              <p class="info-label">Fecha de emisión</p>
-              <p class="info-value">${new Date(certificate.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            </div>
-          </div>
-          <div class="mod-grid">
-            ${cardsHtml}
-          </div>
-          <div class="footer">
-            Este certificado es válido únicamente si se verifica su código en el sistema.
-          </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
+    const css = `
+      @page { margin: 15mm; size: A4; }
+      * { box-sizing: border-box; }
+      body { font-family: 'Inter', system-ui, sans-serif; padding: 0; margin: 0; color: #1a1a1a; }
+      .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 12px; }
+      .header__left h1 { font-size: 20px; margin: 0; }
+      .header__left .codigo { font-size: 12px; color: #888; margin: 2px 0 0; }
+      .badge-final { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #edf7f1; color: #2d7d46; }
+      .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; background: #f9fafb; border-radius: 8px; padding: 14px 18px; border: 1px solid #e5e7eb; }
+      .info-label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 2px; }
+      .info-value { font-weight: 600; font-size: 14px; margin: 0; }
+      .mod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+      .mod-card { border-radius: 8px; padding: 12px 14px; border: 1px solid #e5e7eb; break-inside: avoid; }
+      .mod-card--ok { background: #f0fdf4; border-color: #bbf7d0; }
+      .mod-card--error { background: #fef2f2; border-color: #fecaca; }
+      .mod-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+      .mod-card__name { font-weight: 700; font-size: 13px; }
+      .mod-badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+      .mod-badge--ok { background: #dcfce7; color: #166534; }
+      .mod-badge--error { background: #fee2e2; color: #991b1b; }
+      .mod-card__detail { font-size: 11px; color: #666; margin: 0; line-height: 1.4; }
+      .footer { margin-top: 8px; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 10px; color: #aaa; text-align: center; }
+      @media print {
+        .no-print { display: none !important; }
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      }
+    `;
+
+    const bodyHtml = `
+      <div class="header">
+        <div class="header__left">
+          <h1>${title}</h1>
+          <p class="codigo">Código: ${certificate.codigo}</p>
+        </div>
+        <span class="badge-final">Paz y Salvo</span>
+      </div>
+      <div class="info-grid">
+        <div>
+          <p class="info-label">Nombre</p>
+          <p class="info-value">${certificate.entidad.nombre}</p>
+        </div>
+        <div>
+          <p class="info-label">Documento</p>
+          <p class="info-value">${certificate.entidad.documento}</p>
+        </div>
+        ${gradeField}
+        <div>
+          <p class="info-label">Periodo</p>
+          <p class="info-value">${certificate.periodo.nombre}</p>
+        </div>
+        <div>
+          <p class="info-label">Fecha de emisión</p>
+          <p class="info-value">${new Date(certificate.fecha).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        </div>
+      </div>
+      <div class="mod-grid">
+        ${cardsHtml}
+      </div>
+      <div class="footer">
+        Este certificado es válido únicamente si se verifica su código en el sistema.
+      </div>
+    `;
+
+    const printDocument = printWindow.document;
+    const style = printDocument.createElement('style');
+    style.textContent = css;
+    printDocument.head.appendChild(style);
+    printDocument.title = `Paz y Salvo - ${certificate.codigo}`;
+    printDocument.body.innerHTML = bodyHtml;
     printWindow.print();
   }, [certificate]);
 
