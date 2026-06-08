@@ -17,6 +17,7 @@ import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/
 import { Route as DashboardSalonTitularIndexRouteImport } from './app/router/dashboard/salon-titular/index'
 import { Route as DashboardSalonTesoreriaIndexRouteImport } from './app/router/dashboard/salon-tesoreria/index'
 import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index'
+import { Route as DashboardPazYSalvoIndexRouteImport } from './app/router/dashboard/paz-y-salvo/index'
 import { Route as DashboardEscuelasFormacionIndexRouteImport } from './app/router/dashboard/escuelas-formacion/index'
 import { Route as DashboardEnrollmentIndexRouteImport } from './app/router/dashboard/enrollment/index'
 import { Route as DashboardDeportesIndexRouteImport } from './app/router/dashboard/deportes/index'
@@ -66,6 +67,11 @@ const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   path: '/rectoria/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardPazYSalvoIndexRoute = DashboardPazYSalvoIndexRouteImport.update({
+  id: '/paz-y-salvo/',
+  path: '/paz-y-salvo/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardEscuelasFormacionIndexRoute =
   DashboardEscuelasFormacionIndexRouteImport.update({
     id: '/escuelas-formacion/',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo/': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
   '/dashboard/salon-tesoreria/': typeof DashboardSalonTesoreriaIndexRoute
   '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/dashboard/deportes': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute
   '/dashboard/salon-tesoreria': typeof DashboardSalonTesoreriaIndexRoute
   '/dashboard/salon-titular': typeof DashboardSalonTitularIndexRoute
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
+  '/dashboard/paz-y-salvo/': typeof DashboardPazYSalvoIndexRoute
   '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute
   '/dashboard/salon-tesoreria/': typeof DashboardSalonTesoreriaIndexRoute
   '/dashboard/salon-titular/': typeof DashboardSalonTitularIndexRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
     | '/dashboard/escuelas-formacion/'
+    | '/dashboard/paz-y-salvo/'
     | '/dashboard/rectoria/'
     | '/dashboard/salon-tesoreria/'
     | '/dashboard/salon-titular/'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/dashboard/deportes'
     | '/dashboard/enrollment'
     | '/dashboard/escuelas-formacion'
+    | '/dashboard/paz-y-salvo'
     | '/dashboard/rectoria'
     | '/dashboard/salon-tesoreria'
     | '/dashboard/salon-titular'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
     | '/dashboard/escuelas-formacion/'
+    | '/dashboard/paz-y-salvo/'
     | '/dashboard/rectoria/'
     | '/dashboard/salon-tesoreria/'
     | '/dashboard/salon-titular/'
@@ -261,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRectoriaIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/paz-y-salvo/': {
+      id: '/dashboard/paz-y-salvo/'
+      path: '/paz-y-salvo'
+      fullPath: '/dashboard/paz-y-salvo/'
+      preLoaderRoute: typeof DashboardPazYSalvoIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/escuelas-formacion/': {
       id: '/dashboard/escuelas-formacion/'
       path: '/escuelas-formacion'
@@ -313,6 +332,7 @@ interface DashboardRouteRouteChildren {
   DashboardDeportesIndexRoute: typeof DashboardDeportesIndexRoute
   DashboardEnrollmentIndexRoute: typeof DashboardEnrollmentIndexRoute
   DashboardEscuelasFormacionIndexRoute: typeof DashboardEscuelasFormacionIndexRoute
+  DashboardPazYSalvoIndexRoute: typeof DashboardPazYSalvoIndexRoute
   DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute
   DashboardSalonTesoreriaIndexRoute: typeof DashboardSalonTesoreriaIndexRoute
   DashboardSalonTitularIndexRoute: typeof DashboardSalonTitularIndexRoute
@@ -328,6 +348,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardDeportesIndexRoute: DashboardDeportesIndexRoute,
   DashboardEnrollmentIndexRoute: DashboardEnrollmentIndexRoute,
   DashboardEscuelasFormacionIndexRoute: DashboardEscuelasFormacionIndexRoute,
+  DashboardPazYSalvoIndexRoute: DashboardPazYSalvoIndexRoute,
   DashboardRectoriaIndexRoute: DashboardRectoriaIndexRoute,
   DashboardSalonTesoreriaIndexRoute: DashboardSalonTesoreriaIndexRoute,
   DashboardSalonTitularIndexRoute: DashboardSalonTitularIndexRoute,
