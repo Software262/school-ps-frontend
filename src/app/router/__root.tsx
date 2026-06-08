@@ -8,6 +8,4 @@ export const Route = createRootRoute({
       <TanStackRouterDevtools />
     </>
   ),
-
 });
-

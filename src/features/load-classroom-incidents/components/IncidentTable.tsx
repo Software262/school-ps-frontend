@@ -1,6 +1,9 @@
 import { Check, Eye, Inbox, X } from 'lucide-react';
 import { useState } from 'react';
-import type { IncidenciaConEstudiante, TipoIncidencia } from '@/features/classroom-holder/model/types';
+import type {
+  IncidenciaConEstudiante,
+  TipoIncidencia,
+} from '@/features/classroom-holder/model/types';
 import './IncidentTable.css';
 
 interface Props {
@@ -24,7 +27,12 @@ const formatDate = (date: string): string =>
     day: '2-digit',
   }).format(new Date(date));
 
-export const IncidentTable = ({ incidencias, onResolve, isLoading = false, hasLoadedIncidents = false }: Props) => {
+export const IncidentTable = ({
+  incidencias,
+  onResolve,
+  isLoading = false,
+  hasLoadedIncidents = false,
+}: Props) => {
   const [selectedIncident, setSelectedIncident] = useState<IncidenciaConEstudiante | null>(null);
 
   if (isLoading) {
@@ -45,7 +53,9 @@ export const IncidentTable = ({ incidencias, onResolve, isLoading = false, hasLo
         <div className="incident-empty-icon" aria-hidden="true">
           <Inbox size={34} />
         </div>
-        <h3>{hasLoadedIncidents ? 'No existen incidencias registradas' : 'Cargando incidencias'}</h3>
+        <h3>
+          {hasLoadedIncidents ? 'No existen incidencias registradas' : 'Cargando incidencias'}
+        </h3>
         <p>
           {hasLoadedIncidents
             ? 'Cuando registre una nueva incidencia, aparecera en este listado.'
@@ -74,18 +84,31 @@ export const IncidentTable = ({ incidencias, onResolve, isLoading = false, hasLo
             </thead>
             <tbody>
               {incidencias.map((incidencia) => {
-                const studentName = incidencia.estudiante_nombre || `Estudiante #${incidencia.estudiante_id}`;
+                const studentName =
+                  incidencia.estudiante_nombre || `Estudiante #${incidencia.estudiante_id}`;
 
                 return (
                   <tr key={incidencia.id} className="incident-table-tr">
-                    <td className="incident-table-td incident-table-code">{incidencia.estudiante_id}</td>
+                    <td className="incident-table-td incident-table-code">
+                      {incidencia.estudiante_id}
+                    </td>
                     <td className="incident-table-td incident-table-student">{studentName}</td>
                     <td className="incident-table-td">{incidencia.grado_nombre ?? 'Sin curso'}</td>
-                    <td className="incident-table-td">{incidentTypeLabels[incidencia.tipo_incidencia]}</td>
-                    <td className="incident-table-td incident-table-description">{incidencia.descripcion}</td>
+                    <td className="incident-table-td">
+                      {incidentTypeLabels[incidencia.tipo_incidencia]}
+                    </td>
+                    <td className="incident-table-td incident-table-description">
+                      {incidencia.descripcion}
+                    </td>
                     <td className="incident-table-td">{formatDate(incidencia.fecha)}</td>
                     <td className="incident-table-td">
-                      <span className={incidencia.esta_abierta ? 'status-badge--pending' : 'status-badge--resolved'}>
+                      <span
+                        className={
+                          incidencia.esta_abierta
+                            ? 'status-badge--pending'
+                            : 'status-badge--resolved'
+                        }
+                      >
                         {incidencia.esta_abierta ? 'Pendiente' : 'Resuelto'}
                       </span>
                     </td>
@@ -126,7 +149,12 @@ export const IncidentTable = ({ incidencias, onResolve, isLoading = false, hasLo
 
       {selectedIncident && (
         <div className="incident-modal-backdrop" role="presentation">
-          <section className="incident-modal" role="dialog" aria-modal="true" aria-labelledby="incident-modal-title">
+          <section
+            className="incident-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="incident-modal-title"
+          >
             <div className="incident-modal-header">
               <div>
                 <p className="incident-modal-eyebrow">Incidencia #{selectedIncident.id}</p>

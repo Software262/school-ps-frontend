@@ -71,7 +71,9 @@ export const NewIncidentForm = ({ onCancel, onSuccess }: NewIncidentFormProps) =
           </label>
 
           <div className="student-search-input-wrap">
-            {shouldShowSearchIcon && <Search size={16} className="student-search-icon" aria-hidden="true" />}
+            {shouldShowSearchIcon && (
+              <Search size={16} className="student-search-icon" aria-hidden="true" />
+            )}
             <input
               id="student-search"
               type="text"
@@ -92,7 +94,9 @@ export const NewIncidentForm = ({ onCancel, onSuccess }: NewIncidentFormProps) =
 
           {shouldShowDropdown && (
             <ul className="student-search-results">
-              {isSearchingStudents && <li className="student-search-message">Buscando estudiantes...</li>}
+              {isSearchingStudents && (
+                <li className="student-search-message">Buscando estudiantes...</li>
+              )}
 
               {!isSearchingStudents &&
                 studentResults.map((student) => (
@@ -155,7 +159,9 @@ export const NewIncidentForm = ({ onCancel, onSuccess }: NewIncidentFormProps) =
             <option value="indisciplina">Indisciplina</option>
             <option value="otro">Otro</option>
           </select>
-          {errors.tipo_incidencia && <p className="incident-form-error">{errors.tipo_incidencia}</p>}
+          {errors.tipo_incidencia && (
+            <p className="incident-form-error">{errors.tipo_incidencia}</p>
+          )}
         </div>
 
         <div>
