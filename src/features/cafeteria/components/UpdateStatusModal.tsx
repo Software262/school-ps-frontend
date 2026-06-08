@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 interface Props {
   studentName: string;
@@ -7,8 +7,8 @@ interface Props {
 }
 
 export const UpdateStatusModal = ({ studentName, onSave, onCancel }: Props) => {
-  const [isPending, setIsPending] = React.useState(true);
-  const [obs, setObs] = React.useState('');
+  const [isPending, setIsPending] = useState(true);
+  const [obs, setObs] = useState('');
 
   return (
     <div className="update-status-container">

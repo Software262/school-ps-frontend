@@ -8,12 +8,6 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './app/router/__root';
-import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route';
-import { Route as DashboardTestsIndexRouteImport } from './app/router/dashboard/tests/index';
-import { Route as DashboardRectoriaIndexRouteImport } from './app/router/dashboard/rectoria/index';
-import { Route as DashboardCafeteriaIndexRouteImport } from './app/router/dashboard/cafeteria/index';
-import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index';
 import { Route as rootRouteImport } from './app/router/__root'
 import { Route as DashboardRouteRouteImport } from './app/router/dashboard/route'
 import { Route as IndexRouteImport } from './app/router/index'
@@ -27,6 +21,7 @@ import { Route as DashboardPazYSalvoIndexRouteImport } from './app/router/dashbo
 import { Route as DashboardEscuelasFormacionIndexRouteImport } from './app/router/dashboard/escuelas-formacion/index'
 import { Route as DashboardEnrollmentIndexRouteImport } from './app/router/dashboard/enrollment/index'
 import { Route as DashboardDeportesIndexRouteImport } from './app/router/dashboard/deportes/index'
+import { Route as DashboardCafeteriaIndexRouteImport } from './app/router/dashboard/cafeteria/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 import { Route as DashboardAjedrezIndexRouteImport } from './app/router/dashboard/ajedrez/index'
 import { Route as DashboardEnrollmentStudentIdIndexRouteImport } from './app/router/dashboard/enrollment/student/$id/index'
@@ -72,12 +67,6 @@ const DashboardRectoriaIndexRoute = DashboardRectoriaIndexRouteImport.update({
   id: '/rectoria/',
   path: '/rectoria/',
   getParentRoute: () => DashboardRouteRoute,
-} as any);
-const DashboardCafeteriaIndexRoute = DashboardCafeteriaIndexRouteImport.update({
-  id: '/cafeteria/',
-  path: '/cafeteria/',
-  getParentRoute: () => DashboardRouteRoute,
-} as any);
 } as any)
 const DashboardPazYSalvoIndexRoute = DashboardPazYSalvoIndexRouteImport.update({
   id: '/paz-y-salvo/',
@@ -101,6 +90,11 @@ const DashboardDeportesIndexRoute = DashboardDeportesIndexRouteImport.update({
   path: '/deportes/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardCafeteriaIndexRoute = DashboardCafeteriaIndexRouteImport.update({
+  id: '/cafeteria/',
+  path: '/cafeteria/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   id: '/band/',
   path: '/band/',
@@ -119,55 +113,12 @@ const DashboardEnrollmentStudentIdIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band/': typeof DashboardBandIndexRoute;
-  '/dashboard/cafeteria/': typeof DashboardCafeteriaIndexRoute;
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute;
-}
-export interface FileRoutesByTo {
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band': typeof DashboardBandIndexRoute;
-  '/dashboard/cafeteria': typeof DashboardCafeteriaIndexRoute;
-  '/dashboard/rectoria': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests': typeof DashboardTestsIndexRoute;
-}
-export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  '/dashboard': typeof DashboardRouteRouteWithChildren;
-  '/dashboard/band/': typeof DashboardBandIndexRoute;
-  '/dashboard/cafeteria/': typeof DashboardCafeteriaIndexRoute;
-  '/dashboard/rectoria/': typeof DashboardRectoriaIndexRoute;
-  '/dashboard/tests/': typeof DashboardTestsIndexRoute;
-}
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths:
-    | '/dashboard'
-    | '/dashboard/band/'
-    | '/dashboard/cafeteria/'
-    | '/dashboard/rectoria/'
-    | '/dashboard/tests/';
-  fileRoutesByTo: FileRoutesByTo;
-  to:
-    | '/dashboard'
-    | '/dashboard/band'
-    | '/dashboard/cafeteria'
-    | '/dashboard/rectoria'
-    | '/dashboard/tests';
-  id:
-    | '__root__'
-    | '/dashboard'
-    | '/dashboard/band/'
-    | '/dashboard/cafeteria/'
-    | '/dashboard/rectoria/'
-    | '/dashboard/tests/';
-  fileRoutesById: FileRoutesById;
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/cafeteria/': typeof DashboardCafeteriaIndexRoute
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
@@ -184,6 +135,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/ajedrez': typeof DashboardAjedrezIndexRoute
   '/dashboard/band': typeof DashboardBandIndexRoute
+  '/dashboard/cafeteria': typeof DashboardCafeteriaIndexRoute
   '/dashboard/deportes': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion': typeof DashboardEscuelasFormacionIndexRoute
@@ -202,6 +154,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
+  '/dashboard/cafeteria/': typeof DashboardCafeteriaIndexRoute
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
   '/dashboard/escuelas-formacion/': typeof DashboardEscuelasFormacionIndexRoute
@@ -221,6 +174,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/ajedrez/'
     | '/dashboard/band/'
+    | '/dashboard/cafeteria/'
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
     | '/dashboard/escuelas-formacion/'
@@ -237,6 +191,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/ajedrez'
     | '/dashboard/band'
+    | '/dashboard/cafeteria'
     | '/dashboard/deportes'
     | '/dashboard/enrollment'
     | '/dashboard/escuelas-formacion'
@@ -254,6 +209,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/ajedrez/'
     | '/dashboard/band/'
+    | '/dashboard/cafeteria/'
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
     | '/dashboard/escuelas-formacion/'
@@ -323,19 +279,6 @@ declare module '@tanstack/react-router' {
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/rectoria/': {
-      id: '/dashboard/rectoria/';
-      path: '/rectoria';
-      fullPath: '/dashboard/rectoria/';
-      preLoaderRoute: typeof DashboardRectoriaIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
-    '/dashboard/cafeteria/': {
-      id: '/dashboard/cafeteria/';
-      path: '/cafeteria';
-      fullPath: '/dashboard/cafeteria/';
-      preLoaderRoute: typeof DashboardCafeteriaIndexRouteImport;
-      parentRoute: typeof DashboardRouteRoute;
-    };
       id: '/dashboard/rectoria/'
       path: '/rectoria'
       fullPath: '/dashboard/rectoria/'
@@ -370,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDeportesIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/cafeteria/': {
+      id: '/dashboard/cafeteria/'
+      path: '/cafeteria'
+      fullPath: '/dashboard/cafeteria/'
+      preLoaderRoute: typeof DashboardCafeteriaIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/band/': {
       id: '/dashboard/band/'
       path: '/band'
@@ -395,13 +345,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteRouteChildren {
-  DashboardBandIndexRoute: typeof DashboardBandIndexRoute;
-  DashboardCafeteriaIndexRoute: typeof DashboardCafeteriaIndexRoute;
-  DashboardRectoriaIndexRoute: typeof DashboardRectoriaIndexRoute;
-  DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute;
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardAjedrezIndexRoute: typeof DashboardAjedrezIndexRoute
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
+  DashboardCafeteriaIndexRoute: typeof DashboardCafeteriaIndexRoute
   DashboardDeportesIndexRoute: typeof DashboardDeportesIndexRoute
   DashboardEnrollmentIndexRoute: typeof DashboardEnrollmentIndexRoute
   DashboardEscuelasFormacionIndexRoute: typeof DashboardEscuelasFormacionIndexRoute

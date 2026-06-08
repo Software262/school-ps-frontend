@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import { PupitreTable } from '@/features/classroom/components/PupitreTable';
@@ -14,7 +14,7 @@ export const PupitreByStudentSection = ({ onSeleccionar }: PupitreByStudentSecti
   const [codigo, setCodigo] = useState('');
   const { loading, error, estudiante, fetchPupitre } = useLoadPupitreByStudent();
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     void fetchPupitre(codigo.trim());
   };

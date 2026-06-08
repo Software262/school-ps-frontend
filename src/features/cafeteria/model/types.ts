@@ -39,3 +39,13 @@ export interface BulkRemoveBlockRequest {
   registro_ids: number[];
   usuario_id: number;
 }
+
+export interface DebtorRow {
+  id: number;
+  estudiante_id: number;
+  nombre: string;
+  documento: string;
+  grado: string;
+  estado_cafeteria: boolean;
+  observaciones: string | null;
+}
