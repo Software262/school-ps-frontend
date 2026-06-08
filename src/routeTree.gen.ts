@@ -21,6 +21,7 @@ import { Route as DashboardEscuelasFormacionIndexRouteImport } from './app/route
 import { Route as DashboardEnrollmentIndexRouteImport } from './app/router/dashboard/enrollment/index'
 import { Route as DashboardDeportesIndexRouteImport } from './app/router/dashboard/deportes/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
+import { Route as DashboardAjedrezIndexRouteImport } from './app/router/dashboard/ajedrez/index'
 import { Route as DashboardEnrollmentStudentIdIndexRouteImport } from './app/router/dashboard/enrollment/student/$id/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -87,6 +88,11 @@ const DashboardBandIndexRoute = DashboardBandIndexRouteImport.update({
   path: '/band/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardAjedrezIndexRoute = DashboardAjedrezIndexRouteImport.update({
+  id: '/ajedrez/',
+  path: '/ajedrez/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DashboardEnrollmentStudentIdIndexRoute =
   DashboardEnrollmentStudentIdIndexRouteImport.update({
     id: '/enrollment/student/$id/',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/ajedrez': typeof DashboardAjedrezIndexRoute
   '/dashboard/band': typeof DashboardBandIndexRoute
   '/dashboard/deportes': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment': typeof DashboardEnrollmentIndexRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/ajedrez/': typeof DashboardAjedrezIndexRoute
   '/dashboard/band/': typeof DashboardBandIndexRoute
   '/dashboard/deportes/': typeof DashboardDeportesIndexRoute
   '/dashboard/enrollment/': typeof DashboardEnrollmentIndexRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/'
+    | '/dashboard/ajedrez/'
     | '/dashboard/band/'
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/dashboard/ajedrez'
     | '/dashboard/band'
     | '/dashboard/deportes'
     | '/dashboard/enrollment'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/'
+    | '/dashboard/ajedrez/'
     | '/dashboard/band/'
     | '/dashboard/deportes/'
     | '/dashboard/enrollment/'
@@ -277,6 +289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBandIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/ajedrez/': {
+      id: '/dashboard/ajedrez/'
+      path: '/ajedrez'
+      fullPath: '/dashboard/ajedrez/'
+      preLoaderRoute: typeof DashboardAjedrezIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/enrollment/student/$id/': {
       id: '/dashboard/enrollment/student/$id/'
       path: '/enrollment/student/$id'
@@ -289,6 +308,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardAjedrezIndexRoute: typeof DashboardAjedrezIndexRoute
   DashboardBandIndexRoute: typeof DashboardBandIndexRoute
   DashboardDeportesIndexRoute: typeof DashboardDeportesIndexRoute
   DashboardEnrollmentIndexRoute: typeof DashboardEnrollmentIndexRoute
@@ -303,6 +323,7 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardAjedrezIndexRoute: DashboardAjedrezIndexRoute,
   DashboardBandIndexRoute: DashboardBandIndexRoute,
   DashboardDeportesIndexRoute: DashboardDeportesIndexRoute,
   DashboardEnrollmentIndexRoute: DashboardEnrollmentIndexRoute,
