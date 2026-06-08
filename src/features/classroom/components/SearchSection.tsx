@@ -1,5 +1,5 @@
 import { Search, Info } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import type { GradeInfo } from '@/features/load-pupitres-by-grade/types';
@@ -14,7 +14,7 @@ export const SearchSection = ({ grados, loading, onBuscar }: SearchSectionProps)
   const [codigo, setCodigo] = useState('');
   const [gradoSeleccionado, setGradoSeleccionado] = useState<number | null>(null);
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     onBuscar(codigo, gradoSeleccionado);
     setCodigo('');
