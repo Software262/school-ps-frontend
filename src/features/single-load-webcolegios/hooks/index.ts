@@ -1,0 +1,1 @@
+export { useSingleLoadWebcolegios } from './useSingleLoadWebcolegios';

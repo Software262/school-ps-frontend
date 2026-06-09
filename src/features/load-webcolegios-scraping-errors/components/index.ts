@@ -1,0 +1,1 @@
+export { WebcolegiosErrorsTable } from './WebcolegiosErrorsTable';

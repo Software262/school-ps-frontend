@@ -13,6 +13,7 @@ import {
   School,
   Music,
   Building,
+  Bot,
 } from 'lucide-react';
 
 const modules = [
@@ -42,6 +43,7 @@ const modules = [
   { path: '/dashboard/salon-titular', label: 'Salón Titular', icon: School },
   { path: '/dashboard/band', label: 'Banda', icon: Music },
   { path: '/dashboard/rectoria', label: 'Rectoría', icon: Building },
+  { path: '/dashboard/webcolegios-scraping', label: 'Scraping WebColegios', icon: Bot },
 ];
 
 interface SidebarProps {

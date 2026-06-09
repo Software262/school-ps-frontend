@@ -1,0 +1,1 @@
+export { WebcolegiosScrapingHistoryTable } from './WebcolegiosScrapingHistoryTable';

@@ -1,0 +1,1 @@
+export { useBulkLoadWebcolegios } from './useBulkLoadWebcolegios';
