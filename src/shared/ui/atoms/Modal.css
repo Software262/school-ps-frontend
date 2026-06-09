@@ -112,51 +112,6 @@
   border-top: 1px solid var(--card-border);
 }
 
-/* === Buttons === */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
-  font-family: var(--font-sans);
-  font-size: var(--font-size-base);
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    opacity var(--transition-fast);
-  border: none;
-  white-space: nowrap;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-primary {
-  background: var(--brand-primary);
-  color: #fff;
-}
-.btn-primary:hover:not(:disabled) {
-  background: var(--brand-primary-hover);
-}
-
-.btn-secondary {
-  background: var(--status-gray-bg);
-  color: var(--text-secondary);
-  border: 1px solid var(--card-border);
-}
-.btn-secondary:hover:not(:disabled) {
-  background: #e5e7eb;
-}
-
-.btn-sm {
-  padding: 5px 12px;
-  font-size: var(--font-size-sm);
-}
-
 /* === Alert / Error === */
 .alert {
   padding: 10px 14px;
