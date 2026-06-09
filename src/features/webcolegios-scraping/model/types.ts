@@ -22,14 +22,14 @@ export interface WebcolegiosScrapingHistoryItem {
   tipo_entidad: string;
   documento_identidad: string;
   nombre?: string | null;
-  estado: WebcolegiosScrapingImportState | string;
+  estado: WebcolegiosScrapingImportState;
   fecha_ingreso: string;
   observacion: string;
 }
 
 export interface WebcolegiosScrapingStatusResponse {
   total_registros: number;
-  ultimo_estado: WebcolegiosScrapingImportState | string | null;
+  ultimo_estado: WebcolegiosScrapingImportState | null;
   ultima_fecha: string | null;
   recientes: WebcolegiosScrapingHistoryItem[];
 }

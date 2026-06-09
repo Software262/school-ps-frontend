@@ -36,7 +36,13 @@ export const useLoadWebcolegiosScrapingHistory = () => {
   }, []);
 
   useEffect(() => {
-    void load(false);
+    const timeoutId = window.setTimeout(() => {
+      void load(false);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, [load]);
 
   const refetch = useCallback(() => load(true), [load]);

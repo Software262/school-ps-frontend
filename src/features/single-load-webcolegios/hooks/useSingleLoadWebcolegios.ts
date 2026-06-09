@@ -48,11 +48,16 @@ const getErrorMessage = (error: unknown): string => {
 };
 
 const cleanRecord = (record: Record<string, string>): WebcolegiosManualRecord => {
-  return Object.fromEntries(
-    Object.entries(record)
-      .map(([key, value]) => [key, value.trim()])
-      .filter(([, value]) => value.length > 0),
-  );
+  const cleanedRecord: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(record)) {
+    const trimmedValue = value.trim();
+    if (trimmedValue.length > 0) {
+      cleanedRecord[key] = trimmedValue;
+    }
+  }
+
+  return cleanedRecord;
 };
 
 export const useSingleLoadWebcolegios = (onSuccess?: () => Promise<void> | void) => {

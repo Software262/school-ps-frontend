@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { LoaderCircle, Upload } from 'lucide-react';
 import { WebcolegiosScrapingResultSummary } from '@/features/run-webcolegios-scraping';
 import { useBulkLoadWebcolegios } from '../hooks';
@@ -12,7 +12,7 @@ export const BulkLoadPanel = ({ onSuccess }: BulkLoadPanelProps) => {
   const { fields, errors, loading, result, handleChange, submit } =
     useBulkLoadWebcolegios(onSuccess);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     void submit();
   };

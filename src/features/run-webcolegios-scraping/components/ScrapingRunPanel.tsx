@@ -1,5 +1,5 @@
 import { Link2, LockKeyhole, User } from 'lucide-react';
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import type {
   WebcolegiosScrapingFormErrors,
   WebcolegiosScrapingFormFields,
@@ -26,7 +26,7 @@ export const ScrapingRunPanel = ({
     void onRun(mode);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     submitRun('full');
   };

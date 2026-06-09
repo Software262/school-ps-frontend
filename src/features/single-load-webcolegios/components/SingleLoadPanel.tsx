@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import { LoaderCircle, Save } from 'lucide-react';
 import { WebcolegiosScrapingResultSummary } from '@/features/run-webcolegios-scraping';
 import { useSingleLoadWebcolegios } from '../hooks';
@@ -36,7 +36,7 @@ export const SingleLoadPanel = ({ onSuccess }: SingleLoadPanelProps) => {
   const { fields, errors, loading, result, handleChange, submit } =
     useSingleLoadWebcolegios(onSuccess);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     void submit();
   };

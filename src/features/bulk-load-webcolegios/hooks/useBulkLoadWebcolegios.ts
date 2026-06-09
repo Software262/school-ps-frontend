@@ -30,7 +30,7 @@ const parseRecords = (value: string): WebcolegiosManualRecord[] => {
   if (parsed.length === 0) {
     throw new Error('La lista no puede estar vacia.');
   }
-  return parsed as WebcolegiosManualRecord[];
+  return parsed;
 };
 
 const getErrorMessage = (error: unknown): string => {
