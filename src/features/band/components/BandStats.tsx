@@ -1,31 +1,6 @@
-import type { BandStat } from '../hooks/useBandStats';
+import { ModuleStats } from '@/shared/ui/organisms/ModuleStats';
+import type { ModuleStat } from '@/shared/hooks/useModuleStats';
 
-interface BandStatsProps {
-  stats: BandStat[];
-}
-
-const getVariantClass = (variant: BandStat['variant']) => {
-  switch (variant) {
-    case 'green':
-      return 'stat-green';
-    case 'yellow':
-      return 'stat-yellow';
-    case 'gray':
-      return 'stat-gray';
-    default:
-      return 'stat-default';
-  }
-};
-
-export const BandStats = ({ stats }: BandStatsProps) => {
-  return (
-    <div className="band-stats">
-      {stats.map((stat) => (
-        <div key={stat.label} className={`stat-card ${getVariantClass(stat.variant)}`}>
-          <p className="stat-label">{stat.label}</p>
-          <p className="stat-value">{stat.value}</p>
-        </div>
-      ))}
-    </div>
-  );
-};
+export const BandStats = ({ stats }: { stats: ModuleStat[] }) => (
+  <ModuleStats stats={stats} className="band-stats" />
+);

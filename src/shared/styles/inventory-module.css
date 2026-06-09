@@ -1,0 +1,486 @@
+/* =====================================================================
+   Shared styles — Inventory module pages (Band, Sport, Chess)
+   ===================================================================== */
+
+/* === Page wrapper === */
+.band-page,
+.sport-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* === Page header === */
+.band-header h1,
+.sport-header h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.025em;
+}
+
+.band-header p,
+.sport-header p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* === Alert box === */
+.band-alert,
+.sport-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #f0faf4 0%, #e8f7f0 100%);
+  border: 1px solid var(--info-border);
+  border-left: 4px solid var(--status-green);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px rgba(45, 125, 70, 0.08);
+}
+
+.band-alert-icon,
+.sport-alert-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+.band-alert-content h3,
+.sport-alert-content h3 {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  color: var(--info-text);
+  margin: 0 0 4px 0;
+}
+
+.band-alert-content p,
+.sport-alert-content p {
+  font-size: var(--font-size-sm);
+  color: var(--info-text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* === Stats grid === */
+.band-stats,
+.sport-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* === Stat cards === */
+.stat-card {
+  padding: 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-card.stat-default {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.stat-card.stat-green {
+  background-color: var(--status-green-bg);
+  border-color: var(--status-green-border);
+}
+
+.stat-card.stat-yellow {
+  background-color: var(--status-yellow-bg);
+  border-color: var(--status-yellow-border);
+}
+
+.stat-card.stat-gray {
+  background-color: var(--status-gray-bg);
+  border-color: var(--status-gray-border);
+}
+
+.stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.stat-card.stat-default .stat-value {
+  color: var(--text-primary);
+}
+.stat-card.stat-green .stat-value {
+  color: var(--status-green);
+}
+.stat-card.stat-yellow .stat-value {
+  color: var(--status-yellow);
+}
+.stat-card.stat-gray .stat-value {
+  color: var(--status-gray);
+}
+
+/* === Tabs === */
+.band-tabs,
+.sport-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--card-border);
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-button:hover {
+  color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.tab-button.active {
+  color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
+}
+
+.tab-icon {
+  font-size: 18px;
+}
+
+/* === Content area === */
+.band-content,
+.sport-content {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  transition: box-shadow var(--transition-normal);
+}
+
+.band-content:hover,
+.sport-content:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.025);
+}
+
+/* === Table section === */
+.table-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Table filters === */
+.table-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--card-border);
+  background-color: var(--card-bg);
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  outline: none;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset;
+}
+
+.search-input:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--input-placeholder);
+}
+
+/* === Filter buttons === */
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background-color: var(--card-border);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.filter-btn:hover {
+  background-color: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+}
+
+.filter-btn-active {
+  background-color: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+  box-shadow: 0 2px 8px rgba(123, 29, 29, 0.3);
+}
+
+/* === Inventory section header === */
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+  gap: 12px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.inventory-header-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.inventory-selected-hint {
+  font-size: var(--font-size-sm);
+  color: var(--status-green);
+  white-space: nowrap;
+}
+
+/* === Action buttons === */
+.btn-new-item,
+.btn-new-loan {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--status-green) 0%, #1f6d38 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(45, 125, 70, 0.2);
+}
+
+.btn-new-item:hover:not(:disabled),
+.btn-new-loan:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(45, 125, 70, 0.3);
+}
+
+.btn-new-item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-edit-item,
+.btn-return-loan {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--status-yellow) 0%, #b8860b 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(184, 134, 11, 0.2);
+}
+
+.btn-edit-item:hover:not(:disabled),
+.btn-return-loan:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(184, 134, 11, 0.3);
+}
+
+.btn-edit-item:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* === Loans section === */
+.loans-section {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.loans-section > div:first-child {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.loans-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+  gap: 12px;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.loans-header-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* === Pagination === */
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--card-bg);
+  border-top: 1px solid var(--card-border);
+}
+
+.pagination-btn {
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(123, 29, 29, 0.2);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(123, 29, 29, 0.3);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.pagination-btn-prev {
+  order: 1;
+}
+.pagination-btn-next {
+  order: 3;
+}
+
+.pagination-info {
+  order: 2;
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.pagination-number {
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .band-header h1,
+  .sport-header h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .band-stats,
+  .sport-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-value {
+    font-size: 1.25rem;
+  }
+
+  .tab-button {
+    font-size: var(--font-size-sm);
+    padding: 10px 12px;
+  }
+
+  .pagination-wrapper {
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: var(--font-size-xs);
+  }
+
+  .search-input {
+    min-width: 100%;
+  }
+
+  .filter-buttons {
+    width: 100%;
+  }
+
+  .filter-btn {
+    flex: 1;
+  }
+}

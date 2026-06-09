@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react';
 import './TuitionManager.css';
+import { Button } from '@/shared/ui/atoms/Button';
 import { useTuition } from '@/features/manage-tuition/hooks/useTuition';
 import { StudentInfoCard } from '@/features/manage-tuition/components/StudentInfoCard';
 import { InstallmentsGrid } from '@/features/manage-tuition/components/InstallmentsGrid';
@@ -22,10 +23,6 @@ export const TuitionManager = () => {
   const handleOpenModal = (installment: TuitionInstallmentResponse) => {
     if (!installment.faltante) return;
     setSelectedMonth(installment);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedMonth(null);
   };
 
   return (
@@ -52,13 +49,14 @@ export const TuitionManager = () => {
           Ingrese la cédula del estudiante para consultar el estado de pensiones.
         </div>
 
-        {errorMsg && <div className="error-alert">{errorMsg}</div>}
+        {errorMsg && <div className="alert alert-error">{errorMsg}</div>}
 
         <form className="search-form" onSubmit={handleSearch}>
           <div className="input-group">
             <label>Cédula del Estudiante</label>
             <input
               type="text"
+              className="form-input"
               placeholder="Ej: 1023456789"
               value={studentId}
               onChange={(e) => {
@@ -67,7 +65,7 @@ export const TuitionManager = () => {
               disabled={loading}
             />
           </div>
-          <button type="submit" className="btn-primary" disabled={loading || !studentId.trim()}>
+          <Button type="submit" variant="primary" disabled={loading || !studentId.trim()}>
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
@@ -77,7 +75,7 @@ export const TuitionManager = () => {
               />
             </svg>
             {loading ? 'Buscando...' : 'Buscar'}
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -95,7 +93,7 @@ export const TuitionManager = () => {
               </svg>
               Limpiar Búsqueda
             </button>
-            <button className="btn-outline">
+            <Button variant="outline">
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
@@ -105,7 +103,7 @@ export const TuitionManager = () => {
                 />
               </svg>
               Ver Historial de Auditoría
-            </button>
+            </Button>
           </div>
 
           <StudentInfoCard accountData={accountData} />
@@ -121,7 +119,9 @@ export const TuitionManager = () => {
         <PaymentModal
           selectedMonth={selectedMonth}
           estudianteId={accountData.estudiante_id}
-          onClose={handleCloseModal}
+          onClose={() => {
+            setSelectedMonth(null);
+          }}
           onPaymentSuccess={refetch}
           submitPayment={submitPayment}
         />
