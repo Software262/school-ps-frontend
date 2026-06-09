@@ -1,6 +1,10 @@
 import { useState, type SubmitEvent } from 'react';
-import type { TuitionInstallmentResponse } from '@/entities/tuition/model/types';
-import type { PaymentCreateRequest } from '@/entities/tuition/model/types';
+import { Modal } from '@/shared/ui/atoms/Modal';
+import { Button } from '@/shared/ui/atoms/Button';
+import type {
+  TuitionInstallmentResponse,
+  PaymentCreateRequest,
+} from '@/entities/tuition/model/types';
 
 const MONTH_NAMES = [
   '',
@@ -56,7 +60,6 @@ export const PaymentModal = ({
   const executePayment = async () => {
     const amount = parseFloat(paymentAmount);
     if (isNaN(amount) || amount <= 0) return;
-
     try {
       setPaymentLoading(true);
       setErrorMsg('');
@@ -76,202 +79,158 @@ export const PaymentModal = ({
     }
   };
 
+  const handleModalClose = () => {
+    if (errorMsg) {
+      setErrorMsg('');
+      return;
+    }
+    if (showConfirmDialog) {
+      setShowConfirmDialog(false);
+      return;
+    }
+    onClose();
+  };
+
+  const modalTitle = errorMsg
+    ? 'No se pudo procesar'
+    : showConfirmDialog
+      ? 'Confirmar Abono'
+      : `Registrar Abono — ${MONTH_NAMES[selectedMonth.mes]}`;
+
   return (
-    <>
-      {/* Payment Form Modal */}
-      <div className="modal-overlay">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h3>Registrar Abono - {MONTH_NAMES[selectedMonth.mes]}</h3>
-            <button className="close-btn" onClick={onClose}>
-              ✕
-            </button>
-          </div>
-          <form onSubmit={handleFormSubmit} className="modal-body">
-            <div className="input-group">
-              <label>Valor a pagar o ajustar (COP)</label>
-              <input
-                type="number"
-                value={paymentAmount}
-                onChange={(e) => {
-                  setPaymentAmount(e.target.value);
-                }}
-                max={selectedMonth.saldo_pendiente}
-                min="1"
-                required
-                disabled={paymentLoading}
+    <Modal isOpen onClose={handleModalClose} title={modalTitle} width={450}>
+      {errorMsg ? (
+        /* ── Error ── */
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ color: 'var(--status-red)', marginBottom: '1rem' }}>
+            <svg
+              width="48"
+              height="48"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              style={{ margin: '0 auto' }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
-            </div>
-            <div className="input-group" style={{ marginTop: '1rem' }}>
-              <label>Motivo / Justificación (Obligatorio)</label>
-              <textarea
-                value={justification}
-                onChange={(e) => {
-                  setJustification(e.target.value);
-                }}
-                required
-                disabled={paymentLoading}
-                placeholder="Ej: Abono en efectivo / Ajuste autorizado"
-                rows={2}
-                style={{
-                  width: '100%',
-                  padding: '0.625rem 1rem',
-                  borderRadius: '6px',
-                  border: '1px solid var(--card-border)',
-                  outline: 'none',
-                  resize: 'vertical',
-                }}
+            </svg>
+          </div>
+          <p
+            style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.5rem' }}
+          >
+            {errorMsg}
+          </p>
+          <div className="form-actions" style={{ justifyContent: 'center' }}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setErrorMsg('');
+              }}
+              style={{ width: '100%' }}
+            >
+              Entendido
+            </Button>
+          </div>
+        </div>
+      ) : showConfirmDialog ? (
+        /* ── Confirm ── */
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ color: 'var(--status-yellow)', marginBottom: '1rem' }}>
+            <svg
+              width="48"
+              height="48"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              style={{ margin: '0 auto' }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
               />
-            </div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-              Saldo actual: {formatCurrency(selectedMonth.saldo_pendiente)}
-            </p>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={onClose}
-                disabled={paymentLoading}
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="btn-primary"
-                disabled={paymentLoading || !paymentAmount}
-              >
-                Continuar
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      {/* Confirm Dialog */}
-      {showConfirmDialog && (
-        <div className="modal-overlay" style={{ zIndex: 1050 }}>
-          <div className="modal-content" style={{ width: '350px', textAlign: 'center' }}>
-            <div style={{ marginBottom: '1rem', color: 'var(--status-yellow)' }}>
-              <svg
-                width="48"
-                height="48"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                style={{ margin: '0 auto' }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                />
-              </svg>
-            </div>
-            <h3
-              style={{
-                fontSize: '1.25rem',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '0.5rem',
+            </svg>
+          </div>
+          <p
+            style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.5rem' }}
+          >
+            ¿Está seguro que desea registrar un pago de{' '}
+            <strong style={{ color: 'var(--text-primary)' }}>
+              {formatCurrency(parseFloat(paymentAmount))}
+            </strong>{' '}
+            para <strong>{MONTH_NAMES[selectedMonth.mes]}</strong>?
+          </p>
+          <div className="form-actions" style={{ justifyContent: 'center' }}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setShowConfirmDialog(false);
               }}
+              disabled={paymentLoading}
             >
-              Confirmar Abono
-            </h3>
-            <p
-              style={{
-                color: 'var(--text-secondary)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem',
+              Cancelar
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                void executePayment();
               }}
+              disabled={paymentLoading}
             >
-              ¿Está seguro que desea registrar un pago por valor de{' '}
-              <strong style={{ color: 'var(--text-primary)' }}>
-                {formatCurrency(parseFloat(paymentAmount))}
-              </strong>{' '}
-              para el mes de <strong>{MONTH_NAMES[selectedMonth.mes]}</strong>?
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-              <button
-                type="button"
-                className="btn-secondary"
-                onClick={() => {
-                  setShowConfirmDialog(false);
-                }}
-                disabled={paymentLoading}
-                style={{ flex: 1 }}
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => void executePayment()}
-                disabled={paymentLoading}
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                {paymentLoading ? 'Procesando...' : 'Sí, Confirmar'}
-              </button>
-            </div>
+              {paymentLoading ? 'Procesando...' : 'Sí, Confirmar'}
+            </Button>
           </div>
         </div>
-      )}
-
-      {/* Error Dialog */}
-      {errorMsg && (
-        <div className="modal-overlay" style={{ zIndex: 1100 }}>
-          <div className="modal-content" style={{ width: '350px', textAlign: 'center' }}>
-            <div style={{ marginBottom: '1rem', color: 'var(--status-red)' }}>
-              <svg
-                width="48"
-                height="48"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                style={{ margin: '0 auto' }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3
-              style={{
-                fontSize: '1.25rem',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '0.5rem',
+      ) : (
+        /* ── Form ── */
+        <form onSubmit={handleFormSubmit}>
+          <div className="form-group">
+            <label className="form-label">Valor a pagar o ajustar (COP)</label>
+            <input
+              type="number"
+              className="form-input"
+              value={paymentAmount}
+              onChange={(e) => {
+                setPaymentAmount(e.target.value);
               }}
-            >
-              No se pudo procesar
-            </h3>
-            <p
-              style={{
-                color: 'var(--text-secondary)',
-                fontSize: '0.875rem',
-                marginBottom: '1.5rem',
-              }}
-            >
-              {errorMsg}
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={() => {
-                  setErrorMsg('');
-                }}
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                Entendido
-              </button>
-            </div>
+              max={selectedMonth.saldo_pendiente}
+              min="1"
+              required
+              disabled={paymentLoading}
+            />
           </div>
-        </div>
+          <div className="form-group">
+            <label className="form-label">Motivo / Justificación (Obligatorio)</label>
+            <textarea
+              className="form-textarea"
+              value={justification}
+              onChange={(e) => {
+                setJustification(e.target.value);
+              }}
+              required
+              disabled={paymentLoading}
+              placeholder="Ej: Abono en efectivo / Ajuste autorizado"
+              rows={2}
+            />
+          </div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+            Saldo actual: {formatCurrency(selectedMonth.saldo_pendiente)}
+          </p>
+          <div className="form-actions">
+            <Button type="button" variant="secondary" onClick={onClose} disabled={paymentLoading}>
+              Cancelar
+            </Button>
+            <Button type="submit" variant="primary" disabled={paymentLoading || !paymentAmount}>
+              Continuar
+            </Button>
+          </div>
+        </form>
       )}
-    </>
+    </Modal>
   );
 };

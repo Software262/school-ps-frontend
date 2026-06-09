@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type SubmitEvent } from 'react';
 import { Button } from '@/shared/ui/atoms/Button';
 import { PupitreTable } from '@/features/classroom/components/PupitreTable';
 import { useLoadPupitresByGrade } from '../hooks/useLoadPupitresByGrade';
@@ -13,7 +13,7 @@ export const PupitresByGradeSection = ({ onSeleccionar }: PupitresByGradeSection
   const [gradoSeleccionado, setGradoSeleccionado] = useState<number | null>(null);
   const { loading, error, grados, pupitres, fetchPupitresByGrade } = useLoadPupitresByGrade();
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (gradoSeleccionado) {
       await fetchPupitresByGrade(gradoSeleccionado);

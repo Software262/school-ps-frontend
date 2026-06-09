@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import type { ChessInventory, ChessLoan, ChessStats } from '@/features/chess/model/types';
+import type { ModuleStat } from '@/shared/hooks/useModuleStats';
+import type { ChessInventory, ChessLoan } from '@/features/chess/model/types';
 
-export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): ChessStats => {
-  return useMemo(() => {
+export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): ModuleStat[] =>
+  useMemo(() => {
     const totalItems = inventory.reduce((sum, i) => sum + i.cantidad, 0);
     const borrowedItems = loans.filter((l) => l.estado_prestamo).length;
     const damagedItems = inventory
@@ -10,6 +11,10 @@ export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): 
       .reduce((sum, i) => sum + i.cantidad, 0);
     const availableItems = totalItems - borrowedItems - damagedItems;
 
-    return { totalItems, availableItems, borrowedItems, damagedItems };
+    return [
+      { label: 'Total Tableros', value: String(totalItems), variant: 'default' },
+      { label: 'Disponibles', value: String(availableItems), variant: 'green' },
+      { label: 'En Préstamo', value: String(borrowedItems), variant: 'yellow' },
+      { label: 'Dañados / Incompletos', value: String(damagedItems), variant: 'gray' },
+    ];
   }, [inventory, loans]);
-};

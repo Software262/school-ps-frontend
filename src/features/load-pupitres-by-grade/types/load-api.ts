@@ -1,6 +1,7 @@
 export interface GradeInfo {
   id: number;
   nombre: string;
+  docente_titular: string | null;
 }
 
 export interface PupitreByGrade {
