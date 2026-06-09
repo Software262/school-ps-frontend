@@ -1,6 +1,9 @@
 import { useState, type SyntheticEvent } from 'react';
 import { createChessBorrow } from '@/features/new-chess-loan/api/create-chess-loan';
 import type { ChessInventory } from '@/features/chess/model/types';
+import { Modal, Spinner } from '@/shared/ui';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Input } from '@/shared/ui/atoms/Input';
 
 interface Props {
   isOpen: boolean;
@@ -56,82 +59,68 @@ export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: Props) =
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h3>Nuevo Préstamo de Ajedrez</h3>
-          <button className="close-btn" onClick={onClose}>
-            ✕
-          </button>
+    <Modal isOpen={isOpen} onClose={onClose} title="Nuevo Préstamo de Ajedrez" width={450}>
+      {item && (
+        <div className="modal-item-info">
+          Tablero: <strong>{item.nombre}</strong> (Stock: {item.cantidad})
         </div>
-        {item && (
-          <div className="modal-item-info">
-            Tablero: <strong>{item.nombre}</strong> (Stock: {item.cantidad})
-          </div>
-        )}
-        {error && <div className="error-alert">{error}</div>}
-        <form
-          onSubmit={(e) => {
-            void handleSubmit(e);
+      )}
+      {error && <div className="alert alert-error">{error}</div>}
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(e);
+        }}
+        style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+      >
+        <Input
+          label="ID del Estudiante"
+          type="number"
+          value={estudianteId}
+          onChange={(e) => {
+            setEstudianteId(e.target.value);
           }}
-          className="modal-body"
-        >
-          <div className="input-group">
-            <label>ID del Estudiante</label>
-            <input
-              type="number"
-              value={estudianteId}
-              onChange={(e) => {
-                setEstudianteId(e.target.value);
-              }}
-              required
-              disabled={loading}
-              placeholder="Ej: 12345"
-            />
-          </div>
-          <div className="input-group" style={{ marginTop: '1rem' }}>
-            <label>Cantidad</label>
-            <input
-              type="number"
-              value={cantidad}
-              onChange={(e) => {
-                setCantidad(Number(e.target.value));
-              }}
-              min={1}
-              max={item?.cantidad ?? 1}
-              required
-              disabled={loading}
-            />
-          </div>
-          <div className="input-group" style={{ marginTop: '1rem' }}>
-            <label>Observación</label>
-            <input
-              type="text"
-              value={observacion}
-              onChange={(e) => {
-                setObservacion(e.target.value);
-              }}
-              disabled={loading}
-              placeholder="Opcional"
-            />
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn-secondary" onClick={onClose} disabled={loading}>
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="btn-primary"
-              disabled={loading || !estudianteId.trim()}
-            >
-              {loading ? 'Creando...' : 'Registrar Préstamo'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          required
+          disabled={loading}
+          placeholder="Ej: 12345"
+        />
+        <Input
+          label="Cantidad"
+          type="number"
+          value={cantidad}
+          onChange={(e) => {
+            setCantidad(Number(e.target.value));
+          }}
+          min={1}
+          max={item?.cantidad ?? 1}
+          required
+          disabled={loading}
+        />
+        <Input
+          label="Observación"
+          type="text"
+          value={observacion}
+          onChange={(e) => {
+            setObservacion(e.target.value);
+          }}
+          disabled={loading}
+          placeholder="Opcional"
+        />
+        <div className="form-actions">
+          <Button type="button" variant="secondary" onClick={onClose} disabled={loading}>
+            Cancelar
+          </Button>
+          <Button type="submit" variant="primary" disabled={loading || !estudianteId.trim()}>
+            {loading ? (
+              <>
+                <Spinner size={14} color="white" /> Creando...
+              </>
+            ) : (
+              'Registrar Préstamo'
+            )}
+          </Button>
+        </div>
+      </form>
+    </Modal>
   );
 };

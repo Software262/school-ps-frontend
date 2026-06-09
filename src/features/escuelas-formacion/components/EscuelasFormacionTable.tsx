@@ -1,5 +1,6 @@
 import { CalendarDays, CreditCard, FileText, GraduationCap, LogOut, X } from 'lucide-react';
 import { Badge } from '@/shared/ui/atoms/Badge';
+import { Button } from '@/shared/ui/atoms/Button';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { Enrollment } from '../model/types';
 
@@ -121,8 +122,9 @@ export const EscuelasFormacionTable = ({
                   <td>
                     <div className="ef-row-actions">
                       {e.activo && e.saldo_pendiente > 0 && (
-                        <button
-                          className="btn btn-secondary btn-sm"
+                        <Button
+                          variant="secondary"
+                          size="sm"
                           onClick={() => {
                             onPayment(e);
                           }}
@@ -130,11 +132,13 @@ export const EscuelasFormacionTable = ({
                         >
                           <CreditCard size={12} />
                           Pago
-                        </button>
+                        </Button>
                       )}
                       {e.activo && (
-                        <button
-                          className="btn btn-secondary btn-sm ef-btn-withdraw"
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="ef-btn-withdraw"
                           onClick={() => {
                             onWithdraw(e);
                           }}
@@ -142,17 +146,18 @@ export const EscuelasFormacionTable = ({
                         >
                           <LogOut size={12} />
                           Retirar
-                        </button>
+                        </Button>
                       )}
-                      <button
-                        className="btn btn-secondary btn-sm"
+                      <Button
+                        variant="secondary"
+                        size="sm"
                         onClick={() => {
                           onComprobante(e);
                         }}
                         title="Ver comprobante"
                       >
                         <FileText size={12} />
-                      </button>
+                      </Button>
                       {!e.activo && e.motivo_retiro && (
                         <span className="ef-motivo" title={e.motivo_retiro}>
                           {e.motivo_retiro.length > 28

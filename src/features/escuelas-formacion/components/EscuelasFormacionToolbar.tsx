@@ -1,4 +1,5 @@
 import { ChevronDown, Plus, Users } from 'lucide-react';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { Period } from '../model/types';
 
 interface EscuelasFormacionToolbarProps {
@@ -58,10 +59,10 @@ export const EscuelasFormacionToolbar = ({
             )}
           </div>
         )}
-        <button className="btn btn-primary" onClick={onNewEnrollment}>
+        <Button variant="primary" size="md" onClick={onNewEnrollment}>
           <Plus size={14} />
           Nueva Inscripción
-        </button>
+        </Button>
       </div>
     </div>
   );

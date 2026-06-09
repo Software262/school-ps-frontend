@@ -1,6 +1,8 @@
 import { useImperativeHandle, useRef, useState, type Ref, type SubmitEvent } from 'react';
 import { Search, UserPlus } from 'lucide-react';
 import { Badge } from '@/shared/ui/atoms/Badge';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Input } from '@/shared/ui/atoms/Input';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { Student } from '../model/types';
 import { useStudentSearch } from '../hooks';
@@ -51,38 +53,34 @@ export const EscuelasFormacionStudentSearch = ({
       </div>
       <form id="form-search-student" className="filter-form" onSubmit={(e) => void handleSearch(e)}>
         <div className="filter-fields" style={{ gridTemplateColumns: '1fr' }}>
-          <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label" htmlFor="ef-search">
-              Nombre o documento
-            </label>
-            <input
-              id="ef-search"
-              className="form-input"
-              type="text"
-              placeholder="Ingrese nombre o número de documento"
-              value={searchInput}
-              onChange={(e) => {
-                setSearchInput(e.target.value);
-              }}
-              ref={searchInputRef}
-            />
-          </div>
+          <Input
+            id="ef-search"
+            label="Nombre o documento"
+            type="text"
+            placeholder="Ingrese nombre o número de documento"
+            value={searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+            }}
+            ref={searchInputRef}
+          />
         </div>
         <div className="filter-actions">
           {studentSearch.query && (
-            <button type="button" className="btn btn-secondary" onClick={clearSearch}>
+            <Button type="button" variant="secondary" size="md" onClick={clearSearch}>
               Limpiar
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             id="btn-buscar-estudiante"
             type="submit"
-            className="btn btn-primary"
+            variant="primary"
+            size="md"
             disabled={searchInput.trim().length < 2 || studentSearch.loading}
           >
             {studentSearch.loading ? <Spinner size={13} color="#fff" /> : <Search size={13} />}
             Buscar
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -108,8 +106,9 @@ export const EscuelasFormacionStudentSearch = ({
                 <span className="ef-student-doc">Doc: {s.documento}</span>
                 {!s.activo && <Badge variant="red">Inactivo</Badge>}
               </div>
-              <button
-                className="btn btn-primary btn-sm"
+              <Button
+                variant="primary"
+                size="md"
                 onClick={() => {
                   onEnroll(s);
                 }}
@@ -117,7 +116,7 @@ export const EscuelasFormacionStudentSearch = ({
               >
                 <UserPlus size={13} />
                 Inscribir
-              </button>
+              </Button>
             </div>
           ))}
         </div>
