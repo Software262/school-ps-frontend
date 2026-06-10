@@ -1,0 +1,234 @@
+/* =============================================
+   SchoolPS — Enrollment (Matrícula) Styles
+   ============================================= */
+
+.enrollment-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Page titles */
+.enrollment-view .page-title h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
+}
+
+.enrollment-view .page-title p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+/* Page titles custom wrapper */
+.enrollment-page-header {
+  margin-bottom: 4px;
+}
+
+/* Override primary buttons to use brand vinotinto gradient */
+.enrollment-view .btn-primary,
+.modal-content .btn-primary,
+.enrollment-view .btn-primary:not(:disabled),
+.modal-content .btn-primary:not(:disabled) {
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%) !important;
+  color: var(--text-on-brand) !important;
+  transition: all var(--transition-fast) !important;
+  box-shadow: 0 2px 4px rgba(123, 29, 29, 0.2) !important;
+  border: none !important;
+  cursor: pointer;
+}
+
+.enrollment-view .btn-primary:hover:not(:disabled),
+.modal-content .btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 6px rgba(123, 29, 29, 0.3) !important;
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary-hover) 0%,
+    var(--brand-primary) 100%
+  ) !important;
+}
+
+.enrollment-view .btn-primary:active:not(:disabled),
+.modal-content .btn-primary:active:not(:disabled) {
+  transform: translateY(0) !important;
+  box-shadow: 0 1px 2px rgba(123, 29, 29, 0.2) !important;
+}
+
+.enrollment-view .btn-primary:disabled,
+.modal-content .btn-primary:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  filter: grayscale(0.5) !important;
+  background: var(--border) !important;
+  box-shadow: none !important;
+}
+
+/* Focus styles for inputs */
+.enrollment-view .input-field:focus,
+.modal-content .input-field:focus {
+  border-color: var(--input-border-focus) !important;
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1) !important;
+}
+
+/* Secondary & Outline Buttons */
+.enrollment-view .btn-outline,
+.modal-content .btn-outline {
+  border: 1px solid var(--card-border) !important;
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  transition: all var(--transition-fast) !important;
+  cursor: pointer !important;
+}
+
+.enrollment-view .btn-outline:hover:not(:disabled),
+.modal-content .btn-outline:hover:not(:disabled) {
+  border-color: var(--text-muted) !important;
+  background-color: #f9fafb !important;
+}
+
+.enrollment-view .btn-secondary,
+.modal-content .btn-secondary {
+  background: white !important;
+  border: 1px solid var(--card-border) !important;
+  color: var(--text-primary) !important;
+  transition: all var(--transition-fast) !important;
+  cursor: pointer !important;
+}
+
+.enrollment-view .btn-secondary:hover:not(:disabled),
+.modal-content .btn-secondary:hover:not(:disabled) {
+  background-color: #f9fafb !important;
+  border-color: #d1d5db !important;
+}
+
+/* Link Buttons */
+.enrollment-view .btn-link,
+.modal-content .btn-link {
+  color: var(--text-secondary) !important;
+  background: none !important;
+  font-size: var(--font-size-sm) !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  cursor: pointer !important;
+  border: none !important;
+  transition: color var(--transition-fast) !important;
+}
+
+.enrollment-view .btn-link:hover,
+.modal-content .btn-link:hover {
+  color: var(--brand-primary) !important;
+}
+
+/* Search Header & Info Box */
+.enrollment-view .search-header,
+.modal-content .search-header {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  color: var(--brand-primary);
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.enrollment-view .search-info,
+.modal-content .search-info {
+  background-color: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-sm);
+  color: var(--info-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Custom selection banner */
+.enrollment-view .selected-banner {
+  background-color: var(--info-bg);
+  border: 1px solid var(--info-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enrollment-view .selected-banner p {
+  color: var(--info-text);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+/* Pending banner (Warning) */
+.enrollment-view .pending-banner,
+.modal-content .pending-banner {
+  background-color: var(--status-yellow-bg);
+  border: 1px solid var(--status-yellow-border);
+  color: var(--status-yellow);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.enrollment-view .pending-banner p,
+.modal-content .pending-banner p {
+  color: var(--status-yellow);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+/* Red alert/warning box */
+.enrollment-view .warning-banner,
+.modal-content .warning-banner {
+  background-color: var(--status-red-bg);
+  border: 1px solid var(--status-red-border);
+  color: var(--status-red);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.enrollment-view .warning-banner p,
+.modal-content .warning-banner p {
+  color: var(--status-red);
+  margin: 0;
+}
+
+/* Radio Button style override */
+.enrollment-view .data-table input[type='radio'] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand-primary);
+}
+
+/* Table container styling match */
+.enrollment-view .table-container {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.enrollment-view .data-table th {
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

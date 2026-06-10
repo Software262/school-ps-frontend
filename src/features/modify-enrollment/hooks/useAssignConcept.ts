@@ -41,11 +41,11 @@ export const useAssignConcept = () => {
   }, []);
 
   const assignConcept = useCallback(
-    async (matriculaId: number, payload: { complementario_id: number; descuento: number }) => {
+    async (studentId: number, payload: { complementario_id: number; descuento: number }) => {
       setLoading(true);
       setError(null);
       try {
-        const data = await assignComplementaryConcept(matriculaId, payload);
+        const data = await assignComplementaryConcept(studentId, payload);
         return data;
       } catch (err: unknown) {
         setError(

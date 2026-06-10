@@ -52,11 +52,11 @@ export const createComplementaryConcept = async (
 };
 
 export const assignComplementaryConcept = async (
-  matriculaId: number,
+  studentId: number,
   payload: { complementario_id: number; descuento: number },
 ): Promise<{ mensaje: string; detalle_id: number }> => {
   return fetchApi<{ mensaje: string; detalle_id: number }>(
-    `/enrollment/students/${matriculaId.toString()}/complementary/assign`,
+    `/enrollment/students/${studentId.toString()}/complementary/assign`,
     {
       method: 'POST',
       body: JSON.stringify(payload),

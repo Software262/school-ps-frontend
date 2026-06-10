@@ -4,6 +4,7 @@ import { Modal } from '@/shared/ui/atoms/Modal';
 import { useUpdatePupitre } from '../hooks/useUpdatePupitre';
 
 interface UpdatePupitreFormProps {
+  isOpen: boolean;
   estudiante_id: number;
   nombre: string;
   estadoActual: boolean;
@@ -12,6 +13,7 @@ interface UpdatePupitreFormProps {
 }
 
 export const UpdatePupitreForm = ({
+  isOpen,
   estudiante_id,
   nombre,
   estadoActual,
@@ -31,17 +33,19 @@ export const UpdatePupitreForm = ({
     const result = await ejecutarUpdate(estudiante_id, estado, observacion || null);
     if (result) {
       setMostrarConfirmacion(false);
+      setObservacion('');
       onExito(estado);
     }
   };
 
   return (
     <>
-      <div className="card" style={{ marginTop: '24px' }}>
-        <h3 style={{ fontSize: '1.1rem', marginBottom: '16px' }}>
-          Actualizar Estado del Pupitre — {nombre}
-        </h3>
-
+      <Modal
+        isOpen={isOpen}
+        onClose={onCancelar}
+        title={`Actualizar Estado del Pupitre — ${nombre}`}
+        width={500}
+      >
         <p style={{ fontSize: '0.875rem', fontWeight: 500, marginBottom: '8px' }}>Estado</p>
         <div style={{ display: 'flex', gap: '24px', marginBottom: '16px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -115,15 +119,15 @@ export const UpdatePupitreForm = ({
             Guardar
           </Button>
         </div>
-      </div>
+      </Modal>
 
-      {/* Modal de confirmación */}
       <Modal
         isOpen={mostrarConfirmacion}
         onClose={() => {
           setMostrarConfirmacion(false);
         }}
         title="Confirmar cambio de estado"
+        width={400}
       >
         <p style={{ marginBottom: '24px', color: '#4b5563' }}>
           ¿Está seguro que desea cambiar el estado del pupitre de <strong>{nombre}</strong> a{' '}

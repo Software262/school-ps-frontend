@@ -4,6 +4,7 @@ import { Modal } from '@/shared/ui/atoms/Modal';
 import { useBulkUpdatePupitre } from '../hooks/useBulkUpdatePupitre';
 
 interface BulkUpdateFormProps {
+  isOpen: boolean;
   grado_id: number;
   grado_nombre: string;
   onCancelar: () => void;
@@ -11,6 +12,7 @@ interface BulkUpdateFormProps {
 }
 
 export const BulkUpdateForm = ({
+  isOpen,
   grado_id,
   grado_nombre,
   onCancelar,
@@ -29,17 +31,20 @@ export const BulkUpdateForm = ({
     const result = await ejecutarBulkUpdate(grado_id, estado, observacion || null);
     if (result) {
       setMostrarConfirmacion(false);
+      setObservacion('');
+      setEstado(true);
       onExito(result.total_actualizados);
     }
   };
 
   return (
     <>
-      <div className="card" style={{ marginTop: '24px' }}>
-        <h3 style={{ fontSize: '1.1rem', marginBottom: '16px' }}>
-          Actualizar Curso Completo — {grado_nombre}
-        </h3>
-
+      <Modal
+        isOpen={isOpen}
+        onClose={onCancelar}
+        title={`Actualizar Curso Completo — ${grado_nombre}`}
+        width={500}
+      >
         <p style={{ fontSize: '0.875rem', fontWeight: 500, marginBottom: '8px' }}>Estado</p>
         <div style={{ display: 'flex', gap: '24px', marginBottom: '16px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
@@ -113,15 +118,15 @@ export const BulkUpdateForm = ({
             Actualizar Todo
           </Button>
         </div>
-      </div>
+      </Modal>
 
-      {/* Modal de confirmación */}
       <Modal
         isOpen={mostrarConfirmacion}
         onClose={() => {
           setMostrarConfirmacion(false);
         }}
         title="Confirmar actualización masiva"
+        width={400}
       >
         <p style={{ marginBottom: '24px', color: '#4b5563' }}>
           ¿Está seguro que desea actualizar el estado de <strong>TODOS</strong> los pupitres del

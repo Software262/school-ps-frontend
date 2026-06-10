@@ -7,6 +7,7 @@ import { PupitreTable } from '@/features/classroom/components/PupitreTable';
 import { UpdatePupitreForm } from '@/features/update-pupitre/components/UpdatePupitreForm';
 import { BulkUpdateForm } from '@/features/bulk-update-pupitre/components/BulkUpdateForm';
 import { SuccessModal } from '@/shared/ui/molecules/SuccessModal';
+import './ClassroomPage.css';
 
 interface TableRow {
   id: number;
@@ -94,63 +95,47 @@ export default function ClassroomPage() {
   };
 
   return (
-    <div style={{ padding: '0 32px 32px 32px', maxWidth: '1200px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '20px', paddingTop: '10px' }}>
-        <h1
-          style={{
-            fontSize: '1.875rem',
-            fontWeight: 700,
-            color: '#111827',
-            margin: 0,
-            marginBottom: '4px',
-          }}
-        >
-          Salón de Tesorería
-        </h1>
-        <p style={{ fontSize: '1rem', color: '#6b7280', margin: 0 }}>
-          Control del mobiliario asignado
-        </p>
+    <div className="classroom-view">
+      <div className="page-title">
+        <h1>Salón de Tesorería</h1>
+        <p>Control del mobiliario asignado</p>
       </div>
 
-      <SearchSection
-        grados={grados}
-        loading={loading}
-        onBuscar={(codigo, grado) => {
-          void handleBuscar(codigo, grado);
-        }}
-      />
-
-      {mensajeError && (
-        <div
-          style={{
-            marginTop: '16px',
-            padding: '12px',
-            borderRadius: '6px',
-            backgroundColor: 'var(--status-red-bg)',
-            color: 'var(--status-red)',
-            fontSize: '0.875rem',
-          }}
-        >
-          {mensajeError}
+      <div className="card">
+        <div className="search-header">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          Filtros de búsqueda
         </div>
-      )}
+        <div className="search-info">
+          Busque por código de estudiante o seleccione un curso para ver el listado completo.
+        </div>
+        <SearchSection
+          grados={grados}
+          loading={loading}
+          onBuscar={(codigo, grado) => {
+            void handleBuscar(codigo, grado);
+          }}
+        />
+      </div>
+
+      {mensajeError && <div className="error-alert">{mensajeError}</div>}
 
       {mostrarTabla && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="card">
           {mostrarBotonCurso && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
+            <div className="bulk-update-section">
               <button
+                className="btn-orange"
                 onClick={() => {
                   setMostrarBulkForm(true);
                   setEstudianteEditando(null);
-                }}
-                style={{
-                  backgroundColor: '#f97316',
-                  color: 'white',
-                  padding: '10px 24px',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
                 }}
               >
                 Actualizar Curso Completo
@@ -169,6 +154,7 @@ export default function ClassroomPage() {
 
       {estudianteEditando && (
         <UpdatePupitreForm
+          isOpen={!!estudianteEditando}
           estudiante_id={estudianteEditando.estudiante_id}
           nombre={estudianteEditando.nombre_estudiante}
           estadoActual={estudianteEditando.estado_pupitre}
@@ -183,6 +169,7 @@ export default function ClassroomPage() {
 
       {mostrarBulkForm && gradoActual && (
         <BulkUpdateForm
+          isOpen={mostrarBulkForm}
           grado_id={gradoActual}
           grado_nombre={gradoNombre}
           onCancelar={() => {

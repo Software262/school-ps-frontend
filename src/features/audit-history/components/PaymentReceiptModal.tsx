@@ -95,7 +95,7 @@ export const PaymentReceiptModal = ({ isOpen, onClose, pagoId }: PaymentReceiptM
             gap: '12px',
           }}
         >
-          <Loader className="animate-spin" size={32} color="var(--primary)" />
+          <Loader className="animate-spin" size={32} color="var(--brand-primary)" />
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
             Cargando comprobante...
           </p>
@@ -315,7 +315,6 @@ export const PaymentReceiptModal = ({ isOpen, onClose, pagoId }: PaymentReceiptM
               variant="primary"
               onClick={handlePrint}
               style={{
-                backgroundColor: '#1d4ed8',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -323,7 +322,7 @@ export const PaymentReceiptModal = ({ isOpen, onClose, pagoId }: PaymentReceiptM
             >
               <Printer size={16} />
               Imprimir Comprobante
-            </Button>
+            </Button>{' '}
           </div>
         </div>
       ) : null}
