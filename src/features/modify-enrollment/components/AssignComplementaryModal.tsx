@@ -173,7 +173,7 @@ export const AssignComplementaryModal = ({
 
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
-            <Loader className="animate-spin" size={24} color="var(--primary)" />
+            <Loader className="animate-spin" size={24} color="var(--brand-primary)" />
           </div>
         )}
 
@@ -239,7 +239,7 @@ export const AssignComplementaryModal = ({
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--primary)',
+                  color: 'var(--brand-primary)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
@@ -316,7 +316,7 @@ export const AssignComplementaryModal = ({
                   width: '16px',
                   height: '16px',
                   cursor: 'pointer',
-                  accentColor: 'var(--primary)',
+                  accentColor: 'var(--brand-primary)',
                 }}
               />
               <label

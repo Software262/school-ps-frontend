@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { DollarSign, X } from 'lucide-react';
+import { Modal } from '@/shared/ui/atoms/Modal';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Input } from '@/shared/ui/atoms/Input';
+import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { PruebaAssignment } from '@/entities/tests/model/types';
 
 interface PaymentModalProps {
@@ -37,62 +40,58 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-            <DollarSign className="w-5 h-5 text-blue-600" />
-            Registrar Abono
-          </h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <X className="w-5 h-5" />
-          </button>
+    <Modal isOpen title="Registrar Abono" onClose={onClose} width={440}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div
+          style={{
+            padding: '12px 16px',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--status-red-bg)',
+            border: '1px solid var(--status-red-border)',
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--brand-primary)',
+            lineHeight: 1.6,
+          }}
+        >
+          Estudiante: <strong>{item.estudianteNombre}</strong>
+          <br />
+          Prueba: <strong>{item.pruebaNombre}</strong>
+          <br />
+          Saldo Pendiente: <strong>${saldoPendiente.toLocaleString()}</strong>
         </div>
 
-        <div className="p-6">
-          <div className="bg-blue-50 text-blue-800 p-4 rounded-lg mb-6 text-sm">
-            Estudiante: <strong>{item.estudianteNombre}</strong>
-            <br />
-            Prueba: <strong>{item.pruebaNombre}</strong>
-            <br />
-            Saldo Pendiente: <strong>${saldoPendiente.toLocaleString()}</strong>
-          </div>
+        <Input
+          label="Monto a abonar ($)"
+          type="number"
+          value={monto}
+          onChange={(e) => {
+            setMonto(e.target.value);
+          }}
+          placeholder="Ej. 20000"
+          autoFocus
+        />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Monto a abonar ($)
-            </label>
-            <input
-              type="number"
-              value={monto}
-              onChange={(e) => {
-                setMonto(e.target.value);
-              }}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition-all"
-              placeholder="Ej. 20000"
-              autoFocus
-            />
-          </div>
-        </div>
-
-        <div className="px-6 py-4 bg-gray-50 flex justify-end gap-3 border-t border-gray-100">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-medium"
-          >
+        <div className="form-actions">
+          <Button variant="secondary" onClick={onClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
             onClick={() => {
               void handlePay();
             }}
             disabled={loading}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm disabled:opacity-50"
           >
-            {loading ? 'Procesando...' : 'Confirmar Pago'}
-          </button>
+            {loading ? (
+              <>
+                <Spinner size={14} color="white" /> Procesando...
+              </>
+            ) : (
+              'Confirmar Pago'
+            )}
+          </Button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

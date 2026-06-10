@@ -1,5 +1,6 @@
 import { CalendarDays, LogOut, User, AlertTriangle } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
+import { Button } from '@/shared/ui/atoms/Button';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { Enrollment } from '@/features/escuelas-formacion/model/types';
 import { useWithdrawStudent, MOTIVOS } from '../hooks/useWithdrawStudent';
@@ -214,23 +215,25 @@ export const WithdrawModal = ({
         </section>
 
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
             id="btn-submit-withdraw"
             type="submit"
-            className="btn btn-primary"
+            variant="primary"
             disabled={loading || !canSubmit}
           >
-            {loading ? <Spinner size={14} color="#fff" /> : <LogOut size={14} />}
-            {loading ? 'Registrando…' : 'Confirmar Retiro'}
-          </button>
+            {loading ? (
+              <>
+                <Spinner size={14} color="#fff" /> Registrando…
+              </>
+            ) : (
+              <>
+                <LogOut size={14} /> Confirmar Retiro
+              </>
+            )}
+          </Button>
         </div>
       </form>
     </Modal>

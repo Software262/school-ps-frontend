@@ -1,5 +1,6 @@
 import { DollarSign, Hash } from 'lucide-react';
 import { Modal } from '@/shared/ui/atoms/Modal';
+import { Button } from '@/shared/ui/atoms/Button';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { Program, Period, Student } from '@/features/escuelas-formacion/model/types';
 import { useEnrollStudent } from '../hooks/useEnrollStudent';
@@ -217,23 +218,23 @@ export const EnrollModal = ({
         </div>
 
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
             id="btn-submit-enroll"
             type="submit"
-            className="btn btn-primary"
+            variant="primary"
             disabled={loading || !canSubmit}
           >
-            {loading ? <Spinner size={14} color="#fff" /> : null}
-            {loading ? 'Guardando…' : 'Guardar Inscripción'}
-          </button>
+            {loading ? (
+              <>
+                <Spinner size={14} color="#fff" /> Guardando…
+              </>
+            ) : (
+              'Guardar Inscripción'
+            )}
+          </Button>
         </div>
       </form>
     </Modal>

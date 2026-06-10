@@ -1,4 +1,5 @@
 import { Modal } from '@/shared/ui/atoms/Modal';
+import { Button } from '@/shared/ui/atoms/Button';
 import { Spinner } from '@/shared/ui/atoms/Spinner';
 import type { Enrollment } from '@/features/escuelas-formacion/model/types';
 import { usePayEnrollment } from '../hooks/usePayEnrollment';
@@ -91,23 +92,23 @@ export const PaymentModal = ({
         </div>
 
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
             id="btn-submit-payment"
             type="submit"
-            className="btn btn-primary"
+            variant="primary"
             disabled={loading || !monto || exceeds || montoNum <= 0}
           >
-            {loading ? <Spinner size={14} color="#fff" /> : null}
-            {loading ? 'Registrando…' : 'Registrar Pago'}
-          </button>
+            {loading ? (
+              <>
+                <Spinner size={14} color="#fff" /> Registrando…
+              </>
+            ) : (
+              'Registrar Pago'
+            )}
+          </Button>
         </div>
       </form>
     </Modal>
