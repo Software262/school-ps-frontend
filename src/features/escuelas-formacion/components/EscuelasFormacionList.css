@@ -3,53 +3,62 @@
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  animation: fadeIn 0.25s ease;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  padding: 1.5rem;
+  transition: box-shadow var(--transition-normal);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.filter-card:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
 .filter-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .filter-title {
   font-size: var(--font-size-md);
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--brand-primary);
   margin: 0;
 }
 
 .filter-info {
-  padding: 9px 13px;
+  padding: 0.75rem 1rem;
   background: var(--info-bg);
   border: 1px solid var(--info-border);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   color: var(--info-text);
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
 }
 
 .filter-form {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
 .filter-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 0.75rem;
   flex: 1;
   min-width: 280px;
 }
 
 .filter-actions {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   align-items: center;
   padding-bottom: 1px;
 }
@@ -59,19 +68,28 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
+  gap: 1rem;
   flex-wrap: wrap;
-  margin-bottom: 16px;
-  padding: 14px 18px;
+  padding: 1.5rem;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: box-shadow var(--transition-normal);
+}
+
+.ef-toolbar:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
 .ef-toolbar-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
@@ -125,17 +143,17 @@
 .ef-stats {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .ef-stat {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  padding: 4px 10px;
+  padding: 0.25rem 0.625rem;
   border-radius: 99px;
   background: var(--status-gray-bg);
   border: 1px solid var(--status-gray-border);
@@ -151,8 +169,7 @@
 .ef-programs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 0.75rem;
 }
 
 .ef-program-card {
@@ -235,8 +252,8 @@
   background: var(--info-bg);
   border: 1px solid var(--info-border);
   border-radius: var(--radius-md);
-  padding: 10px 14px;
-  margin-bottom: 16px;
+  padding: 0.625rem 0.875rem;
+  margin-bottom: 1rem;
 }
 
 .enroll-student-banner-label {
@@ -244,7 +261,7 @@
   color: var(--info-text);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 2px;
+  margin-bottom: 0.125rem;
 }
 
 .enroll-student-banner-name {
@@ -261,7 +278,7 @@
 .enroll-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 16px;
+  gap: 0 1rem;
 }
 
 .enroll-input-icon-wrap {
@@ -272,13 +289,13 @@
 
 .enroll-input-icon {
   position: absolute;
-  left: 10px;
+  left: 0.625rem;
   color: var(--text-muted);
   pointer-events: none;
 }
 
 .enroll-input-with-icon {
-  padding-left: 30px !important;
+  padding-left: 1.875rem !important;
 }
 
 @media (max-width: 520px) {
@@ -289,25 +306,25 @@
 
 /* search results */
 .ef-empty-search {
-  margin-top: 12px;
+  margin-top: 0.75rem;
   font-size: var(--font-size-sm);
   color: var(--text-muted);
-  padding: 10px 0;
+  padding: 0.625rem 0;
 }
 
 .ef-student-results {
-  margin-top: 14px;
+  margin-top: 0.875rem;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .ef-student-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
   border: 1px solid var(--card-border);
   border-radius: var(--radius-md);
   background: var(--content-bg);
@@ -317,7 +334,7 @@
 .ef-student-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   flex-wrap: wrap;
   min-width: 0;
 }
@@ -338,14 +355,24 @@
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
   overflow: hidden;
+  transition: box-shadow var(--transition-normal);
+}
+
+.ef-section:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.025);
 }
 
 .ef-section-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 18px;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid var(--card-border);
 }
 
@@ -359,9 +386,9 @@
 .ef-filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
   margin-left: auto;
-  padding: 3px 6px 3px 11px;
+  padding: 0.2rem 0.4rem 0.2rem 0.7rem;
   font-family: inherit;
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -381,8 +408,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 52px 20px;
+  gap: 0.75rem;
+  padding: 3.25rem 1.25rem;
   color: var(--text-muted);
   font-size: var(--font-size-sm);
 }
@@ -404,7 +431,7 @@
 
 .ef-table thead th {
   text-align: left;
-  padding: 10px 16px;
+  padding: 0.625rem 1rem;
   font-size: var(--font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
@@ -429,7 +456,7 @@
 }
 
 .ef-table td {
-  padding: 11px 16px;
+  padding: 0.7rem 1rem;
   color: var(--text-primary);
   vertical-align: middle;
 }
@@ -445,7 +472,7 @@
 .ef-row-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.4rem;
   flex-wrap: wrap;
 }
 
@@ -469,6 +496,7 @@
   .ef-toolbar {
     flex-direction: column;
     align-items: flex-start;
+    padding: 1.25rem;
   }
 
   .ef-period-select {
