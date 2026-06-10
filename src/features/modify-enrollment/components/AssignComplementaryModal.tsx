@@ -9,7 +9,7 @@ import type { ComplementaryConcept } from '../types';
 interface AssignComplementaryModalProps {
   isOpen: boolean;
   onClose: () => void;
-  matriculaId: number;
+  studentId: number;
   year: number;
   onSuccess: () => Promise<void>;
 }
@@ -17,7 +17,7 @@ interface AssignComplementaryModalProps {
 export const AssignComplementaryModal = ({
   isOpen,
   onClose,
-  matriculaId,
+  studentId,
   year,
   onSuccess,
 }: AssignComplementaryModalProps) => {
@@ -126,7 +126,7 @@ export const AssignComplementaryModal = ({
         );
       }
 
-      await assignConcept(matriculaId, {
+      await assignConcept(studentId, {
         complementario_id: Number(selectedConceptId),
         descuento: descuento,
       });
@@ -230,24 +230,13 @@ export const AssignComplementaryModal = ({
               disabled={concepts.length === 0}
             />
 
-            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '8px' }}>
               <button
                 type="button"
                 onClick={() => {
                   setShowCreateForm(true);
                 }}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--brand-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  padding: 0,
-                }}
+                className="btn-link"
               >
                 <Plus size={16} />
                 ¿El concepto no está en la lista? Crear Nuevo Concepto

@@ -71,31 +71,12 @@ export const SearchStudentForm = ({
     e.preventDefault();
     void executeSearch(false);
   };
-
   return (
     <div className="card">
-      <h3
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontSize: '1.1rem',
-          marginBottom: '16px',
-        }}
-      >
+      <h3 className="search-header">
         <Search size={20} /> Filtros de búsqueda
       </h3>
-      <div
-        style={{
-          background: '#f0fdf4',
-          border: '1px solid #bbf7d0',
-          padding: '12px',
-          borderRadius: '8px',
-          marginBottom: '16px',
-          color: '#166534',
-          fontSize: '0.875rem',
-        }}
-      >
+      <div className="search-info">
         Ingrese el código o nombre del estudiante y seleccione una fecha para iniciar la búsqueda
       </div>
 
@@ -133,12 +114,7 @@ export const SearchStudentForm = ({
             }}
           />
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              type="submit"
-              variant="primary"
-              style={{ backgroundColor: '#7f1d1d' }}
-              disabled={loading}
-            >
+            <Button type="submit" variant="primary" disabled={loading}>
               <Search size={16} style={{ marginRight: '8px' }} />
               Buscar
             </Button>

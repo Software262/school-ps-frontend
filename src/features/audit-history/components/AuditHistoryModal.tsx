@@ -177,7 +177,7 @@ export const AuditHistoryModal = ({
                           gap: '8px',
                         }}
                       >
-                        <Loader className="animate-spin" size={16} color="var(--primary)" />
+                        <Loader className="animate-spin" size={16} color="var(--brand-primary)" />
                         <span>Cargando historial de pagos...</span>
                       </div>
                     </td>

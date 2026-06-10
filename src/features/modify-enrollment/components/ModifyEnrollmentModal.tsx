@@ -84,18 +84,11 @@ export const ModifyEnrollmentModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Editar Valor de Matrícula">
       <div
-        style={{
-          background: '#fefce8',
-          border: '1px solid #fde047',
-          borderRadius: '8px',
-          padding: '12px',
-          display: 'flex',
-          gap: '12px',
-          marginBottom: '20px',
-        }}
+        className="pending-banner"
+        style={{ padding: '12px', gap: '12px', marginBottom: '20px' }}
       >
-        <AlertTriangle size={24} color="#a16207" style={{ flexShrink: 0 }} />
-        <p style={{ color: '#854d0e', margin: 0, fontSize: '0.875rem' }}>
+        <AlertTriangle size={24} color="var(--status-yellow)" style={{ flexShrink: 0 }} />
+        <p style={{ margin: 0, fontSize: '0.875rem' }}>
           ¿Está seguro de que desea modificar el valor de matrícula? Esta acción quedará registrada
           en la auditoría.
         </p>

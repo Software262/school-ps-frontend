@@ -10,6 +10,7 @@ import { ModifyEnrollmentModal } from '@/features/modify-enrollment/components/M
 import { AuditHistoryModal } from '@/features/audit-history/components/AuditHistoryModal';
 import { useModifyEnrollment } from '@/features/modify-enrollment/hooks/useModifyEnrollment';
 import { AssignComplementaryModal } from '@/features/modify-enrollment/components/AssignComplementaryModal';
+import './Enrollment.css';
 
 export const EnrollmentDetail = () => {
   const { id } = useParams({ from: '/dashboard/enrollment/student/$id/' });
@@ -81,7 +82,7 @@ export const EnrollmentDetail = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+    <div className="enrollment-view" style={{ gap: '20px' }}>
       {/* Header and navigation */}
       <div
         style={{
@@ -96,17 +97,7 @@ export const EnrollmentDetail = () => {
           onClick={() => {
             window.history.back();
           }}
-          style={{
-            background: 'none',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            color: 'var(--primary)',
-            cursor: 'pointer',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-          }}
+          className="btn-link"
         >
           <ArrowLeft size={16} /> Volver a búsqueda
         </button>
@@ -212,13 +203,8 @@ export const EnrollmentDetail = () => {
                 onClick={() => {
                   openEditModal('matricula_base', 'Matrícula Base', balance.costo_base_matricula);
                 }}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--primary)',
-                  padding: '4px',
-                }}
+                className="btn-link"
+                style={{ padding: '4px' }}
               >
                 <Edit size={18} />
               </button>
@@ -259,13 +245,8 @@ export const EnrollmentDetail = () => {
                         comp.detalle_id,
                       );
                     }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                      color: 'var(--primary)',
-                      padding: '4px',
-                    }}
+                    className="btn-link"
+                    style={{ padding: '4px' }}
                     title="Editar costo"
                   >
                     <Edit size={18} />
@@ -303,13 +284,22 @@ export const EnrollmentDetail = () => {
               alignItems: 'center',
               padding: '16px',
               borderRadius: '8px',
-              background: '#eff6ff',
-              border: '1px solid #bfdbfe',
+              background: 'var(--status-gray-bg)',
+              border: '1px solid var(--status-gray-border)',
               marginTop: '8px',
             }}
           >
-            <p style={{ fontWeight: 700, margin: 0, color: '#1e3a8a' }}>Total Matrícula</p>
-            <p style={{ fontWeight: 700, fontSize: '1.25rem', margin: 0, color: '#1d4ed8' }}>
+            <p style={{ fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+              Total Matrícula
+            </p>
+            <p
+              style={{
+                fontWeight: 700,
+                fontSize: '1.25rem',
+                margin: 0,
+                color: 'var(--brand-primary)',
+              }}
+            >
               ${balance.costo_total.toLocaleString()}
             </p>
           </div>
@@ -317,19 +307,9 @@ export const EnrollmentDetail = () => {
       </div>
 
       {/* Saldo Pendiente */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: '20px',
-          borderRadius: '8px',
-          background: '#fefce8',
-          border: '1px solid #fef08a',
-        }}
-      >
-        <p style={{ fontWeight: 700, margin: 0, color: '#854d0e' }}>Saldo Pendiente</p>
-        <p style={{ fontWeight: 700, fontSize: '1.25rem', margin: 0, color: '#92400e' }}>
+      <div className="pending-banner" style={{ padding: '20px' }}>
+        <p style={{ fontWeight: 700, margin: 0 }}>Saldo Pendiente</p>
+        <p style={{ fontWeight: 700, fontSize: '1.25rem', margin: 0 }}>
           ${balance.total_pendiente.toLocaleString()}
         </p>
       </div>
@@ -367,7 +347,7 @@ export const EnrollmentDetail = () => {
         onClose={() => {
           setIsAssignModalOpen(false);
         }}
-        matriculaId={balance.matricula_id ?? balance.estudiante.id}
+        studentId={balance.estudiante.id}
         year={balance.anio}
         onSuccess={handleRefresh}
       />

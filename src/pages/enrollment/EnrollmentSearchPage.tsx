@@ -5,6 +5,7 @@ import type { StudentSearchItem } from '@/entities/student/model/types';
 import { Button } from '@/shared/ui/atoms/Button';
 import { StatusBadge } from '@/entities/student/ui/StatusBadge';
 import { ManualEnrollmentModal } from '@/features/manual-enrollment/components/ManualEnrollmentModal';
+import './Enrollment.css';
 
 export const EnrollmentSearch = () => {
   const navigate = useNavigate();
@@ -40,10 +41,10 @@ export const EnrollmentSearch = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <div>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '4px' }}>Módulo de Matrícula</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Gestión de matrículas y pagos</p>
+    <div className="enrollment-view">
+      <div className="page-title">
+        <h1>Módulo de Matrícula</h1>
+        <p>Gestión de matrículas y pagos</p>
       </div>
       <div style={{ display: 'flex', gap: '12px' }}>
         <Button
@@ -106,12 +107,6 @@ export const EnrollmentSearch = () => {
                       onChange={() => {
                         setSelectedStudent(student.estudiante_id);
                       }}
-                      style={{
-                        cursor: 'pointer',
-                        width: '16px',
-                        height: '16px',
-                        accentColor: '#1d4ed8',
-                      }}
                     />
                   </td>
                   <td>{student.documento}</td>
@@ -131,20 +126,8 @@ export const EnrollmentSearch = () => {
       </div>
 
       {selectedStudent !== null && (
-        <div
-          style={{
-            background: '#eff6ff',
-            border: '1px solid #bfdbfe',
-            borderRadius: '8px',
-            padding: '16px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <p style={{ color: '#1e3a8a', margin: 0 }}>
-            Ha seleccionado un estudiante. Puede continuar con la gestión de matrícula.
-          </p>
+        <div className="selected-banner">
+          <p>Ha seleccionado un estudiante. Puede continuar con la gestión de matrícula.</p>
           <Button onClick={handleManage} variant="primary">
             Gestionar
           </Button>

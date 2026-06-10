@@ -99,15 +99,7 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
 
   return (
     <div className="card">
-      <h3
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          fontSize: '1.1rem',
-          marginBottom: '20px',
-        }}
-      >
+      <h3 className="search-header">
         <DollarSign size={20} /> Registrar Pago
       </h3>
 
@@ -154,12 +146,7 @@ export const PayEnrollmentForm = ({ balance, onPaymentSuccess }: PayEnrollmentFo
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '16px' }}>
-          <Button
-            type="submit"
-            variant="primary"
-            style={{ backgroundColor: '#16a34a' }}
-            disabled={paymentLoading}
-          >
+          <Button type="submit" variant="primary" disabled={paymentLoading}>
             <Check size={16} style={{ marginRight: '8px' }} />
             Registrar Pago
           </Button>
