@@ -9,124 +9,92 @@
   animation: fadeIn 0.4s ease-out;
 }
 
-/* Page titles */
-.enrollment-view .page-title h1 {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-  letter-spacing: -0.025em;
+/* El .card global de index.css tiene margin-bottom: 1.5rem;
+   dentro del flex con gap, eso generaría doble espaciado */
+.enrollment-view .card {
+  margin-bottom: 0;
 }
 
-.enrollment-view .page-title p {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
+/* Botones con la misma altura que los inputs */
+.enrollment-view .btn-md,
+.modal-content .btn-md {
+  padding: 0.75rem 1.25rem;
+  min-height: 42px;
 }
 
-/* Page titles custom wrapper */
-.enrollment-page-header {
-  margin-bottom: 4px;
-}
-
-/* Override primary buttons to use brand vinotinto gradient */
+/* Botón primario — gradiente vinotinto */
 .enrollment-view .btn-primary,
-.modal-content .btn-primary,
-.enrollment-view .btn-primary:not(:disabled),
-.modal-content .btn-primary:not(:disabled) {
-  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%) !important;
-  color: var(--text-on-brand) !important;
-  transition: all var(--transition-fast) !important;
-  box-shadow: 0 2px 4px rgba(123, 29, 29, 0.2) !important;
-  border: none !important;
-  cursor: pointer;
+.modal-content .btn-primary {
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+  color: var(--text-on-brand);
+  box-shadow: 0 2px 4px rgba(123, 29, 29, 0.2);
+  border: none;
 }
 
 .enrollment-view .btn-primary:hover:not(:disabled),
 .modal-content .btn-primary:hover:not(:disabled) {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 6px rgba(123, 29, 29, 0.3) !important;
-  background: linear-gradient(
-    135deg,
-    var(--brand-primary-hover) 0%,
-    var(--brand-primary) 100%
-  ) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(123, 29, 29, 0.3);
+  background: linear-gradient(135deg, var(--brand-primary-hover) 0%, var(--brand-primary) 100%);
 }
 
 .enrollment-view .btn-primary:active:not(:disabled),
 .modal-content .btn-primary:active:not(:disabled) {
-  transform: translateY(0) !important;
-  box-shadow: 0 1px 2px rgba(123, 29, 29, 0.2) !important;
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(123, 29, 29, 0.2);
 }
 
 .enrollment-view .btn-primary:disabled,
 .modal-content .btn-primary:disabled {
-  opacity: 0.6 !important;
-  cursor: not-allowed !important;
-  filter: grayscale(0.5) !important;
-  background: var(--border) !important;
-  box-shadow: none !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+  background: var(--border);
+  box-shadow: none;
 }
 
-/* Focus styles for inputs */
-.enrollment-view .input-field:focus,
-.modal-content .input-field:focus {
-  border-color: var(--input-border-focus) !important;
-  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1) !important;
-}
-
-/* Secondary & Outline Buttons */
+/* Botón outline */
 .enrollment-view .btn-outline,
 .modal-content .btn-outline {
-  border: 1px solid var(--card-border) !important;
-  background: var(--card-bg) !important;
-  color: var(--text-primary) !important;
-  transition: all var(--transition-fast) !important;
-  cursor: pointer !important;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-primary);
 }
 
 .enrollment-view .btn-outline:hover:not(:disabled),
 .modal-content .btn-outline:hover:not(:disabled) {
-  border-color: var(--text-muted) !important;
-  background-color: #f9fafb !important;
+  border-color: var(--text-muted);
+  background-color: #f9fafb;
 }
 
+/* Botón secondary */
 .enrollment-view .btn-secondary,
 .modal-content .btn-secondary {
-  background: white !important;
-  border: 1px solid var(--card-border) !important;
-  color: var(--text-primary) !important;
-  transition: all var(--transition-fast) !important;
-  cursor: pointer !important;
+  background: white;
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
 }
 
 .enrollment-view .btn-secondary:hover:not(:disabled),
 .modal-content .btn-secondary:hover:not(:disabled) {
-  background-color: #f9fafb !important;
-  border-color: #d1d5db !important;
+  background-color: #f9fafb;
+  border-color: #d1d5db;
 }
 
-/* Link Buttons */
+/* Botón link — TuitionManager.css lo define globalmente;
+   aquí solo se sobreescribe lo necesario para enrollment */
 .enrollment-view .btn-link,
 .modal-content .btn-link {
-  color: var(--text-secondary) !important;
-  background: none !important;
-  font-size: var(--font-size-sm) !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 0.35rem !important;
-  cursor: pointer !important;
-  border: none !important;
-  transition: color var(--transition-fast) !important;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
 }
 
 .enrollment-view .btn-link:hover,
 .modal-content .btn-link:hover {
-  color: var(--brand-primary) !important;
+  color: var(--brand-primary);
 }
 
-/* Search Header & Info Box */
+/* Search header & info box */
 .enrollment-view .search-header,
 .modal-content .search-header {
   display: flex;
@@ -152,7 +120,7 @@
   gap: 0.5rem;
 }
 
-/* Custom selection banner */
+/* Banner de selección */
 .enrollment-view .selected-banner {
   background-color: var(--info-bg);
   border: 1px solid var(--info-border);
@@ -170,12 +138,11 @@
   font-weight: 500;
 }
 
-/* Pending banner (Warning) */
+/* Banner pendiente */
 .enrollment-view .pending-banner,
 .modal-content .pending-banner {
   background-color: var(--status-yellow-bg);
   border: 1px solid var(--status-yellow-border);
-  color: var(--status-yellow);
   border-radius: var(--radius-md);
   padding: 1rem;
   display: flex;
@@ -191,7 +158,7 @@
   font-weight: 500;
 }
 
-/* Red alert/warning box */
+/* Banner de advertencia roja */
 .enrollment-view .warning-banner,
 .modal-content .warning-banner {
   background-color: var(--status-red-bg);
@@ -212,7 +179,7 @@
   margin: 0;
 }
 
-/* Radio Button style override */
+/* Radio button */
 .enrollment-view .data-table input[type='radio'] {
   cursor: pointer;
   width: 16px;
@@ -220,7 +187,7 @@
   accent-color: var(--brand-primary);
 }
 
-/* Table container styling match */
+/* Table */
 .enrollment-view .table-container {
   border-radius: var(--radius-lg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -231,4 +198,171 @@
   font-size: var(--font-size-xs);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+}
+
+/* ── Search page ─────────────────────────────── */
+
+.enrollment-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.enrollment-search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+@media (max-width: 700px) {
+  .enrollment-search-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Detail page ─────────────────────────────── */
+
+.enrollment-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--card-border);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.enrollment-student-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.enrollment-student-header h2 {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.enrollment-student-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.enrollment-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.enrollment-section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.enrollment-section-header h3 {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.enrollment-concepts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.enrollment-concept-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  transition: all 0.2s ease;
+}
+
+.enrollment-concept-item:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.enrollment-concept-name {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.enrollment-concept-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.enrollment-concept-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.enrollment-concept-value {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.enrollment-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--status-gray-bg);
+  border: 1px solid var(--status-gray-border);
+  margin-top: 0.5rem;
+}
+
+.enrollment-total-label {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.enrollment-total-value {
+  font-weight: 700;
+  font-size: var(--font-size-xl);
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.enrollment-unlink-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--status-red);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--transition-fast);
+}
+
+.enrollment-unlink-btn:disabled {
+  color: var(--status-gray-border);
+  cursor: not-allowed;
+  opacity: 0.5;
 }

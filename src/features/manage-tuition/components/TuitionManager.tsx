@@ -65,7 +65,7 @@ export const TuitionManager = () => {
               disabled={loading}
             />
           </div>
-          <Button type="submit" variant="primary" disabled={loading || !studentId.trim()}>
+          <Button type="submit" size="lg" variant="primary" disabled={loading || !studentId.trim()}>
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"

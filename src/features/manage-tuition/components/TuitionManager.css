@@ -5,19 +5,6 @@
   animation: fadeIn 0.4s ease-out;
 }
 
-.page-title h1 {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-  letter-spacing: -0.025em;
-}
-
-.page-title p {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-}
-
 .card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -26,6 +13,7 @@
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.03);
   padding: 1.5rem;
+  margin-bottom: 0;
   transition: box-shadow var(--transition-normal);
 }
 
@@ -60,14 +48,20 @@
 }
 
 .search-form {
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 1rem;
+  align-items: end;
+}
+
+.search-form > .btn {
+  justify-self: end;
+  align-self: end;
+  width: max-content;
 }
 
 .input-group {
-  flex: 1;
-  max-width: 400px;
+  min-width: 0;
 }
 
 .input-group label {

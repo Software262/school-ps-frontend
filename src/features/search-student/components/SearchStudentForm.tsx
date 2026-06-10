@@ -81,14 +81,7 @@ export const SearchStudentForm = ({
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-            alignItems: 'end',
-          }}
-        >
+        <div className="enrollment-search-grid">
           <Input
             label="Código"
             placeholder="Ej. 123123"

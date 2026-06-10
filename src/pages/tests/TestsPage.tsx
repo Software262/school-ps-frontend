@@ -295,9 +295,9 @@ export function TestsPage() {
       {/* Assignments Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
         <div className="p-4 border-b border-gray-200 bg-gray-50 flex flex-col md:flex-row gap-4 items-center justify-between">
-          <h3 className="font-semibold text-gray-800">Estudiantes Asignados</h3>
-          <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
+          <h3 className="font-semibold text-gray-800 shrink-0">Estudiantes Asignados</h3>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
@@ -306,23 +306,21 @@ export function TestsPage() {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
-                className="w-full pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                className="pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-80"
               />
             </div>
-            <div className="flex-1 md:w-48">
-              <select
-                value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value);
-                }}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              >
-                <option value="todos">Todos los estados</option>
-                <option value="pendiente">Pendiente</option>
-                <option value="pago-parcial">Pago Parcial</option>
-                <option value="pagada">Pagada</option>
-              </select>
-            </div>
+            <select
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value);
+              }}
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-48"
+            >
+              <option value="todos">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="pago-parcial">Pago Parcial</option>
+              <option value="pagada">Pagada</option>
+            </select>
           </div>
         </div>
         <div className="p-4">

@@ -155,6 +155,20 @@
   }
 }
 
+/* Page header — shared across all modules */
+.page-title h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
+}
+
+.page-title p {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
 /* Custom UI Component Classes */
 .container {
   max-width: 1200px;
