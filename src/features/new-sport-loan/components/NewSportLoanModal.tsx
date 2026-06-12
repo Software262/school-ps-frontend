@@ -77,12 +77,20 @@ export const NewSportLoanModal = ({
             <span className="field-hint">No hay instrumentos disponibles en este momento.</span>
           )}
           {selectedItem && (
-            <div className="selected-item-info">
-              <span>✓</span>
+            <div
+              className={`selected-item-info ${
+                selectedItem.cantidad > 0
+                  ? 'selected-item-info--success'
+                  : 'selected-item-info--error'
+              }`}
+            >
+              <span>{selectedItem.cantidad > 0 ? '✓' : '✕'}</span>
+
               <span>
-                <strong>{selectedItem.nombre}</strong> — {selectedItem.cantidad} unidad
-                {selectedItem.cantidad !== 1 ? 'es' : ''} disponible
-                {selectedItem.cantidad !== 1 ? 's' : ''}
+                <strong>{selectedItem.nombre}</strong>
+                {selectedItem.cantidad > 0
+                  ? ` — ${selectedItem.cantidad} unidades disponibles`
+                  : ' — Sin unidades disponibles'}
               </span>
             </div>
           )}

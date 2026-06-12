@@ -124,7 +124,10 @@ export const SportPage = () => {
         onClose={() => {
           setIsNewLoanOpen(false);
         }}
-        onSuccess={refetchLoans}
+        onSuccess={() => {
+          refetchLoans();
+          refetchInventory();
+        }}
       />
       <ReturnLoanModal
         isOpen={isReturnLoanOpen}
