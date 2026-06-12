@@ -89,7 +89,7 @@ export const NewSportLoanModal = ({
               <span>
                 <strong>{selectedItem.nombre}</strong>
                 {selectedItem.cantidad > 0
-                  ? ` — ${selectedItem.cantidad} unidades disponibles`
+                  ? ` — ${String(selectedItem.cantidad)} unidades disponibles`
                   : ' — Sin unidades disponibles'}
               </span>
             </div>
