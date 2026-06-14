@@ -20,7 +20,6 @@
   font-weight: 600;
 }
 
-
 .radio-label {
   display: flex;
   align-items: center;
@@ -145,7 +144,6 @@
   padding-top: 1rem;
   border-top: 1px solid var(--card-border);
 }
-
 
 .input-group {
   display: flex;
