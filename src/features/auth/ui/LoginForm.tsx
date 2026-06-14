@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react';
 import { authApi } from '../api/authApi';
+import { setSession } from '@/shared/auth';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import { LogIn } from 'lucide-react';
@@ -27,9 +28,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     try {
       const response = await authApi.login({ username, contrasenia });
 
-      // Store token and user details in localStorage
-      localStorage.setItem('auth_token', response.token);
-      localStorage.setItem('auth_user', JSON.stringify(response.usuario));
+      setSession(response.usuario, response.token);
 
       onSuccess(response.usuario.rol);
     } catch (err: unknown) {

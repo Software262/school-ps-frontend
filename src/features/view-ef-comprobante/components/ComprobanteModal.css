@@ -235,6 +235,8 @@
 .comp-table-note {
   font-style: italic;
   color: var(--text-secondary);
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* balance row */

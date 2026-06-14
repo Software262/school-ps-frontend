@@ -1,20 +1,14 @@
 import { fetchApi } from '@/shared/api/apiClient';
+import type { SessionUser } from '@/shared/auth';
 
 export interface LoginPayload {
   username: string;
   contrasenia: string;
 }
 
-export interface LoginUser {
-  id: number;
-  username: string;
-  rol: 'Administración' | 'Rectoría' | 'Tesorería' | 'Docente';
-  estado: boolean;
-}
-
 export interface LoginResponse {
   mensaje: string;
-  usuario: LoginUser;
+  usuario: SessionUser;
   token: string;
 }
 

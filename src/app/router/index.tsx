@@ -1,9 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { LoginPage } from '@/pages/auth/LoginPage';
+import { getSessionToken } from '@/shared/auth';
 
 export const Route = createFileRoute('/')({
   beforeLoad: () => {
-    const token = localStorage.getItem('auth_token');
+    const token = getSessionToken();
 
     if (token) {
       return redirect({ to: '/dashboard' });

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { registerPayment } from '../api/pay-enrollment';
-import { RESPONSABLE_USUARIO_ID } from '@/features/escuelas-formacion/model/constants';
+import { getSessionUser } from '@/shared/auth';
 import type { Enrollment } from '@/features/escuelas-formacion/model/types';
 
 export const usePayEnrollment = (
@@ -22,13 +22,18 @@ export const usePayEnrollment = (
 
   async function handleSubmit() {
     if (!enrollment) return;
+    const user = getSessionUser();
+    if (!user) {
+      setError('No hay una sesión activa. Inicie sesión nuevamente.');
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
       await registerPayment({
         enrollment_id: enrollment.id,
         monto: montoNum,
-        usuario_id: RESPONSABLE_USUARIO_ID,
+        usuario_id: user.id,
       });
       reset();
       onSuccess(enrollment.id);
