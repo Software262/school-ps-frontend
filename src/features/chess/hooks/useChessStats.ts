@@ -4,12 +4,16 @@ import type { ChessInventory, ChessLoan } from '@/features/chess/model/types';
 
 export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): ModuleStat[] =>
   useMemo(() => {
-    const totalItems = inventory.reduce((sum, i) => sum + i.cantidad, 0);
+    const totalItems = inventory.reduce((sum, i) => sum + i.cantidad_total, 0);
     const borrowedItems = loans.filter((l) => l.estado_prestamo).length;
-    const damagedItems = inventory
-      .filter((i) => i.estado_objeto === 'Dañado' || i.estado_objeto === 'Incompleto')
-      .reduce((sum, i) => sum + i.cantidad, 0);
-    const availableItems = totalItems - borrowedItems - damagedItems;
+    const damagedItems = inventory.reduce((sum, i) => {
+      const mant = i.stocks.find((s) => s.estado === 'mantenimiento')?.cantidad ?? 0;
+      return sum + mant;
+    }, 0);
+    const availableItems = inventory.reduce((sum, i) => {
+      const disp = i.stocks.find((s) => s.estado === 'disponible')?.cantidad ?? 0;
+      return sum + disp;
+    }, 0);
 
     return [
       { label: 'Total Tableros', value: String(totalItems), variant: 'default' },

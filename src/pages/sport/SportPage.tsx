@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SportAlert, SportStats, SportTabs, useSportStats } from '@/features/sport';
+import { SportStats, SportTabs, useSportStats } from '@/features/sport';
 import { SportInventorySection } from '@/features/load-sport-inventory/components';
 import {
   useLoadSportInventory,
@@ -11,20 +11,25 @@ import { NewSportLoanModal } from '@/features/new-sport-loan/components';
 import type { Inventory } from '@/entities/inventory/model/types';
 import { NewSportItemModal } from '@/features/new-sport-item';
 import { EditSportItemModal } from '@/features/edit-sport-item';
+import { editSportItem } from '@/features/edit-sport-item/api/edit-sport-item';
+import { MaintenanceModal } from '@/shared/ui/organisms/MaintenanceModal';
 import { ReturnLoanModal } from '@/features/return-sport-loan';
 import { useActiveLoans } from '@/features/return-sport-loan/hooks';
 import './SportPage.css';
 
 export const SportPage = () => {
   // ── Inventario ──────────────────────────────────────────────────────────
-  const { inventory, refetch: refetchInventory } = useLoadSportInventory();
+  const {
+    inventory,
+    refetch: refetchInventory,
+    page: inventoryPage,
+    totalPages: inventoryTotalPages,
+    handlePageChange: handleInventoryPageChange,
+  } = useLoadSportInventory();
   const {
     paginatedItems: paginatedInventory,
-    currentPage,
-    totalPages,
     searchTerm,
     handleSearch,
-    handlePageChange,
   } = useSportInventoryFilters(inventory);
 
   // ── Préstamos ────────────────────────────────────────────────────────────
@@ -59,10 +64,11 @@ export const SportPage = () => {
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
   // Préstamos
+  const [isMaintenanceOpen, setIsMaintenanceOpen] = useState(false);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
   // ── Derivados ────────────────────────────────────────────────────────────
-  const stats = useSportStats(inventory);
+  const { stats, refetch: refetchStats } = useSportStats();
 
   const handleOpenReturnLoan = () => {
     resetActiveLoans();
@@ -76,7 +82,6 @@ export const SportPage = () => {
         <p>Gestión de equipos deportivos</p>
       </header>
 
-      <SportAlert />
       <SportStats stats={stats} />
       <SportTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -85,17 +90,20 @@ export const SportPage = () => {
           <SportInventorySection
             inventory={paginatedInventory}
             searchTerm={searchTerm}
-            currentPage={currentPage}
-            totalPages={totalPages}
+            currentPage={inventoryPage}
+            totalPages={inventoryTotalPages}
             selectedItem={selectedInventoryItem}
             onSearchChange={handleSearch}
-            onPageChange={handlePageChange}
+            onPageChange={handleInventoryPageChange}
             onSelectItem={setSelectedInventoryItem}
             onNewItem={() => {
               setIsNewItemOpen(true);
             }}
             onEditItem={() => {
               setIsEditItemOpen(true);
+            }}
+            onMaintenance={() => {
+              setIsMaintenanceOpen(true);
             }}
           />
         )}
@@ -117,6 +125,21 @@ export const SportPage = () => {
         )}
       </div>
 
+      {/* ── Modal de mantenimiento ── */}
+      <MaintenanceModal
+        isOpen={isMaintenanceOpen}
+        inventory={inventory}
+        itemLabel="Equipo"
+        patchFn={editSportItem}
+        onClose={() => {
+          setIsMaintenanceOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
+      />
+
       {/* ── Modales de préstamos ── */}
       <NewSportLoanModal
         isOpen={isNewLoanOpen}
@@ -124,7 +147,10 @@ export const SportPage = () => {
         onClose={() => {
           setIsNewLoanOpen(false);
         }}
-        onSuccess={refetchLoans}
+        onSuccess={() => {
+          refetchLoans();
+          refetchStats();
+        }}
       />
       <ReturnLoanModal
         isOpen={isReturnLoanOpen}
@@ -140,6 +166,7 @@ export const SportPage = () => {
         onSuccess={() => {
           refetchLoans();
           refetchActiveLoans();
+          refetchStats();
         }}
       />
 
@@ -149,14 +176,20 @@ export const SportPage = () => {
         onClose={() => {
           setIsNewItemOpen(false);
         }}
-        onSuccess={refetchInventory}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
       />
       <EditSportItemModal
         isOpen={isEditItemOpen}
         onClose={() => {
           setIsEditItemOpen(false);
         }}
-        onSuccess={refetchInventory}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
         item={selectedInventoryItem}
       />
     </div>

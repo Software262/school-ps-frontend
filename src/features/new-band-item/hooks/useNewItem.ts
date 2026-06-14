@@ -8,8 +8,7 @@ import { createItem, getInventoryTypeByName } from '../api/create-item';
 
 const INITIAL_FIELDS: ItemFormFields = {
   nombre: '',
-  cantidad: '1',
-  estado_objeto: 'disponible',
+  cantidad_total: '1',
   observacion: '',
 };
 
@@ -36,9 +35,8 @@ export const useNewItem = (onSuccess: () => void) => {
       await createItem({
         tipo_inventario_id,
         nombre: fields.nombre.trim(),
-        cantidad: Number(fields.cantidad),
-        estado_objeto: fields.estado_objeto,
-        observacion: fields.observacion,
+        cantidad_total: Number(fields.cantidad_total),
+        observacion: fields.observacion || undefined,
       });
       reset();
       onSuccess();

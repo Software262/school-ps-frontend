@@ -28,7 +28,10 @@ export const useNewSportLoan = (inventory: Inventory[], onSuccess: () => void) =
   const [errors, setErrors] = useState<SportLoanFormErrors>({});
   const [loading, setLoading] = useState(false);
 
-  const availableInventory = inventory.filter((i) => i.estado_objeto === 'disponible');
+  const getDisponible = (item: (typeof inventory)[0]) =>
+    item.stocks.find((s) => s.estado === 'disponible')?.cantidad ?? 0;
+
+  const availableInventory = inventory.filter((i) => getDisponible(i) > 0);
   const selectedItem = availableInventory.find((i) => i.id === Number(fields.inventario_id));
 
   const [studentQuery, setStudentQuery] = useState('');
@@ -97,8 +100,8 @@ export const useNewSportLoan = (inventory: Inventory[], onSuccess: () => void) =
     const cantidadNum = Number(fields.cantidad);
     if (!fields.cantidad || !Number.isInteger(cantidadNum) || cantidadNum <= 0) {
       next.cantidad = 'La cantidad debe ser un entero mayor a 0';
-    } else if (selectedItem && cantidadNum > selectedItem.cantidad) {
-      next.cantidad = `Máximo disponible: ${String(selectedItem.cantidad)}`;
+    } else if (selectedItem && cantidadNum > getDisponible(selectedItem)) {
+      next.cantidad = `Máximo disponible: ${String(getDisponible(selectedItem))}`;
     }
 
     setErrors(next);
@@ -136,12 +139,15 @@ export const useNewSportLoan = (inventory: Inventory[], onSuccess: () => void) =
     setSelectedStudent(null);
   };
 
+  const selectedItemDisponible = selectedItem ? getDisponible(selectedItem) : 0;
+
   return {
     fields,
     errors,
     loading,
     availableInventory,
     selectedItem,
+    selectedItemDisponible,
     studentQuery,
     studentResults,
     selectedStudent,

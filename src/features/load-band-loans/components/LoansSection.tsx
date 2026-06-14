@@ -4,5 +4,5 @@ import type { LoansSectionProps } from '@/shared/ui/organisms/LoansSection';
 type Props = Omit<LoansSectionProps, 'searchPlaceholder'>;
 
 export const LoansSection = (props: Props) => (
-  <SharedLoansSection {...props} searchPlaceholder="Buscar por estudiante o instrumento..." />
+  <SharedLoansSection {...props} searchPlaceholder="Buscar por instrumento..." />
 );

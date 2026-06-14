@@ -1,101 +1,103 @@
 import type { ItemFormFields, ItemFormErrors } from '../model/item-form';
-import { ESTADO_OBJETO_OPTIONS } from '../model/item-form';
 import './ItemFormBody.css';
+
+export type ItemFormVariant = 'band' | 'sport' | 'chess';
+
+interface VariantCopy {
+  nameLabel: string;
+  namePlaceholder: string;
+  observacionPlaceholder: string;
+}
+
+const VARIANT_COPY: Record<ItemFormVariant, VariantCopy> = {
+  band: {
+    nameLabel: 'Nombre del instrumento',
+    namePlaceholder: 'Ej: Guitarra eléctrica',
+    observacionPlaceholder: 'Descripción o estado del instrumento...',
+  },
+  sport: {
+    nameLabel: 'Nombre del equipo',
+    namePlaceholder: 'Ej: Balón de fútbol',
+    observacionPlaceholder: 'Descripción o estado del equipo...',
+  },
+  chess: {
+    nameLabel: 'Nombre del tablero',
+    namePlaceholder: 'Ej: Tablero de ajedrez profesional',
+    observacionPlaceholder: 'Descripción o estado del tablero...',
+  },
+};
 
 interface ItemFormBodyProps {
   fields: ItemFormFields;
   errors: ItemFormErrors;
   onChange: (field: keyof ItemFormFields, value: string) => void;
+  variant?: ItemFormVariant;
 }
 
-export const ItemFormBody = ({ fields, errors, onChange }: ItemFormBodyProps) => (
-  <>
-    <div className="form-group">
-      <label className="form-label" htmlFor="if-nombre">
-        Nombre <span aria-hidden="true">*</span>
-      </label>
-      <input
-        id="if-nombre"
-        type="text"
-        className={`form-input ${errors.nombre ? 'form-input--error' : ''}`}
-        placeholder="Ej: Guitarra eléctrica"
-        value={fields.nombre}
-        onChange={(e) => {
-          onChange('nombre', e.target.value);
-        }}
-      />
-      {errors.nombre && (
-        <span className="field-error" role="alert">
-          {errors.nombre}
-        </span>
-      )}
-    </div>
+export const ItemFormBody = ({ fields, errors, onChange, variant = 'band' }: ItemFormBodyProps) => {
+  const copy = VARIANT_COPY[variant];
 
-    <div className="form-row">
+  return (
+    <>
+      <div className="form-group">
+        <label className="form-label" htmlFor="if-nombre">
+          {copy.nameLabel} <span aria-hidden="true">*</span>
+        </label>
+        <input
+          id="if-nombre"
+          type="text"
+          className={`form-input ${errors.nombre ? 'form-input--error' : ''}`}
+          placeholder={copy.namePlaceholder}
+          value={fields.nombre}
+          onChange={(e) => {
+            onChange('nombre', e.target.value);
+          }}
+        />
+        {errors.nombre && (
+          <span className="field-error" role="alert">
+            {errors.nombre}
+          </span>
+        )}
+      </div>
+
       <div className="form-group">
         <label className="form-label" htmlFor="if-cantidad">
-          Cantidad <span aria-hidden="true">*</span>
+          Cantidad total <span aria-hidden="true">*</span>
         </label>
         <input
           id="if-cantidad"
           type="number"
-          min={0}
+          min={1}
           step={1}
-          className={`form-input ${errors.cantidad ? 'form-input--error' : ''}`}
-          placeholder="0"
-          value={fields.cantidad}
+          className={`form-input ${errors.cantidad_total ? 'form-input--error' : ''}`}
+          placeholder="1"
+          value={fields.cantidad_total}
           onChange={(e) => {
-            onChange('cantidad', e.target.value);
+            onChange('cantidad_total', e.target.value);
           }}
         />
-        {errors.cantidad && (
+        {errors.cantidad_total && (
           <span className="field-error" role="alert">
-            {errors.cantidad}
+            {errors.cantidad_total}
           </span>
         )}
       </div>
 
       <div className="form-group">
-        <label className="form-label" htmlFor="if-estado">
-          Estado <span aria-hidden="true">*</span>
+        <label className="form-label" htmlFor="if-observacion">
+          Observación
         </label>
-        <select
-          id="if-estado"
-          className={`form-select ${errors.estado_objeto ? 'form-select--error' : ''}`}
-          value={fields.estado_objeto}
+        <textarea
+          id="if-observacion"
+          className="form-textarea"
+          placeholder={copy.observacionPlaceholder}
+          rows={3}
+          value={fields.observacion}
           onChange={(e) => {
-            onChange('estado_objeto', e.target.value);
+            onChange('observacion', e.target.value);
           }}
-        >
-          <option value="">— Seleccionar estado —</option>
-          {ESTADO_OBJETO_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        {errors.estado_objeto && (
-          <span className="field-error" role="alert">
-            {errors.estado_objeto}
-          </span>
-        )}
+        />
       </div>
-    </div>
-
-    <div className="form-group">
-      <label className="form-label" htmlFor="if-observacion">
-        Observación
-      </label>
-      <textarea
-        id="if-observacion"
-        className="form-textarea"
-        placeholder="Descripción o estado del instrumento..."
-        rows={3}
-        value={fields.observacion}
-        onChange={(e) => {
-          onChange('observacion', e.target.value);
-        }}
-      />
-    </div>
-  </>
-);
+    </>
+  );
+};

@@ -63,7 +63,7 @@ export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: Props) =
     <Modal isOpen={isOpen} onClose={onClose} title="Nuevo Préstamo de Ajedrez" width={450}>
       {item && (
         <div className="modal-item-info">
-          Tablero: <strong>{item.nombre}</strong> (Stock: {item.cantidad})
+          Tablero: <strong>{item.nombre}</strong> (Stock: {item.cantidad_total})
         </div>
       )}
       {error && <div className="alert alert-error">{error}</div>}
@@ -92,7 +92,7 @@ export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: Props) =
             setCantidad(Number(e.target.value));
           }}
           min={1}
-          max={item?.cantidad ?? 1}
+          max={item?.cantidad_total ?? 1}
           required
           disabled={loading}
         />

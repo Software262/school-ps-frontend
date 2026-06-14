@@ -1,21 +1,23 @@
 import { useState } from 'react';
-import type { Inventory } from '@/entities/inventory/model/types';
+import { getStockCantidad, type Inventory } from '@/entities/inventory/model/types';
 import {
-  type ItemFormFields,
-  type ItemFormErrors,
-  validateItemForm,
-} from '@/entities/inventory/model/item-form';
+  type EditItemFormFields,
+  type EditItemFormErrors,
+  validateEditItemForm,
+} from '@/entities/inventory/model/edit-item-form';
 import { editSportItem } from '../api/edit-sport-item';
 
 export const useEditSportItem = (item: Inventory | null, onSuccess: () => void) => {
   const [prevItem, setPrevItem] = useState<Inventory | null>(null);
-  const [fields, setFields] = useState<ItemFormFields>({
+  const [fields, setFields] = useState<EditItemFormFields>({
     nombre: '',
-    cantidad: '1',
-    estado_objeto: 'disponible',
+    cantidad_total: '',
     observacion: '',
+    cantidad_disponible: '',
+    cantidad_prestado: '',
+    cantidad_mantenimiento: '',
   });
-  const [errors, setErrors] = useState<ItemFormErrors>({});
+  const [errors, setErrors] = useState<EditItemFormErrors>({});
   const [loading, setLoading] = useState(false);
 
   if (item !== prevItem) {
@@ -23,15 +25,17 @@ export const useEditSportItem = (item: Inventory | null, onSuccess: () => void) 
     if (item) {
       setFields({
         nombre: item.nombre,
-        cantidad: String(item.cantidad),
-        estado_objeto: item.estado_objeto,
-        observacion: item.observacion,
+        cantidad_total: String(item.cantidad_total),
+        observacion: item.observacion ?? '',
+        cantidad_disponible: String(getStockCantidad(item.stocks, 'disponible')),
+        cantidad_prestado: String(getStockCantidad(item.stocks, 'prestado')),
+        cantidad_mantenimiento: String(getStockCantidad(item.stocks, 'mantenimiento')),
       });
       setErrors({});
     }
   }
 
-  const handleChange = (field: keyof ItemFormFields, value: string) => {
+  const handleChange = (field: keyof EditItemFormFields, value: string) => {
     setFields((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined, general: undefined }));
   };
@@ -39,7 +43,7 @@ export const useEditSportItem = (item: Inventory | null, onSuccess: () => void) 
   const handleSubmit = async (): Promise<void> => {
     if (!item) return;
 
-    const validationErrors = validateItemForm(fields);
+    const validationErrors = validateEditItemForm(fields);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -48,10 +52,14 @@ export const useEditSportItem = (item: Inventory | null, onSuccess: () => void) 
     setLoading(true);
     try {
       await editSportItem(item.id, {
-        nombre: fields.nombre.trim(),
-        cantidad: Number(fields.cantidad),
-        estado_objeto: fields.estado_objeto,
-        observacion: fields.observacion,
+        tipo_inventario_id: item.tipo_inventario_id,
+        nombre: fields.nombre.trim() || undefined,
+        cantidad_total: fields.cantidad_total !== '' ? Number(fields.cantidad_total) : undefined,
+        observacion: fields.observacion || undefined,
+        cantidad_disponible:
+          fields.cantidad_disponible !== '' ? Number(fields.cantidad_disponible) : undefined,
+        cantidad_mantenimiento:
+          fields.cantidad_mantenimiento !== '' ? Number(fields.cantidad_mantenimiento) : undefined,
       });
       onSuccess();
     } catch {

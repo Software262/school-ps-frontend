@@ -1,22 +1,14 @@
 export interface ItemFormFields {
   nombre: string;
-  cantidad: string;
-  estado_objeto: string;
+  cantidad_total: string;
   observacion: string;
 }
 
 export interface ItemFormErrors {
   nombre?: string;
-  cantidad?: string;
-  estado_objeto?: string;
+  cantidad_total?: string;
   general?: string;
 }
-
-export const ESTADO_OBJETO_OPTIONS = [
-  { value: 'disponible', label: 'Disponible' },
-  { value: 'prestado', label: 'Prestado' },
-  { value: 'mantenimiento', label: 'Mantenimiento' },
-] as const;
 
 export const validateItemForm = (fields: ItemFormFields): ItemFormErrors => {
   const errors: ItemFormErrors = {};
@@ -25,13 +17,9 @@ export const validateItemForm = (fields: ItemFormFields): ItemFormErrors => {
     errors.nombre = 'El nombre es obligatorio';
   }
 
-  const cantidad = Number(fields.cantidad);
-  if (fields.cantidad === '' || !Number.isInteger(cantidad) || cantidad < 0) {
-    errors.cantidad = 'La cantidad debe ser un número entero mayor o igual a 0';
-  }
-
-  if (!fields.estado_objeto) {
-    errors.estado_objeto = 'Selecciona un estado';
+  const cantidad = Number(fields.cantidad_total);
+  if (fields.cantidad_total === '' || !Number.isInteger(cantidad) || cantidad < 1) {
+    errors.cantidad_total = 'La cantidad debe ser un número entero mayor o igual a 1';
   }
 
   return errors;

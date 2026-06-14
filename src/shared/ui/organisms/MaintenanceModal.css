@@ -1,0 +1,153 @@
+.maintenance-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Toggle de acción */
+.maintenance-action-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.maintenance-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 2px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.maintenance-action-btn:hover:not(.active) {
+  border-color: var(--status-gray);
+  color: var(--text-primary);
+}
+
+.maintenance-action-btn.active {
+  border-color: var(--brand-primary);
+  background: #fdf2f2;
+  color: var(--brand-primary);
+}
+
+.maintenance-action-icon {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Info del ítem */
+.maintenance-item-info {
+  padding: 12px;
+  background: var(--status-gray-bg);
+  border: 1px solid var(--status-gray-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 4px;
+}
+
+.maintenance-stock-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.maintenance-total-row {
+  margin-top: 6px;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.stock-badge {
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.stock-green {
+  background: var(--status-green-bg);
+  color: var(--status-green);
+  border: 1px solid var(--status-green-border);
+}
+
+.stock-yellow {
+  background: var(--status-yellow-bg);
+  color: var(--status-yellow);
+  border: 1px solid var(--status-yellow-border);
+}
+
+.stock-gray {
+  background: var(--status-gray-bg);
+  color: var(--status-gray);
+  border: 1px solid var(--status-gray-border);
+}
+
+/* Botones de acción del modal */
+.btn-maintenance-send {
+  background: linear-gradient(135deg, var(--status-gray) 0%, #374151 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(75, 85, 99, 0.2);
+}
+
+.btn-maintenance-send:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(75, 85, 99, 0.3);
+}
+
+.btn-maintenance-return {
+  background: linear-gradient(135deg, var(--status-green) 0%, #1f6d38 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(45, 125, 70, 0.2);
+}
+
+.btn-maintenance-return:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(45, 125, 70, 0.3);
+}
+
+.btn-maintenance-send:disabled,
+.btn-maintenance-return:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Select dentro del modal de mantenimiento */
+.maintenance-form .form-select {
+  width: 100%;
+  padding: 8px 36px 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius-md);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.maintenance-form .form-select:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px rgba(123, 29, 29, 0.1);
+}
+
+.maintenance-form .field-hint {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: 2px;
+}

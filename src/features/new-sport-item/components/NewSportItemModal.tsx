@@ -1,4 +1,5 @@
 import { Modal, Spinner } from '@/shared/ui';
+import { Button } from '@/shared/ui/atoms/Button';
 import { ItemFormBody } from '@/entities/inventory/ui/ItemFormBody';
 import { useNewSportItem } from '../hooks/useNewSportItem';
 import type { NewSportItemModalProps } from '../types';
@@ -26,18 +27,13 @@ export const NewSportItemModal = ({ isOpen, onClose, onSuccess }: NewSportItemMo
       >
         {errors.general && <div className="alert alert-error">{errors.general}</div>}
 
-        <ItemFormBody fields={fields} errors={errors} onChange={handleChange} />
+        <ItemFormBody fields={fields} errors={errors} onChange={handleChange} variant="sport" />
 
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+          </Button>
+          <Button type="submit" variant="primary" disabled={loading}>
             {loading ? (
               <>
                 <Spinner size={16} color="#fff" /> Guardando…
@@ -45,7 +41,7 @@ export const NewSportItemModal = ({ isOpen, onClose, onSuccess }: NewSportItemMo
             ) : (
               'Crear Equipo'
             )}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

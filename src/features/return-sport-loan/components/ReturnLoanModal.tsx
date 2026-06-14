@@ -1,4 +1,5 @@
 import { Modal, Spinner, DataTable } from '@/shared/ui';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { LoanFormatted } from '@/entities/loan/model/loan-utils';
 import { useReturnLoan } from '../hooks/useReturnLoan';
 import './ReturnLoanModal.css';
@@ -166,17 +167,12 @@ export const ReturnLoanModal = ({
 
         {/* ── Acciones ─────────────────────────────────────────────────── */}
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
-            className="btn btn-primary"
+            variant="primary"
             onClick={() => {
               void handleSubmit();
             }}
@@ -189,7 +185,7 @@ export const ReturnLoanModal = ({
             ) : (
               'Confirmar Devolución'
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

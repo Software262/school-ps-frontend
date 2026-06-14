@@ -1,5 +1,5 @@
-import { Modal } from '@/shared/ui';
-import { Spinner } from '@/shared/ui';
+import { Modal, Spinner } from '@/shared/ui';
+import { Button } from '@/shared/ui/atoms/Button';
 import { useNewLoan } from '../hooks/useNewLoan';
 import './NewLoanModal.css';
 import type { NewLoanModalProps } from '../types';
@@ -11,6 +11,7 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
     loading,
     availableInventory,
     selectedItem,
+    selectedItemDisponible,
     studentQuery,
     studentResults,
     selectedStudent,
@@ -57,11 +58,14 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
             }}
           >
             <option value="">— Seleccionar instrumento —</option>
-            {availableInventory.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.nombre} (disponibles: {item.cantidad})
-              </option>
-            ))}
+            {availableInventory.map((item) => {
+              const disp = item.stocks.find((s) => s.estado === 'disponible')?.cantidad ?? 0;
+              return (
+                <option key={item.id} value={item.id}>
+                  {item.nombre} (disponibles: {disp})
+                </option>
+              );
+            })}
           </select>
           {errors.inventario_id && (
             <span className="field-error" role="alert">
@@ -75,9 +79,9 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
             <div className="selected-item-info">
               <span>✓</span>
               <span>
-                <strong>{selectedItem.nombre}</strong> — {selectedItem.cantidad} unidad
-                {selectedItem.cantidad !== 1 ? 'es' : ''} disponible
-                {selectedItem.cantidad !== 1 ? 's' : ''}
+                <strong>{selectedItem.nombre}</strong> — {selectedItemDisponible} unidad
+                {selectedItemDisponible !== 1 ? 'es' : ''} disponible
+                {selectedItemDisponible !== 1 ? 's' : ''}
               </span>
             </div>
           )}
@@ -165,7 +169,7 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
               id="nl-cantidad"
               type="number"
               min={1}
-              max={selectedItem?.cantidad}
+              max={selectedItemDisponible}
               step={1}
               className={`form-input ${errors.cantidad ? 'form-input--error' : ''}`}
               value={fields.cantidad}
@@ -178,7 +182,7 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
                 {errors.cantidad}
               </span>
             ) : selectedItem ? (
-              <span className="field-hint">Máx. {selectedItem.cantidad}</span>
+              <span className="field-hint">Máx. {selectedItemDisponible}</span>
             ) : null}
           </div>
         </div>
@@ -202,17 +206,12 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
 
         {/* Acciones */}
         <div className="form-actions">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={handleClose}
-            disabled={loading}
-          >
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
-          </button>
-          <button
+          </Button>
+          <Button
             type="submit"
-            className="btn btn-primary"
+            variant="primary"
             disabled={loading || availableInventory.length === 0}
           >
             {loading ? (
@@ -222,7 +221,7 @@ export const NewLoanModal = ({ isOpen, inventory, onClose, onSuccess }: NewLoanM
             ) : (
               'Crear Préstamo'
             )}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

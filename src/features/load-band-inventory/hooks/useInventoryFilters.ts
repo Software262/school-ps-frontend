@@ -9,7 +9,7 @@ export const useInventoryFilters = (inventory: Inventory[]) => {
     return inventory.filter(
       (instrument) =>
         instrument.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        instrument.observacion.toLowerCase().includes(searchTerm.toLowerCase()),
+        (instrument.observacion ?? '').toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [inventory, searchTerm]);
 

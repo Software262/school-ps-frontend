@@ -13,8 +13,10 @@ export interface InventorySectionProps {
   onSelectItem: (item: Inventory) => void;
   onNewItem: () => void;
   onEditItem: () => void;
+  onMaintenance?: () => void;
   editLabel?: string;
   newLabel?: string;
+  maintenanceLabel?: string;
   editDisabledTitle?: string;
   emptyMessage?: string;
 }
@@ -30,14 +32,21 @@ export const InventorySection = ({
   onSelectItem,
   onNewItem,
   onEditItem,
+  onMaintenance,
   editLabel = 'Editar Ítem',
   newLabel = 'Nuevo Ítem',
+  maintenanceLabel = 'Mantenimiento',
   editDisabledTitle = 'Selecciona un ítem de la tabla para editarlo',
   emptyMessage = 'No se encontraron ítems',
 }: InventorySectionProps) => (
   <div className="table-section">
     <div className="inventory-header">
       <div className="inventory-header-buttons">
+        {onMaintenance && (
+          <button className="btn-maintenance" onClick={onMaintenance}>
+            {maintenanceLabel}
+          </button>
+        )}
         <button
           className="btn-edit-item"
           onClick={onEditItem}
