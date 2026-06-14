@@ -15,47 +15,47 @@ export const useComplementarios = () => {
   const [complementarios, setComplementarios] = useState<Complementario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchComplementarios = useCallback(
-    () =>
-      getComplementarios()
-        .then((data) => {
-          setComplementarios(data);
-          setError(null);
-        })
-        .catch((err: unknown) => {
-          setError(err instanceof Error ? err.message : 'Error al cargar los complementarios');
-        })
-        .finally(() => {
-          setLoading(false);
-        }),
-    [],
-  );
+  const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
-    void fetchComplementarios();
-  }, [fetchComplementarios]);
+    getComplementarios()
+      .then((data) => {
+        setComplementarios(data);
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : 'Error al cargar los complementarios');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [refetchKey]);
+
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setRefetchKey((k) => k + 1);
+  }, []);
 
   async function create(payload: CreateComplementarioRequest) {
     await createComplementario(payload);
-    await fetchComplementarios();
+    refetch();
   }
 
   async function update(id: number, payload: UpdateComplementarioRequest) {
     await updateComplementario(id, payload);
-    await fetchComplementarios();
+    refetch();
   }
 
   async function remove(id: number) {
     await deleteComplementario(id);
-    await fetchComplementarios();
+    refetch();
   }
 
   return {
     complementarios,
     loading,
     error,
-    refetch: fetchComplementarios,
+    refetch,
     create,
     update,
     remove,

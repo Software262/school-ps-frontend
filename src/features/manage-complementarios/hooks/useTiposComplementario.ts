@@ -15,41 +15,41 @@ export const useTiposComplementario = () => {
   const [tipos, setTipos] = useState<TipoComplementario[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchTipos = useCallback(
-    () =>
-      getTiposComplementario()
-        .then((data) => {
-          setTipos(data);
-          setError(null);
-        })
-        .catch((err: unknown) => {
-          setError(err instanceof Error ? err.message : 'Error al cargar los tipos');
-        })
-        .finally(() => {
-          setLoading(false);
-        }),
-    [],
-  );
+  const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
-    void fetchTipos();
-  }, [fetchTipos]);
+    getTiposComplementario()
+      .then((data) => {
+        setTipos(data);
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : 'Error al cargar los tipos');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [refetchKey]);
+
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setRefetchKey((k) => k + 1);
+  }, []);
 
   async function create(payload: CreateTipoComplementarioRequest) {
     await createTipoComplementario(payload);
-    await fetchTipos();
+    refetch();
   }
 
   async function update(id: number, payload: UpdateTipoComplementarioRequest) {
     await updateTipoComplementario(id, payload);
-    await fetchTipos();
+    refetch();
   }
 
   async function remove(id: number) {
     await deleteTipoComplementario(id);
-    await fetchTipos();
+    refetch();
   }
 
-  return { tipos, loading, error, refetch: fetchTipos, create, update, remove };
+  return { tipos, loading, error, refetch, create, update, remove };
 };
