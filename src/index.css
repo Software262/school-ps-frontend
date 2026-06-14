@@ -259,6 +259,14 @@
   border-color: var(--text-muted);
   background-color: #f9fafb;
 }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--brand-primary);
+  color: var(--brand-primary);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: rgba(123, 29, 29, 0.06);
+}
 
 .btn-sm {
   padding: 5px 12px;

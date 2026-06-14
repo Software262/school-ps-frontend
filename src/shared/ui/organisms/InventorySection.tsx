@@ -1,5 +1,6 @@
 import { DataTable } from '@/shared/ui/molecules/DataTable';
 import { INVENTORY_COLUMNS } from '@/entities/inventory/ui/inventory-columns';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface InventorySectionProps {
@@ -43,21 +44,21 @@ export const InventorySection = ({
     <div className="inventory-header">
       <div className="inventory-header-buttons">
         {onMaintenance && (
-          <button className="btn-maintenance" onClick={onMaintenance}>
+          <Button variant="secondary" onClick={onMaintenance}>
             {maintenanceLabel}
-          </button>
+          </Button>
         )}
-        <button
-          className="btn-edit-item"
+        <Button
+          variant="ghost"
           onClick={onEditItem}
           disabled={!selectedItem}
           title={!selectedItem ? editDisabledTitle : undefined}
         >
           {editLabel}
-        </button>
-        <button className="btn-new-item" onClick={onNewItem}>
+        </Button>
+        <Button variant="primary" onClick={onNewItem}>
           {newLabel}
-        </button>
+        </Button>
       </div>
     </div>
 

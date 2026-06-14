@@ -1,4 +1,5 @@
 import { DataTable } from '@/shared/ui/molecules/DataTable';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { ChessInventory } from '@/features/chess/model/types';
 
 interface Props {
@@ -20,9 +21,9 @@ export const ChessInventorySection = ({
         {selectedItem && (
           <span className="inventory-selected-hint">Seleccionado: {selectedItem.nombre}</span>
         )}
-        <button className="btn-new-item" onClick={onNewLoan} disabled={!selectedItem}>
+        <Button variant="primary" onClick={onNewLoan} disabled={!selectedItem}>
           + Nuevo Préstamo
-        </button>
+        </Button>
       </div>
     </div>
     <DataTable
