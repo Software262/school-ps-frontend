@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 interface RowBase {
-  id?: string | number;
+  id: string | number;
 }
 
 interface Column<TRow extends RowBase> {
@@ -51,12 +51,12 @@ export function DataTable<TRow extends RowBase>({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {data.map((row, index) => {
+            {data.map((row) => {
               const isSelected = selectedRow?.id === row.id;
 
               return (
                 <tr
-                  key={row.id ?? index}
+                  key={row.id}
                   className={`hover:bg-gray-50 transition-colors ${isSelected ? 'bg-blue-50' : ''}`}
                   onClick={() => {
                     onSelect?.(row);
