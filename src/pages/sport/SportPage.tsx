@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { SportStats, SportTabs, useSportStats } from '@/features/sport';
 import { SportInventorySection } from '@/features/load-sport-inventory/components';
-import {
-  useLoadSportInventory,
-  useSportInventoryFilters,
-} from '@/features/load-sport-inventory/hooks';
+import { useLoadSportInventory } from '@/features/load-sport-inventory/hooks';
 import { SportLoansSection } from '@/features/load-sport-loans/components';
 import { useLoadSportLoans, useSportLoansFilters } from '@/features/load-sport-loans/hooks';
 import { NewSportLoanModal } from '@/features/new-sport-loan/components';
@@ -24,26 +21,24 @@ export const SportPage = () => {
     refetch: refetchInventory,
     page: inventoryPage,
     totalPages: inventoryTotalPages,
-    handlePageChange: handleInventoryPageChange,
-  } = useLoadSportInventory();
-  const {
-    paginatedItems: paginatedInventory,
     searchTerm,
+    handlePageChange: handleInventoryPageChange,
     handleSearch,
-  } = useSportInventoryFilters(inventory);
+  } = useLoadSportInventory();
 
   // ── Préstamos ────────────────────────────────────────────────────────────
-  const { loans, refetch: refetchLoans } = useLoadSportLoans();
   const {
-    paginatedItems: paginatedLoans,
-    currentPage: loansCurrentPage,
+    loans,
+    refetch: refetchLoans,
+    page: loansCurrentPage,
     totalPages: loansTotalPages,
-    searchTerm: loansSearchTerm,
     filter: loansFilter,
-    handleSearch: handleLoansSearch,
-    handleFilterChange: handleLoansFilterChange,
+    searchTerm: loansSearchTerm,
     handlePageChange: handleLoansPageChange,
-  } = useSportLoansFilters(loans);
+    handleFilterChange: handleLoansFilterChange,
+    handleSearch: handleLoansSearch,
+  } = useLoadSportLoans();
+  const { formattedLoans: paginatedLoans } = useSportLoansFilters(loans);
 
   const {
     paginatedItems: activeLoansPaginated,
@@ -88,7 +83,7 @@ export const SportPage = () => {
       <div className="sport-content">
         {activeTab === 'inventory' && (
           <SportInventorySection
-            inventory={paginatedInventory}
+            inventory={inventory}
             searchTerm={searchTerm}
             currentPage={inventoryPage}
             totalPages={inventoryTotalPages}

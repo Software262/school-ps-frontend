@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import type { Inventory } from '@/entities/inventory/model/types';
 import { loadSportInventory } from '@/features/load-sport-inventory/api/load-sport-inventory';
+import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -11,10 +12,13 @@ export const useLoadSportInventory = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
   const [refetchKey, setRefetchKey] = useState(0);
 
+  const debouncedSearch = useDebouncedValue(searchTerm);
+
   useEffect(() => {
-    loadSportInventory(page, ITEMS_PER_PAGE)
+    loadSportInventory(page, ITEMS_PER_PAGE, debouncedSearch)
       .then((result) => {
         setInventory(result.items);
         setTotalPages(result.totalPages);
@@ -28,7 +32,7 @@ export const useLoadSportInventory = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [page, refetchKey]);
+  }, [page, debouncedSearch, refetchKey]);
 
   const refetch = useCallback(() => {
     setLoading(true);
@@ -39,5 +43,21 @@ export const useLoadSportInventory = () => {
     setPage(Math.max(1, newPage));
   }, []);
 
-  return { inventory, loading, error, refetch, page, totalPages, total, handlePageChange };
+  const handleSearch = useCallback((term: string) => {
+    setSearchTerm(term);
+    setPage(1);
+  }, []);
+
+  return {
+    inventory,
+    loading,
+    error,
+    refetch,
+    page,
+    totalPages,
+    total,
+    searchTerm,
+    handlePageChange,
+    handleSearch,
+  };
 };

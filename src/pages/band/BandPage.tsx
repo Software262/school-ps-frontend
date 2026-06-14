@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BandStats, BandTabs, useBandStats } from '@/features/band';
 import { InventorySection } from '@/features/load-band-inventory/components';
-import { useLoadInventory, useInventoryFilters } from '@/features/load-band-inventory/hooks';
+import { useLoadInventory } from '@/features/load-band-inventory/hooks';
 import { LoansSection } from '@/features/load-band-loans/components';
 import { useLoadLoans, useLoansFilters } from '@/features/load-band-loans/hooks';
 import { NewLoanModal } from '@/features/new-band-loan';
@@ -20,14 +20,10 @@ export const BandPage = () => {
     refetch: refetchInventory,
     page: inventoryPage,
     totalPages: inventoryTotalPages,
-    handlePageChange: handleInventoryPageChange,
-  } = useLoadInventory();
-
-  const {
-    paginatedItems: paginatedInventory,
     searchTerm,
+    handlePageChange: handleInventoryPageChange,
     handleSearch,
-  } = useInventoryFilters(inventory);
+  } = useLoadInventory();
 
   const {
     loans,
@@ -35,15 +31,13 @@ export const BandPage = () => {
     page: loansPage,
     totalPages: loansTotalPages,
     filter: loansFilter,
+    searchTerm: loansSearchTerm,
     handlePageChange: handleLoansPageChange,
     handleFilterChange: handleLoansFilterChange,
+    handleSearch: handleLoansSearch,
   } = useLoadLoans();
 
-  const {
-    paginatedItems: paginatedLoans,
-    searchTerm: loansSearchTerm,
-    handleSearch: handleLoansSearch,
-  } = useLoansFilters(loans);
+  const { formattedLoans: paginatedLoans } = useLoansFilters(loans);
 
   const {
     paginatedItems: activeLoansPaginated,
@@ -83,7 +77,7 @@ export const BandPage = () => {
       <div className="band-content">
         {activeTab === 'inventory' && (
           <InventorySection
-            inventory={paginatedInventory}
+            inventory={inventory}
             searchTerm={searchTerm}
             currentPage={inventoryPage}
             totalPages={inventoryTotalPages}

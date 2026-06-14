@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import type { Loan } from '@/entities/loan/model';
 import type { LoansFilterType } from '@/entities/loan/model/loan-utils';
+import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -8,6 +9,7 @@ type LoadFn = (
   page: number,
   limit: number,
   active?: boolean,
+  search?: string,
 ) => Promise<{ items: Loan[]; totalPages: number; total: number }>;
 
 const filterToActive = (filter: LoansFilterType): boolean | undefined => {
@@ -24,11 +26,14 @@ export const useLoadLoansData = (loadFn: LoadFn) => {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [filter, setFilter] = useState<LoansFilterType>('all');
+  const [searchTerm, setSearchTerm] = useState('');
   const [refetchKey, setRefetchKey] = useState(0);
+
+  const debouncedSearch = useDebouncedValue(searchTerm);
 
   useEffect(() => {
     const active = filterToActive(filter);
-    loadFn(page, ITEMS_PER_PAGE, active)
+    loadFn(page, ITEMS_PER_PAGE, active, debouncedSearch)
       .then((result) => {
         setLoans(result.items);
         setTotalPages(result.totalPages);
@@ -42,7 +47,7 @@ export const useLoadLoansData = (loadFn: LoadFn) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [page, filter, refetchKey, loadFn]);
+  }, [page, filter, debouncedSearch, refetchKey, loadFn]);
 
   const refetch = useCallback(() => {
     setLoading(true);
@@ -60,6 +65,11 @@ export const useLoadLoansData = (loadFn: LoadFn) => {
     setPage(1);
   }, []);
 
+  const handleSearch = useCallback((term: string) => {
+    setSearchTerm(term);
+    setPage(1);
+  }, []);
+
   return {
     loans,
     loading,
@@ -69,7 +79,9 @@ export const useLoadLoansData = (loadFn: LoadFn) => {
     totalPages,
     total,
     filter,
+    searchTerm,
     handlePageChange,
     handleFilterChange,
+    handleSearch,
   };
 };
