@@ -90,7 +90,7 @@ export const useNewSportLoan = (inventory: Inventory[], onSuccess: () => void) =
 
     const estudianteNum = Number(fields.estudiante_id);
     if (!fields.estudiante_id || !Number.isInteger(estudianteNum) || estudianteNum <= 0) {
-      next.estudiante_id = 'Ingresa un ID de estudiante válido (número entero positivo)';
+      next.estudiante_id = 'Ingresa un nombre o documento válido ';
     }
 
     if (!fields.fecha_salida) {

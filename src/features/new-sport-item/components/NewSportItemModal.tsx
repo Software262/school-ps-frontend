@@ -18,7 +18,7 @@ export const NewSportItemModal = ({ isOpen, onClose, onSuccess }: NewSportItemMo
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Nuevo Equipo Deportivo" width={520}>
       <form
-        className="sport-item-form"
+        className="item-form"
         onSubmit={(e) => {
           e.preventDefault();
           void handleSubmit();

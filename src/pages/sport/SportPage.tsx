@@ -48,7 +48,6 @@ export const SportPage = () => {
     loading: activeLoansLoading,
     handlePageChange: handleActiveLoansPageChange,
     refetch: refetchActiveLoans,
-    reset: resetActiveLoans,
   } = useActiveLoans();
 
   // ── Estado de UI ─────────────────────────────────────────────────────────
@@ -66,7 +65,7 @@ export const SportPage = () => {
   const { stats, refetch: refetchStats } = useSportStats();
 
   const handleOpenReturnLoan = () => {
-    resetActiveLoans();
+    refetchActiveLoans();
     setIsReturnLoanOpen(true);
   };
 
