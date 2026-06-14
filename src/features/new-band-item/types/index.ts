@@ -1,9 +1,8 @@
 export interface CreateItemPayload {
   tipo_inventario_id: number;
   nombre: string;
-  cantidad: number;
-  estado_objeto: string;
-  observacion: string;
+  cantidad_total: number;
+  observacion?: string;
 }
 
 export interface CreateItemResponse {

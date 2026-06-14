@@ -3,7 +3,7 @@ import type { InventorySectionProps } from '@/shared/ui/organisms/InventorySecti
 
 type Props = Omit<
   InventorySectionProps,
-  'editLabel' | 'newLabel' | 'editDisabledTitle' | 'emptyMessage'
+  'editLabel' | 'newLabel' | 'maintenanceLabel' | 'editDisabledTitle' | 'emptyMessage'
 >;
 
 export const SportInventorySection = (props: Props) => (
@@ -11,6 +11,7 @@ export const SportInventorySection = (props: Props) => (
     {...props}
     editLabel="Editar Equipo"
     newLabel="Nuevo Equipo"
+    maintenanceLabel="Mantenimiento"
     editDisabledTitle="Selecciona un equipo de la tabla para editarlo"
     emptyMessage="No se encontraron equipos deportivos"
   />

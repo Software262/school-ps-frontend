@@ -1,8 +1,3 @@
-import { useModuleStats } from '@/shared/hooks/useModuleStats';
-import type { ModuleStat } from '@/shared/hooks/useModuleStats';
-import type { Inventory } from '@/entities/inventory/model/types';
+import { useInventoryStats } from '@/shared/hooks/useInventoryStats';
 
-export type BandStat = ModuleStat;
-
-export const useBandStats = (inventory: Inventory[]): BandStat[] =>
-  useModuleStats(inventory, 'Total Instrumentos');
+export const useBandStats = () => useInventoryStats('banda', 'Total Instrumentos');

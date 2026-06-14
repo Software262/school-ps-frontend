@@ -212,6 +212,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding: 0.625rem 1.25rem;
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
   font-size: var(--font-size-base);

@@ -1,11 +1,16 @@
 import { fetchApi } from '@shared/api/apiClient';
 import type { PaginationLoadBand, PaginationResult } from '../types/response-api';
 
-export const loadBand = async (page = 1, limit = 10): Promise<PaginationResult> => {
+export const loadBand = async (page = 1, limit = 10, search = ''): Promise<PaginationResult> => {
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
   });
+
+  const term = search.trim();
+  if (term) {
+    query.append('q', term);
+  }
 
   const res = await fetchApi<PaginationLoadBand>(`/musical-band/items?${query.toString()}`);
 

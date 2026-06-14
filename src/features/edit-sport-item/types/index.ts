@@ -1,10 +1,12 @@
 import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface EditSportItemPayload {
-  nombre: string;
-  cantidad: number;
-  estado_objeto: string;
-  observacion: string;
+  tipo_inventario_id?: number;
+  nombre?: string;
+  cantidad_total?: number;
+  observacion?: string;
+  cantidad_disponible?: number;
+  cantidad_mantenimiento?: number;
 }
 
 export interface EditSportItemResponse {

@@ -1,6 +1,7 @@
 import { Modal, Spinner } from '@/shared/ui';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { EditItemModalProps } from '../types';
-import { ItemFormBody } from '@/entities/inventory/ui/ItemFormBody';
+import { EditItemFormBody } from '@/entities/inventory/ui/EditItemFormBody';
 import { useEditItem } from '../hooks/useEditItem';
 
 export const EditItemModal = ({ isOpen, item, onClose, onSuccess }: EditItemModalProps) => {
@@ -21,13 +22,13 @@ export const EditItemModal = ({ isOpen, item, onClose, onSuccess }: EditItemModa
       >
         {errors.general && <div className="alert alert-error">{errors.general}</div>}
 
-        <ItemFormBody fields={fields} errors={errors} onChange={handleChange} />
+        <EditItemFormBody fields={fields} errors={errors} onChange={handleChange} />
 
         <div className="form-actions">
-          <button type="button" className="btn btn-secondary" onClick={onClose} disabled={loading}>
+          <Button type="button" variant="secondary" onClick={onClose} disabled={loading}>
             Cancelar
-          </button>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
+          </Button>
+          <Button type="submit" variant="primary" disabled={loading}>
             {loading ? (
               <>
                 <Spinner size={16} color="#fff" /> Guardando…
@@ -35,7 +36,7 @@ export const EditItemModal = ({ isOpen, item, onClose, onSuccess }: EditItemModa
             ) : (
               'Guardar Cambios'
             )}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

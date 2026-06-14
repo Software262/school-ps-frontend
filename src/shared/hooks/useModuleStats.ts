@@ -9,16 +9,19 @@ export interface ModuleStat {
 
 export const useModuleStats = (inventory: Inventory[], totalLabel: string): ModuleStat[] =>
   useMemo(() => {
-    const total = inventory.reduce((sum, item) => sum + item.cantidad, 0);
-    const disponibles = inventory
-      .filter((i) => i.estado_objeto === 'disponible')
-      .reduce((sum, i) => sum + i.cantidad, 0);
-    const prestados = inventory
-      .filter((i) => i.estado_objeto === 'prestado')
-      .reduce((sum, i) => sum + i.cantidad, 0);
-    const mantenimiento = inventory
-      .filter((i) => i.estado_objeto === 'mantenimiento')
-      .reduce((sum, i) => sum + i.cantidad, 0);
+    const total = inventory.reduce((sum, item) => sum + item.cantidad_total, 0);
+    const disponibles = inventory.reduce((sum, item) => {
+      const stock = item.stocks.find((s) => s.estado === 'disponible');
+      return sum + (stock?.cantidad ?? 0);
+    }, 0);
+    const prestados = inventory.reduce((sum, item) => {
+      const stock = item.stocks.find((s) => s.estado === 'prestado');
+      return sum + (stock?.cantidad ?? 0);
+    }, 0);
+    const mantenimiento = inventory.reduce((sum, item) => {
+      const stock = item.stocks.find((s) => s.estado === 'mantenimiento');
+      return sum + (stock?.cantidad ?? 0);
+    }, 0);
 
     return [
       { label: totalLabel, value: String(total), variant: 'default' },

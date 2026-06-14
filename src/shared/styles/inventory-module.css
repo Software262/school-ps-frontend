@@ -29,8 +29,7 @@
 }
 
 /* === Alert box === */
-.band-alert,
-.sport-alert {
+.band-alert {
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -42,23 +41,20 @@
   box-shadow: 0 2px 8px rgba(45, 125, 70, 0.08);
 }
 
-.band-alert-icon,
-.sport-alert-icon {
+.band-alert-icon {
   font-size: 24px;
   flex-shrink: 0;
   line-height: 1.5;
 }
 
-.band-alert-content h3,
-.sport-alert-content h3 {
+.band-alert-content h3 {
   font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--info-text);
   margin: 0 0 4px 0;
 }
 
-.band-alert-content p,
-.sport-alert-content p {
+.band-alert-content p {
   font-size: var(--font-size-sm);
   color: var(--info-text);
   margin: 0;
@@ -320,6 +316,27 @@
 .btn-new-item:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.btn-maintenance {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--status-gray) 0%, #374151 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 4px rgba(75, 85, 99, 0.2);
+}
+
+.btn-maintenance:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(75, 85, 99, 0.3);
 }
 
 .btn-edit-item,

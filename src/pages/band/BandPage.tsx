@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { BandAlert, BandStats, BandTabs, useBandStats } from '@/features/band';
+import { BandStats, BandTabs, useBandStats } from '@/features/band';
 import { InventorySection } from '@/features/load-band-inventory/components';
-import { useLoadInventory, useInventoryFilters } from '@/features/load-band-inventory/hooks';
+import { useLoadInventory } from '@/features/load-band-inventory/hooks';
 import { LoansSection } from '@/features/load-band-loans/components';
 import { useLoadLoans, useLoansFilters } from '@/features/load-band-loans/hooks';
 import { NewLoanModal } from '@/features/new-band-loan';
@@ -9,6 +9,8 @@ import { ReturnLoanModal } from '@/features/return-band-loan';
 import { useActiveLoans } from '@/features/return-band-loan/hooks';
 import { NewItemModal } from '@/features/new-band-item';
 import { EditItemModal } from '@/features/edit-band-item';
+import { editItem } from '@/features/edit-band-item/api/edit-item';
+import { MaintenanceModal } from '@/shared/ui/organisms/MaintenanceModal';
 import type { Inventory } from '@/entities/inventory/model/types';
 import './BandPage.css';
 
@@ -18,14 +20,10 @@ export const BandPage = () => {
     refetch: refetchInventory,
     page: inventoryPage,
     totalPages: inventoryTotalPages,
-    handlePageChange: handleInventoryPageChange,
-  } = useLoadInventory();
-
-  const {
-    paginatedItems: paginatedInventory,
     searchTerm,
+    handlePageChange: handleInventoryPageChange,
     handleSearch,
-  } = useInventoryFilters(inventory);
+  } = useLoadInventory();
 
   const {
     loans,
@@ -33,15 +31,13 @@ export const BandPage = () => {
     page: loansPage,
     totalPages: loansTotalPages,
     filter: loansFilter,
+    searchTerm: loansSearchTerm,
     handlePageChange: handleLoansPageChange,
     handleFilterChange: handleLoansFilterChange,
+    handleSearch: handleLoansSearch,
   } = useLoadLoans();
 
-  const {
-    paginatedItems: paginatedLoans,
-    searchTerm: loansSearchTerm,
-    handleSearch: handleLoansSearch,
-  } = useLoansFilters(loans);
+  const { formattedLoans: paginatedLoans } = useLoansFilters(loans);
 
   const {
     paginatedItems: activeLoansPaginated,
@@ -58,9 +54,10 @@ export const BandPage = () => {
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
+  const [isMaintenanceOpen, setIsMaintenanceOpen] = useState(false);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
-  const stats = useBandStats(inventory);
+  const { stats, refetch: refetchStats } = useBandStats();
 
   const handleOpenReturnLoan = () => {
     resetActiveLoans();
@@ -74,14 +71,13 @@ export const BandPage = () => {
         <p>Gestión de instrumentos musicales</p>
       </header>
 
-      <BandAlert />
       <BandStats stats={stats} />
       <BandTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
       <div className="band-content">
         {activeTab === 'inventory' && (
           <InventorySection
-            inventory={paginatedInventory}
+            inventory={inventory}
             searchTerm={searchTerm}
             currentPage={inventoryPage}
             totalPages={inventoryTotalPages}
@@ -94,6 +90,9 @@ export const BandPage = () => {
             }}
             onEditItem={() => {
               if (selectedInventoryItem) setIsEditItemOpen(true);
+            }}
+            onMaintenance={() => {
+              setIsMaintenanceOpen(true);
             }}
           />
         )}
@@ -115,13 +114,31 @@ export const BandPage = () => {
         )}
       </div>
 
+      {/* ── Modal de mantenimiento ── */}
+      <MaintenanceModal
+        isOpen={isMaintenanceOpen}
+        inventory={inventory}
+        itemLabel="Instrumento"
+        patchFn={editItem}
+        onClose={() => {
+          setIsMaintenanceOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
+      />
+
       {/* ── Modales de inventario ── */}
       <NewItemModal
         isOpen={isNewItemOpen}
         onClose={() => {
           setIsNewItemOpen(false);
         }}
-        onSuccess={refetchInventory}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
       />
 
       <EditItemModal
@@ -132,6 +149,7 @@ export const BandPage = () => {
         }}
         onSuccess={() => {
           refetchInventory();
+          refetchStats();
           setSelectedInventoryItem(null);
         }}
       />
@@ -146,6 +164,7 @@ export const BandPage = () => {
         onSuccess={() => {
           refetchLoans();
           refetchActiveLoans();
+          refetchStats();
         }}
       />
 
@@ -163,6 +182,7 @@ export const BandPage = () => {
         onSuccess={() => {
           refetchLoans();
           refetchActiveLoans();
+          refetchStats();
         }}
       />
     </div>

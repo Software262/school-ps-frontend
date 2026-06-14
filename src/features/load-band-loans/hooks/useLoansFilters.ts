@@ -1,12 +1,15 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import type { Loan } from '@/entities/loan/model';
 import { type LoanFormatted, convertTimestampToDate } from '@/entities/loan/model/loan-utils';
 
 export type { LoanFormatted };
 
+/**
+ * Da formato a los préstamos que llegan del servidor. La búsqueda (`q`), el
+ * filtro (activo/inactivo) y la paginación se resuelven en el backend, por lo
+ * que aquí sólo transformamos la página actual al formato que usa la tabla.
+ */
 export const useLoansFilters = (loans: Loan[]) => {
-  const [searchTerm, setSearchTerm] = useState('');
-
   const formattedLoans: LoanFormatted[] = useMemo(() => {
     return loans
       .map((loan) => {
@@ -29,26 +32,5 @@ export const useLoansFilters = (loans: Loan[]) => {
       .filter((loan): loan is LoanFormatted => loan !== null);
   }, [loans]);
 
-  const filtered = useMemo(() => {
-    if (formattedLoans.length === 0) return [];
-    if (!searchTerm) return formattedLoans;
-    const term = searchTerm.toLowerCase();
-    return formattedLoans.filter(
-      (loan) =>
-        loan.nombreEstudiante.toLowerCase().includes(term) ||
-        loan.nombreInstrumento.toLowerCase().includes(term),
-    );
-  }, [formattedLoans, searchTerm]);
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  return {
-    formattedLoans,
-    filtered,
-    paginatedItems: filtered,
-    searchTerm,
-    handleSearch,
-  };
+  return { formattedLoans };
 };

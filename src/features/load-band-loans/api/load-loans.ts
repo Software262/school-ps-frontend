@@ -5,6 +5,7 @@ export const loadLoans = async (
   page = 1,
   limit = 10,
   active?: boolean,
+  search = '',
 ): Promise<PaginationResult> => {
   const query = new URLSearchParams({
     page: String(page),
@@ -13,6 +14,11 @@ export const loadLoans = async (
 
   if (active !== undefined) {
     query.append('active', String(active));
+  }
+
+  const term = search.trim();
+  if (term) {
+    query.append('q', term);
   }
 
   const res = await fetchApi<LoanBand>(`/musical-band/borrowings?${query.toString()}`);

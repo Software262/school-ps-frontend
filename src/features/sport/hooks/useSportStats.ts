@@ -1,8 +1,3 @@
-import { useModuleStats } from '@/shared/hooks/useModuleStats';
-import type { ModuleStat } from '@/shared/hooks/useModuleStats';
-import type { Inventory } from '@/entities/inventory/model/types';
+import { useInventoryStats } from '@/shared/hooks/useInventoryStats';
 
-export type SportStat = ModuleStat;
-
-export const useSportStats = (inventory: Inventory[]): SportStat[] =>
-  useModuleStats(inventory, 'Total Equipos');
+export const useSportStats = () => useInventoryStats('deporte', 'Total Equipos');
