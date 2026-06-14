@@ -199,7 +199,7 @@
 }
 
 .btn-cancel,
-.btn-primary {
+.incident-form-actions .btn-primary {
   min-height: 42px;
   padding: 0.7rem 1.25rem;
   border-radius: var(--radius-lg);
@@ -222,18 +222,18 @@
   background-color: var(--status-gray-bg);
 }
 
-.btn-primary {
+.incident-form-actions .btn-primary {
   border: 0;
   background-color: var(--brand-primary);
   color: #ffffff;
   box-shadow: var(--card-shadow);
 }
 
-.btn-primary:hover:not(:disabled) {
+.incident-form-actions .btn-primary:hover:not(:disabled) {
   background-color: var(--brand-primary-hover);
 }
 
-.btn-primary:disabled {
+.incident-form-actions .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -268,7 +268,7 @@
   }
 
   .btn-cancel,
-  .btn-primary {
+  .incident-form-actions .btn-primary {
     width: 100%;
   }
 }

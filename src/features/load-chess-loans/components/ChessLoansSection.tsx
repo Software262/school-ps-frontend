@@ -1,4 +1,5 @@
 import { DataTable } from '@/shared/ui/molecules/DataTable';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { ChessLoan } from '@/features/chess/model/types';
 
 function formatDate(value: string | null | undefined): string {
@@ -73,26 +74,28 @@ export const ChessLoansSection = ({ loans, onReturnLoan, onResolveLoan }: Props)
           render: (_value: unknown, row: ChessLoan) => (
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               {row.estado_prestamo && (
-                <button
-                  className="btn-return-loan btn-return-loan-sm"
+                <Button
+                  variant="primary"
+                  size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
                     onReturnLoan(row);
                   }}
                 >
                   Devolver
-                </button>
+                </Button>
               )}
               {!row.estado_prestamo && row.novedad_pendiente && (
-                <button
-                  className="btn-return-loan btn-return-loan-sm"
+                <Button
+                  variant="primary"
+                  size="sm"
                   onClick={(e) => {
                     e.stopPropagation();
                     onResolveLoan(row);
                   }}
                 >
                   Reponer
-                </button>
+                </Button>
               )}
             </div>
           ),

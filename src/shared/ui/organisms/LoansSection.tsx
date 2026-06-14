@@ -1,5 +1,6 @@
 import { DataTable } from '@/shared/ui/molecules/DataTable';
 import { LOAN_COLUMNS } from '@/entities/loan/ui/loan-columns';
+import { Button } from '@/shared/ui/atoms/Button';
 import type { LoanFormatted, LoansFilterType } from '@/entities/loan/model/loan-utils';
 
 export interface LoansSectionProps {
@@ -32,12 +33,12 @@ export const LoansSection = ({
   <div className="loans-section">
     <div className="loans-header">
       <div className="loans-header-buttons">
-        <button className="btn-return-loan" onClick={onReturnLoan} disabled={!onReturnLoan}>
+        <Button variant="ghost" onClick={onReturnLoan} disabled={!onReturnLoan}>
           Retornar Préstamo
-        </button>
-        <button className="btn-new-loan" onClick={onNewLoan}>
+        </Button>
+        <Button variant="primary" onClick={onNewLoan}>
           Nuevo Préstamo
-        </button>
+        </Button>
       </div>
     </div>
 

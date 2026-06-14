@@ -142,7 +142,9 @@ export const SportPage = () => {
           setIsNewLoanOpen(false);
         }}
         onSuccess={() => {
+          refetchInventory();
           refetchLoans();
+          refetchActiveLoans();
           refetchStats();
         }}
       />
@@ -158,6 +160,7 @@ export const SportPage = () => {
           setIsReturnLoanOpen(false);
         }}
         onSuccess={() => {
+          refetchInventory();
           refetchLoans();
           refetchActiveLoans();
           refetchStats();

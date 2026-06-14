@@ -162,6 +162,7 @@ export const BandPage = () => {
           setIsNewLoanOpen(false);
         }}
         onSuccess={() => {
+          refetchInventory();
           refetchLoans();
           refetchActiveLoans();
           refetchStats();
@@ -180,6 +181,7 @@ export const BandPage = () => {
           setIsReturnLoanOpen(false);
         }}
         onSuccess={() => {
+          refetchInventory();
           refetchLoans();
           refetchActiveLoans();
           refetchStats();

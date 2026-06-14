@@ -91,34 +91,6 @@
   border: 1px solid var(--status-gray-border);
 }
 
-/* Botones de acción del modal */
-.btn-maintenance-send {
-  background: linear-gradient(135deg, var(--status-gray) 0%, #374151 100%);
-  color: white;
-  box-shadow: 0 2px 4px rgba(75, 85, 99, 0.2);
-}
-
-.btn-maintenance-send:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(75, 85, 99, 0.3);
-}
-
-.btn-maintenance-return {
-  background: linear-gradient(135deg, var(--status-green) 0%, #1f6d38 100%);
-  color: white;
-  box-shadow: 0 2px 4px rgba(45, 125, 70, 0.2);
-}
-
-.btn-maintenance-return:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(45, 125, 70, 0.3);
-}
-
-.btn-maintenance-send:disabled,
-.btn-maintenance-return:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 /* Select dentro del modal de mantenimiento */
 .maintenance-form .form-select {

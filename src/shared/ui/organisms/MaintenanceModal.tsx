@@ -160,9 +160,9 @@ export const MaintenanceModal = ({
           <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
           </Button>
-          <button
+          <Button
             type="button"
-            className={`btn ${action === 'send' ? 'btn-maintenance-send' : 'btn-maintenance-return'}`}
+            variant="primary"
             onClick={() => {
               void handleSubmit();
             }}
@@ -177,7 +177,7 @@ export const MaintenanceModal = ({
             ) : (
               '↑ Devolver de mantenimiento'
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>
