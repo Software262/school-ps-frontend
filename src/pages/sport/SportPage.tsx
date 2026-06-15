@@ -9,6 +9,7 @@ import type { Inventory } from '@/entities/inventory/model/types';
 import { NewSportItemModal } from '@/features/new-sport-item';
 import { EditSportItemModal } from '@/features/edit-sport-item';
 import { editSportItem } from '@/features/edit-sport-item/api/edit-sport-item';
+import { ImportInventoryModal, SPORT_IMPORT_PRESET } from '@/features/import-inventory';
 import { MaintenanceModal } from '@/shared/ui/organisms/MaintenanceModal';
 import { ReturnLoanModal } from '@/features/return-sport-loan';
 import { useActiveLoans } from '@/features/return-sport-loan/hooks';
@@ -57,6 +58,7 @@ export const SportPage = () => {
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
   // Préstamos
   const [isMaintenanceOpen, setIsMaintenanceOpen] = useState(false);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
@@ -98,6 +100,9 @@ export const SportPage = () => {
             }}
             onMaintenance={() => {
               setIsMaintenanceOpen(true);
+            }}
+            onImport={() => {
+              setIsImportOpen(true);
             }}
           />
         )}
@@ -188,6 +193,22 @@ export const SportPage = () => {
           refetchStats();
         }}
         item={selectedInventoryItem}
+      />
+
+      <ImportInventoryModal
+        isOpen={isImportOpen}
+        title="Importar equipos"
+        itemLabel="equipos"
+        basePath="/sports"
+        description={SPORT_IMPORT_PRESET.description}
+        columns={SPORT_IMPORT_PRESET.columns}
+        onClose={() => {
+          setIsImportOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
+        }}
       />
     </div>
   );

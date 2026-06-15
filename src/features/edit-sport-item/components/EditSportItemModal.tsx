@@ -18,7 +18,7 @@ export const EditSportItemModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Editar Equipo Deportivo" width={520}>
       <form
-        className="sport-item-form"
+        className="item-form"
         onSubmit={(e) => {
           e.preventDefault();
           void handleSubmit();

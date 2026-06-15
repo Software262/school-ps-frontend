@@ -9,6 +9,7 @@ import { ReturnLoanModal } from '@/features/return-band-loan';
 import { useActiveLoans } from '@/features/return-band-loan/hooks';
 import { NewItemModal } from '@/features/new-band-item';
 import { EditItemModal } from '@/features/edit-band-item';
+import { ImportInventoryModal, BAND_IMPORT_PRESET } from '@/features/import-inventory';
 import { editItem } from '@/features/edit-band-item/api/edit-item';
 import { MaintenanceModal } from '@/shared/ui/organisms/MaintenanceModal';
 import type { Inventory } from '@/entities/inventory/model/types';
@@ -54,6 +55,7 @@ export const BandPage = () => {
   const [selectedInventoryItem, setSelectedInventoryItem] = useState<Inventory | null>(null);
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isEditItemOpen, setIsEditItemOpen] = useState(false);
+  const [isImportOpen, setIsImportOpen] = useState(false);
   const [isMaintenanceOpen, setIsMaintenanceOpen] = useState(false);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
@@ -93,6 +95,9 @@ export const BandPage = () => {
             }}
             onMaintenance={() => {
               setIsMaintenanceOpen(true);
+            }}
+            onImport={() => {
+              setIsImportOpen(true);
             }}
           />
         )}
@@ -151,6 +156,22 @@ export const BandPage = () => {
           refetchInventory();
           refetchStats();
           setSelectedInventoryItem(null);
+        }}
+      />
+
+      <ImportInventoryModal
+        isOpen={isImportOpen}
+        title="Importar instrumentos"
+        itemLabel="instrumentos"
+        basePath="/musical-band"
+        description={BAND_IMPORT_PRESET.description}
+        columns={BAND_IMPORT_PRESET.columns}
+        onClose={() => {
+          setIsImportOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+          refetchStats();
         }}
       />
 
