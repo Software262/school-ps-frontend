@@ -1,0 +1,76 @@
+/* layout: vertical stack matching the rest of the design system's form spacing */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* error banner: reuses status-red tokens instead of hardcoded hex */
+.login-form-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--status-red-bg);
+  color: var(--status-red);
+  border: 1px solid var(--status-red-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  animation: login-error-shake 0.4s ease-out;
+}
+
+.login-form-error-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* tactile feedback on the submit button: a small physical press */
+.login-form-submit {
+  margin-top: 8px;
+  gap: 8px;
+}
+
+.login-form-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* keep autofilled fields on the light theme instead of the browser's yellow default */
+.login-form input:-webkit-autofill,
+.login-form input:-webkit-autofill:hover,
+.login-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--input-text);
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  caret-color: var(--input-text);
+}
+
+@keyframes login-error-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  40% {
+    transform: translateX(4px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-form-error {
+    animation: none;
+  }
+
+  .login-form-submit:active:not(:disabled) {
+    transform: none;
+  }
+}

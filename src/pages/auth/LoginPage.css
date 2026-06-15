@@ -1,0 +1,200 @@
+/* dvh instead of vh: avoids the mobile-keyboard / iOS toolbar resize jump.
+   overflow-x evita franjas horizontales; el eje y queda libre para que la
+   tarjeta haga scroll en vez de recortarse en viewports bajos */
+.login-page {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--brand-primary);
+  padding: 24px;
+}
+
+/* === capa 0: fondo === */
+/* aria-hidden y fuera del flujo de interaccion: solo es ambientacion visual.
+   fixed: el fondo siempre cubre el viewport aunque la tarjeta provoque scroll.
+   el degradado horizontal coincide con el rojizo del fondo del gif del lado
+   derecho y se funde hacia el vinotinto de marca hacia la izquierda */
+.login-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  /* la zona rosa solida (0-65% desde la derecha) cubre el ancho maximo que
+     puede tomar el gif (min(62vw, 640px)) para que su borde caiga siempre
+     sobre rosa puro y no sobre la transicion al vinotinto */
+  background: linear-gradient(
+    to left,
+    hsl(0, 100%, 70%) 0%,
+    hsl(0, 100%, 70%) 65%,
+    var(--brand-primary) 100%
+  );
+  transition: filter 0.3s ease;
+}
+
+/* al interactuar con los campos del formulario, el fondo se desenfoca para
+   que la atencion quede en la tarjeta */
+.login-page:has(.login-form:focus-within) .login-backdrop {
+  filter: blur(3.5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-backdrop {
+    transition: none;
+  }
+}
+
+/* el gif queda como pieza decorativa en la esquina inferior, de tamano
+   generoso pero sin cubrir toda la pantalla */
+.login-backdrop-gif {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(62vw, 640px);
+  height: auto;
+}
+
+/* === capa 1: tarjeta de acceso === */
+.login-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  margin-block: auto;
+  margin-left: clamp(24px, 8vw, 120px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--login-card-radius);
+  box-shadow: var(--shadow-lg);
+  padding: 40px 32px;
+  animation: login-card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+:root {
+  --login-card-radius: 16px;
+}
+
+.login-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.login-card-crest {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.login-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+}
+
+.login-card-subtitle {
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+  margin: 0;
+}
+
+.login-card-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+.login-card-disclaimer {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background: var(--bg-color);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.login-card-disclaimer-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--text-muted);
+}
+
+@keyframes login-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === responsividad ===
+   el gif y el degradado horizontal son una pieza pensada para pantallas
+   anchas: por debajo de 1024px se quita el gif (no hay espacio donde
+   colocarlo sin tapar la tarjeta) y el fondo pasa a un degradado vinotinto
+   simple, con la tarjeta centrada. */
+@media (max-width: 1024px) {
+  .login-backdrop {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-active) 100%);
+  }
+
+  .login-backdrop-gif {
+    display: none;
+  }
+
+  .login-card {
+    max-width: 440px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 28px 20px;
+    gap: 20px;
+  }
+
+  .login-card-crest {
+    width: 48px;
+    height: 48px;
+  }
+
+  .login-card-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* === preferencias de accesibilidad === */
+@media (prefers-reduced-motion: reduce) {
+  .login-card {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .login-card {
+    background: var(--surface);
+    backdrop-filter: none;
+  }
+}

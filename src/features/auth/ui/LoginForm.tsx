@@ -3,7 +3,8 @@ import { authApi } from '../api/authApi';
 import { setSession } from '@/shared/auth';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
-import { LogIn } from 'lucide-react';
+import { AlertCircle, LogIn } from 'lucide-react';
+import './LoginForm.css';
 
 interface LoginFormProps {
   onSuccess: (rol: string) => void;
@@ -15,7 +16,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!username.trim() || !contrasenia.trim()) {
       setError('Por favor complete todos los campos.');
@@ -42,32 +43,25 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
 
   return (
     <form
+      className="login-form"
       onSubmit={(e) => {
         void handleSubmit(e);
       }}
-      style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
     >
       {error && (
-        <div
-          style={{
-            background: 'var(--status-red-bg)',
-            color: '#991b1b',
-            border: '1px solid #fecaca',
-            borderRadius: 'var(--radius-md)',
-            padding: '12px',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-          }}
-        >
-          {error}
+        <div className="login-form-error" role="alert" aria-live="polite">
+          <AlertCircle size={18} className="login-form-error-icon" />
+          <span>{error}</span>
         </div>
       )}
 
       <Input
-        label="Usuario *"
+        label="Usuario"
         placeholder="Ingrese su nombre de usuario"
         required
+        autoComplete="username"
         value={username}
+        aria-invalid={error ? 'true' : undefined}
         onChange={(e) => {
           setUsername(e.target.value);
         }}
@@ -75,11 +69,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       />
 
       <Input
-        label="Contraseña *"
+        label="Contraseña"
         type="password"
         placeholder="Ingrese su contraseña"
         required
+        autoComplete="current-password"
         value={contrasenia}
+        aria-invalid={error ? 'true' : undefined}
         onChange={(e) => {
           setContrasenia(e.target.value);
         }}
@@ -89,7 +85,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       <Button
         type="submit"
         variant="primary"
-        style={{ backgroundColor: '#801c1c', marginTop: '8px' }}
+        className="login-form-submit"
         disabled={loading}
         fullWidth
       >
@@ -97,7 +93,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           'Iniciando sesión...'
         ) : (
           <>
-            <LogIn size={18} style={{ marginRight: '8px' }} />
+            <LogIn size={18} />
             Ingresar al Sistema
           </>
         )}
