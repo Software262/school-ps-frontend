@@ -6,7 +6,6 @@ export interface Program {
   anio: number;
   valor: number;
   estado_complemento: string;
-  uso_matricula: boolean;
 }
 
 export interface Student {

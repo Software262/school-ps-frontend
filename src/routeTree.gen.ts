@@ -25,6 +25,7 @@ import { Route as DashboardDeportesIndexRouteImport } from './app/router/dashboa
 import { Route as DashboardCafeteriaIndexRouteImport } from './app/router/dashboard/cafeteria/index'
 import { Route as DashboardBandIndexRouteImport } from './app/router/dashboard/band/index'
 import { Route as DashboardAjedrezIndexRouteImport } from './app/router/dashboard/ajedrez/index'
+import { Route as DashboardEscuelasFormacionComplementariosIndexRouteImport } from './app/router/dashboard/escuelas-formacion/complementarios/index'
 import { Route as DashboardEnrollmentStudentIdIndexRouteImport } from './app/router/dashboard/enrollment/student/$id/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -112,6 +113,12 @@ const DashboardAjedrezIndexRoute = DashboardAjedrezIndexRouteImport.update({
   path: '/ajedrez/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardEscuelasFormacionComplementariosIndexRoute =
+  DashboardEscuelasFormacionComplementariosIndexRouteImport.update({
+    id: '/escuelas-formacion/complementarios/',
+    path: '/escuelas-formacion/complementarios/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardEnrollmentStudentIdIndexRoute =
   DashboardEnrollmentStudentIdIndexRouteImport.update({
     id: '/enrollment/student/$id/',
@@ -136,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
   '/dashboard/tuition/': typeof DashboardTuitionIndexRoute
   '/dashboard/webcolegios-scraping/': typeof DashboardWebcolegiosScrapingIndexRoute
+  '/dashboard/escuelas-formacion/complementarios/': typeof DashboardEscuelasFormacionComplementariosIndexRoute
   '/dashboard/enrollment/student/$id/': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -154,6 +162,7 @@ export interface FileRoutesByTo {
   '/dashboard/tests': typeof DashboardTestsIndexRoute
   '/dashboard/tuition': typeof DashboardTuitionIndexRoute
   '/dashboard/webcolegios-scraping': typeof DashboardWebcolegiosScrapingIndexRoute
+  '/dashboard/escuelas-formacion/complementarios': typeof DashboardEscuelasFormacionComplementariosIndexRoute
   '/dashboard/enrollment/student/$id': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRoutesById {
@@ -174,6 +183,7 @@ export interface FileRoutesById {
   '/dashboard/tests/': typeof DashboardTestsIndexRoute
   '/dashboard/tuition/': typeof DashboardTuitionIndexRoute
   '/dashboard/webcolegios-scraping/': typeof DashboardWebcolegiosScrapingIndexRoute
+  '/dashboard/escuelas-formacion/complementarios/': typeof DashboardEscuelasFormacionComplementariosIndexRoute
   '/dashboard/enrollment/student/$id/': typeof DashboardEnrollmentStudentIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/dashboard/tests/'
     | '/dashboard/tuition/'
     | '/dashboard/webcolegios-scraping/'
+    | '/dashboard/escuelas-formacion/complementarios/'
     | '/dashboard/enrollment/student/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/dashboard/tests'
     | '/dashboard/tuition'
     | '/dashboard/webcolegios-scraping'
+    | '/dashboard/escuelas-formacion/complementarios'
     | '/dashboard/enrollment/student/$id'
   id:
     | '__root__'
@@ -232,6 +244,7 @@ export interface FileRouteTypes {
     | '/dashboard/tests/'
     | '/dashboard/tuition/'
     | '/dashboard/webcolegios-scraping/'
+    | '/dashboard/escuelas-formacion/complementarios/'
     | '/dashboard/enrollment/student/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -354,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAjedrezIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/escuelas-formacion/complementarios/': {
+      id: '/dashboard/escuelas-formacion/complementarios/'
+      path: '/escuelas-formacion/complementarios'
+      fullPath: '/dashboard/escuelas-formacion/complementarios/'
+      preLoaderRoute: typeof DashboardEscuelasFormacionComplementariosIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/enrollment/student/$id/': {
       id: '/dashboard/enrollment/student/$id/'
       path: '/enrollment/student/$id'
@@ -379,6 +399,7 @@ interface DashboardRouteRouteChildren {
   DashboardTestsIndexRoute: typeof DashboardTestsIndexRoute
   DashboardTuitionIndexRoute: typeof DashboardTuitionIndexRoute
   DashboardWebcolegiosScrapingIndexRoute: typeof DashboardWebcolegiosScrapingIndexRoute
+  DashboardEscuelasFormacionComplementariosIndexRoute: typeof DashboardEscuelasFormacionComplementariosIndexRoute
   DashboardEnrollmentStudentIdIndexRoute: typeof DashboardEnrollmentStudentIdIndexRoute
 }
 
@@ -398,6 +419,8 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardTuitionIndexRoute: DashboardTuitionIndexRoute,
   DashboardWebcolegiosScrapingIndexRoute:
     DashboardWebcolegiosScrapingIndexRoute,
+  DashboardEscuelasFormacionComplementariosIndexRoute:
+    DashboardEscuelasFormacionComplementariosIndexRoute,
   DashboardEnrollmentStudentIdIndexRoute:
     DashboardEnrollmentStudentIdIndexRoute,
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { Menu, X, LogOut, User } from 'lucide-react';
-import type { LoginUser } from '@/features/auth/api/authApi';
+import { clearSession, getSessionUser } from '@/shared/auth';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -10,21 +10,10 @@ interface HeaderProps {
 
 export function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
   const navigate = useNavigate();
-  const [currentUser] = useState<LoginUser | null>(() => {
-    const userStr = localStorage.getItem('auth_user');
-    if (userStr) {
-      try {
-        return JSON.parse(userStr) as LoginUser;
-      } catch (err) {
-        console.error('Error parsing user session:', err);
-      }
-    }
-    return null;
-  });
+  const [currentUser] = useState(() => getSessionUser());
 
   const handleLogout = () => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('auth_user');
+    clearSession();
     void navigate({ to: '/' });
   };
 

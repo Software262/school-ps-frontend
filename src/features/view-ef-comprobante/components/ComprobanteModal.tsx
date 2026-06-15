@@ -90,6 +90,14 @@ export const ComprobanteModal = ({
             <button
               className="btn btn-primary btn-sm"
               onClick={() => {
+                const numero = enrollment.numero_comprobante ?? folio;
+                const originalTitle = document.title;
+                document.title = `comprobante_${numero}`;
+                const restoreTitle = () => {
+                  document.title = originalTitle;
+                  window.removeEventListener('afterprint', restoreTitle);
+                };
+                window.addEventListener('afterprint', restoreTitle);
                 window.print();
               }}
             >

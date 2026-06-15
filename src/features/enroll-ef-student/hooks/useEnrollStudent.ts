@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { enrollStudent } from '../api/enroll-student';
-import { RESPONSABLE_USUARIO_ID } from '@/features/escuelas-formacion/model/constants';
+import { getSessionUser } from '@/shared/auth';
 import type { Program, Period, Student } from '@/features/escuelas-formacion/model/types';
 import type { EnrollFormState } from '../types';
 
@@ -60,6 +60,11 @@ export const useEnrollStudent = (
 
   async function handleSubmit() {
     if (!student || !canSubmit) return;
+    const user = getSessionUser();
+    if (!user) {
+      setError('No hay una sesión activa. Inicie sesión nuevamente.');
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -68,7 +73,7 @@ export const useEnrollStudent = (
         complementario_id: Number(form.complementarioId),
         periodo_id: Number(form.periodoId),
         mes: form.mes,
-        usuario_id: RESPONSABLE_USUARIO_ID,
+        usuario_id: user.id,
         observaciones: form.observaciones.trim() || undefined,
         valor_acordado: valorNum,
         numero_comprobante: form.numeroComprobante.trim() || undefined,

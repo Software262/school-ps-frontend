@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
+import { getSessionToken } from '@/shared/auth';
 import { ShieldAlert } from 'lucide-react';
 
 export const LoginPage = () => {
@@ -8,7 +9,7 @@ export const LoginPage = () => {
 
   // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
+    const token = getSessionToken();
     if (token) {
       void navigate({ to: '/dashboard' });
     }

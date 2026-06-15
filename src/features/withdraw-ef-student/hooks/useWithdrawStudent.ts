@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { withdrawStudent } from '../api/withdraw-student';
-import { RESPONSABLE_USUARIO_ID } from '@/features/escuelas-formacion/model/constants';
+import { getSessionUser } from '@/shared/auth';
 import type { Enrollment } from '@/features/escuelas-formacion/model/types';
 
 export const MOTIVOS = [
@@ -41,13 +41,18 @@ export const useWithdrawStudent = (
 
   async function handleSubmit() {
     if (!enrollment || !canSubmit) return;
+    const user = getSessionUser();
+    if (!user) {
+      setError('No hay una sesión activa. Inicie sesión nuevamente.');
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
       await withdrawStudent({
         enrollment_id: enrollment.id,
         motivo: finalMotivo,
-        usuario_id: RESPONSABLE_USUARIO_ID,
+        usuario_id: user.id,
       });
       reset();
       onSuccess();
