@@ -12,6 +12,7 @@ export const InventorySection = (props: Props) => (
     editLabel="Editar Instrumento"
     newLabel="Nuevo Instrumento"
     maintenanceLabel="Mantenimiento"
+    importLabel="Importar Instrumentos"
     editDisabledTitle="Selecciona un instrumento de la tabla para editarlo"
     emptyMessage="No se encontraron instrumentos"
   />

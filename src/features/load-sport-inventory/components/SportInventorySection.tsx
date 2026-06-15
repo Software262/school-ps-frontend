@@ -12,6 +12,7 @@ export const SportInventorySection = (props: Props) => (
     editLabel="Editar Equipo"
     newLabel="Nuevo Equipo"
     maintenanceLabel="Mantenimiento"
+    importLabel="Importar Equipos"
     editDisabledTitle="Selecciona un equipo de la tabla para editarlo"
     emptyMessage="No se encontraron equipos deportivos"
   />

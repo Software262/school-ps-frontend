@@ -91,7 +91,7 @@ export const useNewLoan = (inventory: Inventory[], onSuccess: () => void) => {
 
     const estudianteNum = Number(fields.estudiante_id);
     if (!fields.estudiante_id || !Number.isInteger(estudianteNum) || estudianteNum <= 0) {
-      next.estudiante_id = 'Ingresa un ID de estudiante válido (número entero positivo)';
+      next.estudiante_id = 'Ingresa un numero de documento o nombre de estudiante';
     }
 
     if (!fields.fecha_salida) {

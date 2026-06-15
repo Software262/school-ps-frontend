@@ -1,10 +1,19 @@
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { useNavigate } from '@tanstack/react-router';
+import { getSessionToken } from '@/shared/auth';
 import { ShieldAlert } from 'lucide-react';
 import './LoginPage.css';
 
 export const LoginPage = () => {
   const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = getSessionToken();
+    if (token) {
+      void navigate({ to: '/dashboard' });
+    }
+  }, [navigate]);
 
   const handleLoginSuccess = () => {
     // todos los roles aterrizan en el dashboard general
