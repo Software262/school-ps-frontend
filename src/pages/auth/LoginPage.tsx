@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { LoginForm } from '@/features/auth/ui/LoginForm';
 import { useNavigate } from '@tanstack/react-router';
 import { getSessionToken } from '@/shared/auth';
