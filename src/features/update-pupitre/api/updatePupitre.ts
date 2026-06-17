@@ -1,7 +1,6 @@
 import { fetchApi } from '@/shared/api/apiClient';
 
 interface UpdatePupitrePayload {
-  estado_pupitre: boolean;
   observacion: string | null;
 }
 
@@ -10,7 +9,7 @@ interface UpdatePupitreResponse {
   data: {
     id: number;
     estudiante_id: number;
-    estado_pupitre: boolean;
+    estado: string;
     observacion: string | null;
   };
   message: string;

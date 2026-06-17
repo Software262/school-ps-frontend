@@ -1,13 +1,22 @@
 import { useState } from 'react';
+import './Classroom.css';
 import { useLoadPupitreByStudent } from '@/features/load-pupitre-by-student/hooks/useLoadPupitreByStudent';
 import { useLoadPupitresByGrade } from '@/features/load-pupitres-by-grade/hooks/useLoadPupitresByGrade';
 import { useBulkUpdatePupitre } from '@/features/bulk-update-pupitre/hooks/useBulkUpdatePupitre';
+import { usePupitreComplementario } from '@/features/load-pupitre-complementario/hooks/usePupitreComplementario';
 import { SearchSection } from '@/features/classroom/components/SearchSection';
 import { PupitreTable } from '@/features/classroom/components/PupitreTable';
 import { UpdatePupitreForm } from '@/features/update-pupitre/components/UpdatePupitreForm';
-import { BulkUpdateForm } from '@/features/bulk-update-pupitre/components/BulkUpdateForm';
+import { BulkConfirmModal } from '@/features/bulk-update-pupitre/components/BulkConfirmModal';
 import { SuccessModal } from '@/shared/ui/molecules/SuccessModal';
 import './ClassroomPage.css';
+
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 0,
+  }).format(amount);
 
 interface TableRow {
   id: number;
@@ -15,23 +24,24 @@ interface TableRow {
   documento: string;
   nombre_estudiante: string;
   grado: string;
-  estado_pupitre: boolean;
+  estado: string;
+  docente_titular?: string;
 }
 
 export default function ClassroomPage() {
   const { fetchPupitre, loading: loadingE } = useLoadPupitreByStudent();
   const { fetchPupitresByGrade, grados, loading: loadingG } = useLoadPupitresByGrade();
-  const { loading: loadingBulk } = useBulkUpdatePupitre();
+  const { bulkUpdate, loading: loadingBulk } = useBulkUpdatePupitre();
+  const complementario = usePupitreComplementario();
 
   const [tableData, setTableData] = useState<TableRow[]>([]);
   const [mostrarTabla, setMostrarTabla] = useState(false);
-  const [mostrarBotonCurso, setMostrarBotonCurso] = useState(false);
   const [mensajeError, setMensajeError] = useState<string | null>(null);
   const [mensajeExito, setMensajeExito] = useState<string | null>(null);
   const [estudianteEditando, setEstudianteEditando] = useState<TableRow | null>(null);
-  const [mostrarBulkForm, setMostrarBulkForm] = useState(false);
   const [gradoActual, setGradoActual] = useState<number | null>(null);
-  const [gradoNombre, setGradoNombre] = useState<string>('');
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(() => new Set());
+  const [mostrarConfirmBulk, setMostrarConfirmBulk] = useState(false);
 
   const loading = loadingE || loadingG || loadingBulk;
 
@@ -40,16 +50,14 @@ export default function ClassroomPage() {
     setTableData([]);
     setMostrarTabla(false);
     setEstudianteEditando(null);
-    setMostrarBulkForm(false);
+    setSelectedIds(new Set());
 
     if (codigo) {
       const data = await fetchPupitre(codigo.trim());
       if (data) {
         setTableData([{ ...data, id: data.id }]);
         setMostrarTabla(true);
-        setMostrarBotonCurso(false);
         setGradoActual(null);
-        setGradoNombre('');
       } else {
         setMensajeError('No se encontró ningún estudiante con ese código');
       }
@@ -58,95 +66,104 @@ export default function ClassroomPage() {
       if (data && data.length > 0) {
         setTableData(data.map((p) => ({ ...p, id: p.id })));
         setMostrarTabla(true);
-        setMostrarBotonCurso(true);
         setGradoActual(gradoSeleccionado);
-        const gradoEncontrado = grados.find((g) => g.id === gradoSeleccionado);
-        setGradoNombre(gradoEncontrado?.nombre ?? '');
       } else {
         setMensajeError('No se encontraron estudiantes en este curso');
       }
     }
   };
 
-  const handleExitoUpdate = async (nuevoEstado: boolean) => {
+  const handleToggleSelect = (estudianteId: number) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(estudianteId)) {
+        next.delete(estudianteId);
+      } else {
+        next.add(estudianteId);
+      }
+      return next;
+    });
+  };
+
+  const handleExitoUpdate = async () => {
     if (gradoActual) {
       const data = await fetchPupitresByGrade(gradoActual);
       if (data) setTableData(data.map((p) => ({ ...p, id: p.id })));
-    } else {
-      setTableData((prev) =>
-        prev.map((row) =>
-          row.estudiante_id === estudianteEditando?.estudiante_id
-            ? { ...row, estado_pupitre: nuevoEstado }
-            : row,
-        ),
-      );
+    } else if (estudianteEditando) {
+      const data = await fetchPupitre(estudianteEditando.documento);
+      if (data) setTableData([{ ...data, id: data.id }]);
     }
     setEstudianteEditando(null);
-    setMensajeExito('Estado del pupitre actualizado exitosamente');
+    setMensajeExito('Estado de pago actualizado exitosamente');
   };
 
-  const handleExitoBulk = async (total: number) => {
-    setMostrarBulkForm(false);
-    setMensajeExito(`Se actualizaron ${total.toString()} pupitres exitosamente`);
-    if (gradoActual) {
+  const handleConfirmarBulk = async () => {
+    if (!gradoActual || selectedIds.size === 0) return;
+
+    const result = await bulkUpdate(gradoActual, Array.from(selectedIds));
+    if (result) {
+      setMostrarConfirmBulk(false);
+      setMensajeExito(
+        `Se confirmaron ${result.total_actualizados.toString()} pago(s) exitosamente`,
+      );
+      setSelectedIds(new Set());
       const data = await fetchPupitresByGrade(gradoActual);
       if (data) setTableData(data.map((p) => ({ ...p, id: p.id })));
     }
   };
 
+  const estudiantesSeleccionados = tableData.filter((row) => selectedIds.has(row.estudiante_id));
+
   return (
-    <div className="classroom-view">
-      <div className="page-title">
+    <div
+      className="classroom-view"
+      style={{ padding: '0 32px 32px 32px', maxWidth: '1200px', margin: '0 auto' }}
+    >
+      <div className="page-title" style={{ paddingTop: '10px' }}>
         <h1>Salón de Tesorería</h1>
-        <p>Control del mobiliario asignado</p>
+        <p>Control del pago de mantenimiento de pupitre</p>
       </div>
 
-      <div className="card">
-        <div className="search-header">
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          Filtros de búsqueda
+      {complementario && (
+        <div className="card complementario-card">
+          <div className="complementario-label">{complementario.nombre}</div>
+          <div className="complementario-value">{formatCurrency(complementario.valor)}</div>
+          <div className="complementario-year">Año {complementario.anio.toString()}</div>
         </div>
-        <div className="search-info">
-          Busque por código de estudiante o seleccione un curso para ver el listado completo.
-        </div>
-        <SearchSection
-          grados={grados}
-          loading={loading}
-          onBuscar={(codigo, grado) => {
-            void handleBuscar(codigo, grado);
-          }}
-        />
-      </div>
+      )}
+
+      <SearchSection
+        grados={grados}
+        loading={loading}
+        onBuscar={(codigo, grado) => {
+          void handleBuscar(codigo, grado);
+        }}
+      />
 
       {mensajeError && <div className="error-alert">{mensajeError}</div>}
 
       {mostrarTabla && (
         <div className="card">
-          {mostrarBotonCurso && (
-            <div className="bulk-update-section">
+          {gradoActual && selectedIds.size > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px' }}>
               <button
-                className="btn-orange"
+                type="button"
+                className="btn-primary"
                 onClick={() => {
-                  setMostrarBulkForm(true);
-                  setEstudianteEditando(null);
+                  setMostrarConfirmBulk(true);
                 }}
+                disabled={loadingBulk}
               >
-                Actualizar Curso Completo
+                Confirmar pago ({selectedIds.size.toString()} seleccionados)
               </button>
             </div>
           )}
           <PupitreTable
             data={tableData}
-            onEdit={(row) => {
+            selectedIds={gradoActual ? selectedIds : undefined}
+            onToggleSelect={gradoActual ? handleToggleSelect : undefined}
+            onConfirmarPago={(row) => {
               setEstudianteEditando(row);
-              setMostrarBulkForm(false);
             }}
           />
         </div>
@@ -157,26 +174,32 @@ export default function ClassroomPage() {
           isOpen={!!estudianteEditando}
           estudiante_id={estudianteEditando.estudiante_id}
           nombre={estudianteEditando.nombre_estudiante}
-          estadoActual={estudianteEditando.estado_pupitre}
+          estadoActual={estudianteEditando.estado}
+          valorComplementario={complementario?.valor}
           onCancelar={() => {
             setEstudianteEditando(null);
           }}
-          onExito={(nuevoEstado) => {
-            void handleExitoUpdate(nuevoEstado);
+          onExito={() => {
+            void handleExitoUpdate();
           }}
         />
       )}
 
-      {mostrarBulkForm && gradoActual && (
-        <BulkUpdateForm
-          isOpen={mostrarBulkForm}
-          grado_id={gradoActual}
-          grado_nombre={gradoNombre}
+      {mostrarConfirmBulk && (
+        <BulkConfirmModal
+          estudiantes={estudiantesSeleccionados.map((e) => ({
+            estudiante_id: e.estudiante_id,
+            documento: e.documento,
+            nombre_estudiante: e.nombre_estudiante,
+            grado: e.grado,
+          }))}
+          valorUnitario={complementario?.valor ?? 0}
+          loading={loadingBulk}
           onCancelar={() => {
-            setMostrarBulkForm(false);
+            setMostrarConfirmBulk(false);
           }}
-          onExito={(total) => {
-            void handleExitoBulk(total);
+          onConfirmar={() => {
+            void handleConfirmarBulk();
           }}
         />
       )}

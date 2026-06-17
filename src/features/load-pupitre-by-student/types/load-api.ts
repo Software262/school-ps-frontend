@@ -4,7 +4,8 @@ export interface ClassroomStudent {
   nombre_estudiante: string;
   documento: string;
   grado: string;
-  estado_pupitre: boolean;
+  docente_titular?: string;
+  estado: string;
   observacion: string | null;
 }
 
