@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { ChessInventory } from '@/features/chess/model/types';
-import { getChessType } from '@/features/chess/api/chessApi';
 import { getChessInventory } from '@/features/load-chess-inventory/api/load-chess-inventory';
 
 export const useChessInventory = () => {
@@ -10,8 +9,7 @@ export const useChessInventory = () => {
   const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
-    getChessType()
-      .then((typeData) => getChessInventory(typeData.id))
+    getChessInventory()
       .then((resp) => {
         setInventory(resp.items);
         setError('');

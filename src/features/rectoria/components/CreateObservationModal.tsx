@@ -19,22 +19,18 @@ const OBSERVATION_TYPES = [
   'otra',
 ];
 
-const DEFAULT_USER_ID = 1;
-
 export const CreateObservationModal = ({
   isOpen,
   onClose,
   teacher,
   onSuccess,
 }: CreateObservationModalProps) => {
-  const [periodoId, setPeriodoId] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [tipoObservacion, setTipoObservacion] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function reset() {
-    setPeriodoId('');
     setDescripcion('');
     setTipoObservacion('');
     setError(null);
@@ -55,8 +51,6 @@ export const CreateObservationModal = ({
     try {
       await createObservation({
         docente_id: teacher.id,
-        periodo_id: Number(periodoId),
-        id_usuario: DEFAULT_USER_ID,
         descripcion: descripcion.trim(),
         tipo_observacion: tipoObservacion.trim(),
       });
@@ -87,24 +81,6 @@ export const CreateObservationModal = ({
       {error && <div className="alert alert-error">{error}</div>}
 
       <form id="form-create-observation" onSubmit={(e) => void handleSubmit(e)}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="co-periodo">
-            ID de Período <span style={{ color: 'var(--status-red)' }}>*</span>
-          </label>
-          <input
-            id="co-periodo"
-            className="form-input"
-            type="number"
-            min={1}
-            placeholder="Ej: 1"
-            value={periodoId}
-            onChange={(e) => {
-              setPeriodoId(e.target.value);
-            }}
-            required
-          />
-        </div>
-
         <div className="form-group">
           <label className="form-label" htmlFor="co-tipo">
             Tipo de observación <span style={{ color: 'var(--status-red)' }}>*</span>
@@ -168,7 +144,7 @@ export const CreateObservationModal = ({
             id="btn-submit-observation"
             type="submit"
             className="btn btn-primary"
-            disabled={loading || !periodoId || !descripcion.trim() || !tipoObservacion}
+            disabled={loading || !descripcion.trim() || !tipoObservacion}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
             {loading ? 'Guardando…' : 'Registrar Observación'}

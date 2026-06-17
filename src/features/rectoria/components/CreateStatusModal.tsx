@@ -11,21 +11,17 @@ interface CreateStatusModalProps {
   onSuccess: () => void;
 }
 
-const DEFAULT_USER_ID = 1; // TODO: replace with auth context
-
 export const CreateStatusModal = ({
   isOpen,
   onClose,
   teacher,
   onSuccess,
 }: CreateStatusModalProps) => {
-  const [periodoId, setPeriodoId] = useState('');
   const [motivo, setMotivo] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function reset() {
-    setPeriodoId('');
     setMotivo('');
     setError(null);
   }
@@ -43,8 +39,6 @@ export const CreateStatusModal = ({
     try {
       await createStatus({
         docente_id: teacher.id,
-        periodo_id: Number(periodoId),
-        id_usuario: DEFAULT_USER_ID,
         motivo_estado: motivo.trim(),
       });
       reset();
@@ -74,24 +68,6 @@ export const CreateStatusModal = ({
       {error && <div className="alert alert-error">{error}</div>}
 
       <form id="form-create-status" onSubmit={(e) => void handleSubmit(e)}>
-        <div className="form-group">
-          <label className="form-label" htmlFor="cs-periodo">
-            ID de Período <span style={{ color: 'var(--status-red)' }}>*</span>
-          </label>
-          <input
-            id="cs-periodo"
-            className="form-input"
-            type="number"
-            min={1}
-            placeholder="Ej: 1"
-            value={periodoId}
-            onChange={(e) => {
-              setPeriodoId(e.target.value);
-            }}
-            required
-          />
-        </div>
-
         <div className="form-group">
           <label className="form-label" htmlFor="cs-motivo">
             Motivo del estado <span style={{ color: 'var(--status-red)' }}>*</span>
@@ -132,7 +108,7 @@ export const CreateStatusModal = ({
             id="btn-submit-create-status"
             type="submit"
             className="btn btn-primary"
-            disabled={loading || !periodoId || !motivo.trim()}
+            disabled={loading || !motivo.trim()}
           >
             {loading ? <Spinner size={14} color="#fff" /> : null}
             {loading ? 'Guardando…' : 'Asignar Estado'}

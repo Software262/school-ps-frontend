@@ -4,6 +4,7 @@ import { useChessInventory } from '@/features/load-chess-inventory/hooks';
 import { useChessLoans } from '@/features/load-chess-loans/hooks';
 import { ChessInventorySection } from '@/features/load-chess-inventory/components';
 import { ChessLoansSection } from '@/features/load-chess-loans/components';
+import { NewChessItemModal } from '@/features/new-chess-item';
 import { NewChessLoanModal } from '@/features/new-chess-loan/components';
 import { ReturnChessLoanModal } from '@/features/return-chess-loan/components';
 import { ResolveChessLoanModal } from '@/features/resolve-chess-loan/components';
@@ -17,6 +18,7 @@ export const ChessPage = () => {
 
   const [activeTab, setActiveTab] = useState<'inventory' | 'loans'>('inventory');
   const [selectedItem, setSelectedItem] = useState<ChessInventory | null>(null);
+  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const [isNewLoanOpen, setIsNewLoanOpen] = useState(false);
   const [isReturnLoanOpen, setIsReturnLoanOpen] = useState(false);
   const [isResolveLoanOpen, setIsResolveLoanOpen] = useState(false);
@@ -61,6 +63,9 @@ export const ChessPage = () => {
             inventory={inventory}
             selectedItem={selectedItem}
             onSelectItem={setSelectedItem}
+            onNewItem={() => {
+              setIsNewItemOpen(true);
+            }}
             onNewLoan={() => {
               setIsNewLoanOpen(true);
             }}
@@ -75,6 +80,15 @@ export const ChessPage = () => {
         )}
       </div>
 
+      <NewChessItemModal
+        isOpen={isNewItemOpen}
+        onClose={() => {
+          setIsNewItemOpen(false);
+        }}
+        onSuccess={() => {
+          refetchInventory();
+        }}
+      />
       <NewChessLoanModal
         isOpen={isNewLoanOpen}
         item={selectedItem}

@@ -10,8 +10,6 @@ interface UpdateStatusModalProps {
   onSuccess: () => void;
 }
 
-const DEFAULT_USER_ID = 1;
-
 export const UpdateStatusModal = ({
   isOpen,
   onClose,
@@ -49,7 +47,6 @@ export const UpdateStatusModal = ({
     setLoading(true);
     try {
       await updateStatus(teacher.status.id, {
-        id_usuario: DEFAULT_USER_ID,
         motivo_estado: motivo.trim(),
       });
       reset();

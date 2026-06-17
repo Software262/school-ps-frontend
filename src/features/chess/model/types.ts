@@ -2,6 +2,7 @@ import type { Inventory } from '@/entities/inventory/model/types';
 
 export interface ChessInventory extends Inventory {
   tipo_inventario_id: number;
+  piezas_totales: number;
 }
 
 export interface ChessLoan {
@@ -16,6 +17,7 @@ export interface ChessLoan {
   novedad_pendiente: boolean;
   cantidad: number;
   observacion?: string | null;
+  piezas_totales: number;
 }
 
 export interface CreateChessBorrowRequest {

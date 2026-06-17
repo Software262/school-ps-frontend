@@ -7,6 +7,7 @@ interface Props {
   selectedItem: ChessInventory | null;
   onSelectItem: (item: ChessInventory | null) => void;
   onNewLoan: () => void;
+  onNewItem: () => void;
 }
 
 export const ChessInventorySection = ({
@@ -14,6 +15,7 @@ export const ChessInventorySection = ({
   selectedItem,
   onSelectItem,
   onNewLoan,
+  onNewItem,
 }: Props) => (
   <div className="table-section">
     <div className="inventory-header">
@@ -21,6 +23,9 @@ export const ChessInventorySection = ({
         {selectedItem && (
           <span className="inventory-selected-hint">Seleccionado: {selectedItem.nombre}</span>
         )}
+        <Button variant="primary" onClick={onNewItem}>
+          + Nuevo Artículo
+        </Button>
         <Button variant="primary" onClick={onNewLoan} disabled={!selectedItem}>
           + Nuevo Préstamo
         </Button>
@@ -29,28 +34,7 @@ export const ChessInventorySection = ({
     <DataTable
       columns={[
         { key: 'nombre', label: 'Nombre' },
-        { key: 'cantidad', label: 'Tableros' },
-        {
-          key: 'estado_objeto',
-          label: 'Estado',
-          render: (value: unknown) => {
-            const estado = value as string;
-            const colorMap: Record<string, string> = {
-              Disponible: '#2d7d46',
-              Prestado: '#b45309',
-              Dañado: '#b91c1c',
-              Incompleto: '#b91c1c',
-            };
-            return (
-              <span
-                className="text-secondary"
-                style={{ color: colorMap[estado] ?? '#555', fontWeight: 600 }}
-              >
-                {estado}
-              </span>
-            );
-          },
-        },
+        { key: 'cantidad_total', label: 'Cantidad' },
         { key: 'observacion', label: 'Observación' },
       ]}
       data={inventory}
@@ -58,7 +42,7 @@ export const ChessInventorySection = ({
         onSelectItem(selectedItem?.id === row.id ? null : row);
       }}
       selectedRow={selectedItem ?? undefined}
-      emptyMessage="No hay tableros de ajedrez registrados"
+      emptyMessage="No hay artículos de ajedrez registrados"
     />
   </div>
 );

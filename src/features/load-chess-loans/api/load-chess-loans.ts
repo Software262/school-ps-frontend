@@ -1,7 +1,7 @@
 import { fetchApi } from '@shared/api/apiClient';
 import type { ChessLoan } from '@/features/chess/model/types';
 
-export const getChessBorrowings = (typeId: number, page = 1, limit = 50) =>
+export const getChessBorrowings = (page = 1, limit = 50) =>
   fetchApi<{
     statusCode: number;
     data: {
@@ -16,5 +16,5 @@ export const getChessBorrowings = (typeId: number, page = 1, limit = 50) =>
     message: string;
     details: unknown;
   }>(
-    `/inventory/borrow?type_id=${String(typeId)}&page=${String(page)}&limit=${String(limit)}`,
+    `/chess/borrowings?page=${String(page)}&limit=${String(limit)}`,
   ).then((res) => res.data);

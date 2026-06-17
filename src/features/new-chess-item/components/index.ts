@@ -1,0 +1,1 @@
+export { NewChessItemModal } from './NewChessItemModal';

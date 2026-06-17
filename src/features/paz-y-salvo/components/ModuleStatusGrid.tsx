@@ -32,8 +32,8 @@ export const ModuleStatusGrid = ({ modulos }: ModuleStatusGridProps) => (
           }}
         >
           <strong style={{ fontSize: '0.875rem' }}>{mod.nombre}</strong>
-          <Badge variant={mod.estado === 'ok' ? 'green' : 'red'}>
-            {mod.estado === 'ok' ? 'OK' : 'Error'}
+            <Badge variant={mod.estado === 'ok' ? 'green' : 'red'}>
+            {mod.estado === 'ok' ? 'OK' : 'Pendiente'}
           </Badge>
         </div>
         <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: 0 }}>

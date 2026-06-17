@@ -1,0 +1,1 @@
+export { useNewChessItem } from './useNewChessItem';

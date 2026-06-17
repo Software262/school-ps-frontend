@@ -1,119 +1,123 @@
-import { useState, type SyntheticEvent } from 'react';
-import { createChessBorrow } from '@/features/new-chess-loan/api/create-chess-loan';
-import type { ChessInventory } from '@/features/chess/model/types';
 import { Modal, Spinner } from '@/shared/ui';
 import { Button } from '@/shared/ui/atoms/Button';
-import { Input } from '@/shared/ui/atoms/Input';
+import { useNewChessLoan } from '../hooks/useNewChessLoan';
+import type { NewChessLoanModalProps } from '../types';
+import './NewChessLoanModal.css';
 
-interface Props {
-  isOpen: boolean;
-  item: ChessInventory | null;
-  onClose: () => void;
-  onSuccess: () => void;
-}
+export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: NewChessLoanModalProps) => {
+  const {
+    fields,
+    errors,
+    loading,
+    studentQuery,
+    studentResults,
+    selectedStudent,
+    searchingStudents,
+    handleStudentSearch,
+    handleSelectStudent,
+    handleChange,
+    handleSubmit,
+    reset,
+  } = useNewChessLoan(item as never, onSuccess, onClose);
 
-export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: Props) => {
-  const [estudianteId, setEstudianteId] = useState('');
-  const [cantidad, setCantidad] = useState(1);
-  const [observacion, setObservacion] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    if (!item || !estudianteId.trim()) return;
-    try {
-      setLoading(true);
-      setError('');
-      const now = new Date();
-      const fmt = (n: number) => n.toString().padStart(2, '0');
-      const fecha_salida = [
-        String(now.getFullYear()),
-        '-',
-        fmt(now.getMonth() + 1),
-        '-',
-        fmt(now.getDate()),
-        'T',
-        fmt(now.getHours()),
-        ':',
-        fmt(now.getMinutes()),
-        ':',
-        fmt(now.getSeconds()),
-      ].join('');
-      await createChessBorrow({
-        inventario_id: item.id,
-        estudiante_id: Number(estudianteId),
-        fecha_salida,
-        cantidad,
-        observacion: observacion || undefined,
-      });
-      setEstudianteId('');
-      setCantidad(1);
-      setObservacion('');
-      onSuccess();
-      onClose();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error al crear préstamo');
-    } finally {
-      setLoading(false);
-    }
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Nuevo Préstamo de Ajedrez" width={450}>
+    <Modal isOpen={isOpen} onClose={handleClose} title="Nuevo Préstamo de Ajedrez" width={520}>
       {item && (
         <div className="modal-item-info">
-          Tablero: <strong>{item.nombre}</strong> (Stock: {item.cantidad_total})
+          Tablero: <strong>{item.nombre}</strong>
         </div>
       )}
-      {error && <div className="alert alert-error">{error}</div>}
       <form
+        className="new-chess-loan-form"
         onSubmit={(e) => {
-          void handleSubmit(e);
+          e.preventDefault();
+          void handleSubmit();
         }}
-        style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+        noValidate
       >
-        <Input
-          label="ID del Estudiante"
-          type="number"
-          value={estudianteId}
-          onChange={(e) => {
-            setEstudianteId(e.target.value);
-          }}
-          required
-          disabled={loading}
-          placeholder="Ej: 12345"
-        />
-        <Input
-          label="Cantidad"
-          type="number"
-          value={cantidad}
-          onChange={(e) => {
-            setCantidad(Number(e.target.value));
-          }}
-          min={1}
-          max={item?.cantidad_total ?? 1}
-          required
-          disabled={loading}
-        />
-        <Input
-          label="Observación"
-          type="text"
-          value={observacion}
-          onChange={(e) => {
-            setObservacion(e.target.value);
-          }}
-          disabled={loading}
-          placeholder="Opcional"
-        />
+        {errors.general && <div className="alert alert-error">{errors.general}</div>}
+
+        {/* Buscador de Estudiante */}
+        <div className="form-group" style={{ position: 'relative' }}>
+          <label className="form-label" htmlFor="ncl-estudiante">
+            Estudiante <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="ncl-estudiante"
+            type="text"
+            className={`form-input ${errors.estudiante_id ? 'form-input--error' : ''}`}
+            placeholder="Buscar por nombre o documento..."
+            value={studentQuery}
+            onChange={(e) => {
+              void handleStudentSearch(e.target.value);
+            }}
+            autoComplete="off"
+          />
+          {searchingStudents && <span className="field-hint">Buscando...</span>}
+          {errors.estudiante_id && (
+            <span className="field-error" role="alert">
+              {errors.estudiante_id}
+            </span>
+          )}
+
+          {studentResults.length > 0 && (
+            <ul className="student-dropdown">
+              {studentResults.map((s) => (
+                <li
+                  key={s.id}
+                  className="student-dropdown-item"
+                  onClick={() => {
+                    handleSelectStudent(s);
+                  }}
+                >
+                  <span className="student-name">{s.nombre}</span>
+                  <span className="student-doc">{s.documento}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {selectedStudent && (
+            <div className="selected-item-info">
+              <span>✓</span>
+              <span>
+                <strong>{selectedStudent.nombre}</strong> — Doc: {selectedStudent.documento}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Observación */}
+        <div className="form-group">
+          <label className="form-label" htmlFor="ncl-observacion">
+            Observación
+          </label>
+          <textarea
+            id="ncl-observacion"
+            className="form-textarea"
+            placeholder="Notas adicionales sobre el préstamo..."
+            rows={3}
+            value={fields.observacion}
+            onChange={(e) => {
+              handleChange('observacion', e.target.value);
+            }}
+          />
+        </div>
+
+        {/* Acciones */}
         <div className="form-actions">
-          <Button type="button" variant="secondary" onClick={onClose} disabled={loading}>
+          <Button type="button" variant="secondary" onClick={handleClose} disabled={loading}>
             Cancelar
           </Button>
-          <Button type="submit" variant="primary" disabled={loading || !estudianteId.trim()}>
+          <Button type="submit" variant="primary" disabled={loading || !item}>
             {loading ? (
               <>
-                <Spinner size={14} color="white" /> Creando...
+                <Spinner size={16} color="#fff" /> Guardando…
               </>
             ) : (
               'Registrar Préstamo'

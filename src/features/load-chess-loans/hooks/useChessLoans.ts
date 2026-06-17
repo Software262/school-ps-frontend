@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { ChessLoan } from '@/features/chess/model/types';
-import { getChessType } from '@/features/chess/api/chessApi';
 import { getChessBorrowings } from '@/features/load-chess-loans/api/load-chess-loans';
 
 export const useChessLoans = () => {
@@ -10,8 +9,7 @@ export const useChessLoans = () => {
   const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
-    getChessType()
-      .then((typeData) => getChessBorrowings(typeData.id))
+    getChessBorrowings()
       .then((resp) => {
         setLoans(resp.items);
         setError('');
