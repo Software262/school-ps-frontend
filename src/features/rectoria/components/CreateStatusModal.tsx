@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react';
 import { Modal, Spinner } from '@/shared/ui';
+import { getSessionUser } from '@/shared/auth/session';
 import { createStatus } from '@/features/rectoria/api/rectoriaApi';
 import type { Teacher } from '@/entities/teacher/model/types';
 
@@ -37,8 +38,11 @@ export const CreateStatusModal = ({
     setError(null);
     setLoading(true);
     try {
+      const user = getSessionUser();
+      if (!user) throw new Error('Sesión no encontrada');
       await createStatus({
         docente_id: teacher.id,
+        id_usuario: user.id,
         motivo_estado: motivo.trim(),
       });
       reset();

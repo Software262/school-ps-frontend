@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react';
 import { Modal, Spinner } from '@/shared/ui';
+import { getSessionUser } from '@/shared/auth/session';
 import { createObservation } from '@/features/rectoria/api/rectoriaApi';
 import type { Teacher } from '@/entities/teacher/model/types';
 
@@ -49,8 +50,11 @@ export const CreateObservationModal = ({
     setError(null);
     setLoading(true);
     try {
+      const user = getSessionUser();
+      if (!user) throw new Error('Sesión no encontrada');
       await createObservation({
         docente_id: teacher.id,
+        id_usuario: user.id,
         descripcion: descripcion.trim(),
         tipo_observacion: tipoObservacion.trim(),
       });
