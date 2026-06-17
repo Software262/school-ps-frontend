@@ -8,7 +8,7 @@ interface EnrollmentStudent {
 }
 
 interface SearchStudentsResponse {
-  estudiantes: EnrollmentStudent[];
+  estudiantes?: EnrollmentStudent[];
   total_resultados: number;
 }
 

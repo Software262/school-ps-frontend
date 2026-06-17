@@ -18,7 +18,7 @@ export const NewChessLoanModal = ({ isOpen, item, onClose, onSuccess }: NewChess
     handleChange,
     handleSubmit,
     reset,
-  } = useNewChessLoan(item as never, onSuccess, onClose);
+  } = useNewChessLoan(item, onSuccess, onClose);
 
   const handleClose = () => {
     reset();

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import type { ModuleStat } from '@/shared/hooks/useModuleStats';
-import type { ChessInventory, ChessLoan } from '@/features/chess/model/types';
+import type { ChessInventory } from '@/features/chess/model/types';
 
-export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): ModuleStat[] =>
+export const useChessStats = (inventory: ChessInventory[]): ModuleStat[] =>
   useMemo(() => {
     const totalArticulos = inventory.length;
     const totalUnidades = inventory.reduce((sum, i) => sum + i.cantidad_total, 0);
@@ -26,4 +26,4 @@ export const useChessStats = (inventory: ChessInventory[], loans: ChessLoan[]): 
       { label: 'En Préstamo', value: String(borrowedItems), variant: 'yellow' },
       { label: 'Dañados / Incompletos', value: String(damagedItems), variant: 'gray' },
     ];
-  }, [inventory, loans]);
+  }, [inventory]);

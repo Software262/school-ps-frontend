@@ -4,7 +4,7 @@ import type { ChessInventory } from '@/features/chess/model/types';
 const PIEZAS_PREFIX = '[PIEZAS:';
 
 function parsePiezasTotales(observacion: string | null): number {
-  if (!observacion || !observacion.startsWith(PIEZAS_PREFIX)) {
+  if (!observacion?.startsWith(PIEZAS_PREFIX)) {
     return 32;
   }
   try {
@@ -18,7 +18,7 @@ function parsePiezasTotales(observacion: string | null): number {
 }
 
 function cleanObservacion(observacion: string | null): string | null {
-  if (!observacion || !observacion.startsWith(PIEZAS_PREFIX)) {
+  if (!observacion?.startsWith(PIEZAS_PREFIX)) {
     return observacion;
   }
   const parts = observacion.split(']', 2);

@@ -43,4 +43,3 @@ export interface ChessItemFormErrors {
   piezas_totales?: string;
   general?: string;
 }
-

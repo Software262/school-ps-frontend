@@ -42,7 +42,7 @@ export const useNewChessItem = (onSuccess: () => void) => {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    const validationErrors = validateItemForm(fields);
+    const validationErrors = validateChessItemForm(fields);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -52,7 +52,7 @@ export const useNewChessItem = (onSuccess: () => void) => {
     try {
       const { id: tipo_inventario_id } = await getInventoryTypeByName('ajedrez');
       const piezas = Number(fields.piezas_totales);
-      const serializedObservacion = `[PIEZAS:${piezas}] ${fields.observacion || ''}`.trim();
+      const serializedObservacion = `[PIEZAS:${String(piezas)}] ${fields.observacion || ''}`.trim();
       await createChessItem({
         tipo_inventario_id,
         nombre: fields.nombre.trim(),

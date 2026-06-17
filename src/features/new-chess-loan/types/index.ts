@@ -16,7 +16,12 @@ export interface NewChessLoanFormErrors {
 
 export interface NewChessLoanModalProps {
   isOpen: boolean;
-  item: { id: number; nombre: string; cantidad_total?: number; stocks?: { estado: string; cantidad: number }[] } | null;
+  item: {
+    id: number;
+    nombre: string;
+    cantidad_total?: number;
+    stocks?: { estado: string; cantidad: number }[];
+  } | null;
   onClose: () => void;
   onSuccess: () => void;
 }

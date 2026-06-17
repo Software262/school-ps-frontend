@@ -1,4 +1,4 @@
-import { useState, useEffect, type SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { returnChessBorrow } from '@/features/return-chess-loan/api/return-chess-loan';
 import type { ChessLoan } from '@/features/chess/model/types';
 import { Modal, Spinner } from '@/shared/ui';
@@ -19,13 +19,6 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<{ mensaje: string; novedad_creada: boolean } | null>(null);
-
-  useEffect(() => {
-    if (isOpen && loan) {
-      setPiezasDevueltas(loan.piezas_totales ?? 32);
-      setObservacion('');
-    }
-  }, [isOpen, loan]);
 
   const incomplete = piezasDevueltas < piezasEsperadas;
 
@@ -96,7 +89,7 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
           </Button>
         </div>
       ) : (
-        <>
+        <div key={`${String(isOpen)}-${String(loan?.id)}`}>
           {loan && (
             <div className="modal-item-info">
               Préstamo #{loan.id} — <strong>{loan.nombre_articulo}</strong>
@@ -116,7 +109,7 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
             style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
           >
             <Input
-              label={`Piezas Devueltas (máx ${piezasEsperadas})`}
+              label={`Piezas Devueltas (máx ${String(piezasEsperadas)})`}
               type="number"
               value={piezasDevueltas}
               onChange={(e) => {
@@ -156,7 +149,7 @@ export const ReturnChessLoanModal = ({ isOpen, loan, onClose, onSuccess }: Props
               </Button>
             </div>
           </form>
-        </>
+        </div>
       )}
     </Modal>
   );

@@ -15,6 +15,4 @@ export const getChessBorrowings = (page = 1, limit = 50) =>
     };
     message: string;
     details: unknown;
-  }>(
-    `/chess/borrowings?page=${String(page)}&limit=${String(limit)}`,
-  ).then((res) => res.data);
+  }>(`/chess/borrowings?page=${String(page)}&limit=${String(limit)}`).then((res) => res.data);

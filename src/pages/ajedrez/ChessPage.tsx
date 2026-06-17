@@ -24,7 +24,7 @@ export const ChessPage = () => {
   const [isResolveLoanOpen, setIsResolveLoanOpen] = useState(false);
   const [selectedLoan, setSelectedLoan] = useState<ChessLoan | null>(null);
 
-  const stats = useChessStats(inventory, loans);
+  const stats = useChessStats(inventory);
 
   const handleReturnLoan = (loan: ChessLoan) => {
     setSelectedLoan(loan);
