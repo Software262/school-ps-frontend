@@ -69,22 +69,29 @@ export function CreateTestForm({
     setShowConfirm(false);
     setLoading(true);
     setErrorMsg('');
-    const result = await onAssignMassive({
-      grado_id: parseInt(gradoId),
-      complementario_id: parseInt(testId),
-      tipo_prueba: selectedTest?.nombre ?? 'Institucional',
-      periodo_id: parseInt(periodoId),
-    });
-    if (result.assigned === 0 && result.skipped > 0) {
-      setErrorMsg(
-        `Todos los estudiantes (${result.skipped.toString()}) ya tienen esta prueba asignada.`,
-      );
-    } else {
-      if (result.skipped > 0)
+    try {
+      const result = await onAssignMassive({
+        grado_id: parseInt(gradoId),
+        complementario_id: parseInt(testId),
+        tipo_prueba: selectedTest?.nombre ?? 'Institucional',
+        periodo_id: parseInt(periodoId),
+      });
+      if (result.assigned === 0 && result.skipped > 0) {
         setErrorMsg(
-          `Se asignaron ${result.assigned.toString()}. ${result.skipped.toString()} ya la tenían y fueron omitidos.`,
+          `Todos los estudiantes (${result.skipped.toString()}) ya tienen esta prueba asignada.`,
         );
-      onSave();
+      } else {
+        if (result.skipped > 0)
+          setErrorMsg(
+            `Se asignaron ${result.assigned.toString()}. ${result.skipped.toString()} ya la tenían y fueron omitidos.`,
+          );
+        onSave();
+      }
+    } catch (e) {
+      console.error(e);
+      setErrorMsg('Error al procesar la asignación masiva.');
+    } finally {
+      setLoading(false);
     }
   };
 

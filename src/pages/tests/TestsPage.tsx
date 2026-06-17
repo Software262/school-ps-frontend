@@ -14,6 +14,8 @@ import { CreateTestForm } from '@/features/tests/components/CreateTestForm';
 import { NewTestForm } from '@/features/tests/components/NewTestForm';
 import { PaymentModal } from '@/features/tests/components/PaymentModal';
 import { useTests } from '@/features/tests/hooks/useTests';
+import { Button } from '@/shared/ui/atoms/Button';
+import { Modal } from '@/shared/ui/atoms/Modal';
 import type { PruebaAssignment, ComplementarioPrueba } from '@/entities/tests/model/types';
 
 export function TestsPage() {
@@ -44,27 +46,23 @@ export function TestsPage() {
   const [payingTest, setPayingTest] = useState<PruebaAssignment | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('todos');
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    type: 'test' | 'assignment';
+    id: number;
+  } | null>(null);
 
-  const handleDeleteTest = async (id: number) => {
-    if (
-      !confirm(
-        '¿Seguro que deseas borrar este tipo de prueba? Se borrarán también las asignaciones relacionadas.',
-      )
-    )
-      return;
+  const confirmDeletion = async () => {
+    if (!deleteConfirm) return;
     try {
-      await deleteComplementary(id);
+      if (deleteConfirm.type === 'test') {
+        await deleteComplementary(deleteConfirm.id);
+      } else {
+        await deleteAssignment(deleteConfirm.id);
+      }
     } catch {
-      alert('Error al eliminar la prueba');
-    }
-  };
-
-  const handleDeleteAssignment = async (id: number) => {
-    if (!confirm('¿Seguro que deseas eliminar esta asignación de prueba?')) return;
-    try {
-      await deleteAssignment(id);
-    } catch {
-      alert('Error al eliminar la asignación');
+      console.error('Error al eliminar');
+    } finally {
+      setDeleteConfirm(null);
     }
   };
 
@@ -92,20 +90,21 @@ export function TestsPage() {
       label: 'Acciones',
       render: (_: unknown, item: PruebaAssignment) => (
         <div className="flex gap-3 items-center">
+          {item.estado !== 'pagada' && (
+            <button
+              onClick={() => {
+                setPayingTest(item);
+              }}
+              className="text-[var(--brand-primary)] hover:opacity-80 font-medium text-sm transition-opacity"
+            >
+              Abonar
+            </button>
+          )}
           <button
             onClick={() => {
-              setPayingTest(item);
+              setDeleteConfirm({ type: 'assignment', id: item.id });
             }}
-            disabled={item.estado === 'pagada'}
-            className="text-blue-600 hover:text-blue-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-          >
-            Abonar
-          </button>
-          <button
-            onClick={() => {
-              void handleDeleteAssignment(item.id);
-            }}
-            className="text-red-500 hover:text-red-700 transition-colors"
+            className="text-gray-400 hover:text-red-600 transition-colors"
             title="Eliminar asignación"
           >
             <Trash2 className="w-4 h-4" />
@@ -134,26 +133,26 @@ export function TestsPage() {
           <p className="text-gray-600 mt-1">Gestión de evaluaciones institucionales</p>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            variant="primary"
             onClick={() => {
               setShowCreate(true);
               setShowAssign(false);
               setEditingTest(null);
             }}
-            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
           >
             <Plus className="w-4 h-4" /> Crear Prueba
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
             onClick={() => {
               setShowAssign(true);
               setShowCreate(false);
               setEditingTest(null);
             }}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-colors"
           >
             <ListPlus className="w-4 h-4" /> Asignar
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -255,7 +254,7 @@ export function TestsPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h4 className="font-semibold text-gray-900 pr-16">{prueba.nombre}</h4>
-                  <p className="text-lg font-bold text-blue-600 mt-2">
+                  <p className="text-lg font-bold text-[var(--brand-primary)] mt-2">
                     ${prueba.valor.toLocaleString()}
                   </p>
                   <p className="text-xs text-gray-400 mt-1">Año {prueba.anio}</p>
@@ -265,14 +264,14 @@ export function TestsPage() {
                     onClick={() => {
                       setEditingTest(prueba);
                     }}
-                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                    className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors"
                     title="Editar Prueba"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => {
-                      void handleDeleteTest(prueba.id);
+                      setDeleteConfirm({ type: 'test', id: prueba.id });
                     }}
                     className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
                     title="Eliminar Prueba"
@@ -306,7 +305,7 @@ export function TestsPage() {
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                 }}
-                className="pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-80"
+                className="pl-9 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--brand-primary)] focus:ring-1 focus:ring-[var(--brand-primary)] transition-all w-80"
               />
             </div>
             <select
@@ -314,7 +313,7 @@ export function TestsPage() {
               onChange={(e) => {
                 setStatusFilter(e.target.value);
               }}
-              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all w-48"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-[var(--brand-primary)] focus:ring-1 focus:ring-[var(--brand-primary)] transition-all w-48"
             >
               <option value="todos">Todos los estados</option>
               <option value="pendiente">Pendiente</option>
@@ -327,6 +326,48 @@ export function TestsPage() {
           <DataTable columns={columns} data={filteredAssignments} />
         </div>
       </div>
+
+      {deleteConfirm && (
+        <Modal
+          isOpen
+          title="Confirmar Eliminación"
+          onClose={() => {
+            setDeleteConfirm(null);
+          }}
+          width={400}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center shrink-0">
+                <AlertCircle className="w-5 h-5 text-red-600" />
+              </div>
+              <p className="text-sm text-gray-700">
+                {deleteConfirm.type === 'test'
+                  ? '¿Seguro que deseas borrar este tipo de prueba? Se borrarán también las asignaciones relacionadas.'
+                  : '¿Seguro que deseas eliminar esta asignación de prueba?'}
+              </p>
+            </div>
+            <div className="form-actions">
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setDeleteConfirm(null);
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => {
+                  void confirmDeletion();
+                }}
+              >
+                Sí, Eliminar
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

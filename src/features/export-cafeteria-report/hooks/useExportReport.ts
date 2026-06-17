@@ -13,7 +13,7 @@ export const useExportReport = () => {
       link.href = url;
       link.setAttribute(
         'download',
-        `reporte_cafeteria_${new Date().toISOString().split('T')[0]}.csv`,
+        `reporte_cafeteria_${new Date().toISOString().split('T')[0]}.pdf`,
       );
       document.body.appendChild(link);
       link.click();

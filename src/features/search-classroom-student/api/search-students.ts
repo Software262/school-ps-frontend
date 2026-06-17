@@ -1,7 +1,7 @@
 import { fetchApi } from '@/shared/api/apiClient';
 import { getAuthHeaders, withTimeout } from '@/features/classroom-holder/api/request';
 import type {
-  StudentSearchListResponse,
+  StudentBasicSearchListResponse,
   StudentSearchResult,
 } from '@/features/classroom-holder/model/types';
 
@@ -17,16 +17,18 @@ export const searchClassroomStudents = async (query: string): Promise<StudentSea
   }
 
   const data = await withTimeout((signal) =>
-    fetchApi<StudentSearchListResponse>(`/enrollment/students?${params.toString()}`, {
+    fetchApi<StudentBasicSearchListResponse>(`/enrollment/students/basic?${params.toString()}`, {
       headers: getAuthHeaders(),
       signal,
     }),
   );
 
   return data.estudiantes.map((student) => ({
-    id: student.estudiante_id,
+    id: student.id,
     nombre: student.nombre,
     documento: student.documento,
-    grado_nombre: student.grado_nombre || 'Sin curso',
+    grado_nombre: student.curso
+      ? `${student.grado} ${student.curso}`
+      : student.grado || 'Sin curso',
   }));
 };

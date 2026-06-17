@@ -31,20 +31,20 @@ export function StatusBadge({ status, label }: StatusBadgeProps) {
       dot: '#10b981',
       label: label ?? 'Pagada',
     },
-    // Pendiente — naranja cálido
+    // Pendiente — rojo intenso
     pendiente: {
+      bg: '#fef2f2',
+      text: '#991b1b',
+      border: '#fca5a5',
+      dot: '#ef4444',
+      label: label ?? 'Pendiente',
+    },
+    // Pago parcial — naranja cálido/amarillo
+    'pago-parcial': {
       bg: '#fff7ed',
       text: '#9a3412',
       border: '#fdba74',
       dot: '#f97316',
-      label: label ?? 'Pendiente',
-    },
-    // Pago parcial — azul índigo
-    'pago-parcial': {
-      bg: '#eff6ff',
-      text: '#1e40af',
-      border: '#93c5fd',
-      dot: '#3b82f6',
       label: label ?? 'Pago parcial',
     },
     // Vencido — rojo intenso

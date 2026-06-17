@@ -86,6 +86,19 @@ export interface StudentSearchListResponse {
   total_resultados: number;
 }
 
+export interface StudentBasicSearchItem {
+  id: number;
+  nombre: string;
+  documento: string;
+  grado: string;
+  curso: string | null;
+}
+
+export interface StudentBasicSearchListResponse {
+  estudiantes: StudentBasicSearchItem[];
+  total_resultados: number;
+}
+
 export interface StudentSearchResult {
   id: number;
   nombre: string;

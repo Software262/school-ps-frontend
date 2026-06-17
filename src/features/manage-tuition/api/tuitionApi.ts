@@ -4,9 +4,15 @@ import type {
   TuitionInstallmentResponse,
   PaymentCreateRequest,
 } from '@/entities/tuition/model/types';
+import type { StudentSearchItem } from '@/entities/student/model/types';
 
 export const getStudentTuitionByDocumento = (documento: string): Promise<TuitionAccountResponse> =>
   fetchApi<TuitionAccountResponse>(`/tuition/student/documento/${documento}`);
+
+export const searchTuitionStudents = (
+  query: string,
+): Promise<{ estudiantes: StudentSearchItem[] }> =>
+  fetchApi<{ estudiantes: StudentSearchItem[] }>(`/tuition/search?q=${encodeURIComponent(query)}`);
 
 export const getStudentTuition = (studentId: number): Promise<TuitionAccountResponse> =>
   fetchApi<TuitionAccountResponse>(`/tuition/student/${studentId.toString()}`);

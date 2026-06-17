@@ -90,14 +90,12 @@ export const testsEntityApi = {
 
   /** Create a new complementario (test type) */
   createComplementary: async (nombre: string, valor: number): Promise<void> => {
-    await fetchApi('/enrollment/complementary', {
+    await fetchApi('/tests/complementary', {
       method: 'POST',
       body: JSON.stringify({
-        tipo_complementario: nombre,
+        nombre,
         anio: new Date().getFullYear(),
         valor,
-        estado_complemento: 'Activo',
-        uso_matricula: false,
       }),
     });
   },

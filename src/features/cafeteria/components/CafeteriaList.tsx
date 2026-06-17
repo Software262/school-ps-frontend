@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, FileDown } from 'lucide-react';
+import { AlertCircle, CheckCircle, FileDown, Loader2, Search } from 'lucide-react';
 import { useLoadDebtors } from '@/features/load-cafeteria-debtors/hooks';
 import { useSearchCafeteriaStudent } from '@/features/search-cafeteria-student/hooks';
 import { AddDebtView } from '@/features/add-cafeteria-debt/components';
@@ -7,7 +7,6 @@ import { useAddDebt } from '@/features/add-cafeteria-debt/hooks';
 import { useClearDebts } from '@/features/clear-cafeteria-debts/hooks';
 import { useExportReport } from '@/features/export-cafeteria-report/hooks';
 import type { GeneralStudent } from '../model/types';
-import { Loader2 } from 'lucide-react';
 import './CafeteriaList.css';
 
 export const CafeteriaList = () => {
@@ -15,13 +14,17 @@ export const CafeteriaList = () => {
   const { results: searchResults, search, clear: clearSearch } = useSearchCafeteriaStudent();
   const { submit: submitDebt } = useAddDebt(refetch);
   const { clear: clearDebts } = useClearDebts(refetch);
-  const { download: downloadReport } = useExportReport();
+  const { download: downloadReport, loading: reportLoading } = useExportReport();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [gradoFilter, setGradoFilter] = useState('all');
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [view, setView] = useState<'list' | 'add'>('list');
   const [targetStudent, setTargetStudent] = useState<GeneralStudent | null>(null);
+  const [actionAlert, setActionAlert] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
 
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -47,18 +50,23 @@ export const CafeteriaList = () => {
     };
   }, [clearSearch]);
 
+  const showAlert = (message: string, type: 'success' | 'error' = 'error') => {
+    setActionAlert({ message, type });
+  };
+
   const handleBulkClear = async () => {
     try {
       await clearDebts(selectedIds, 1);
       setSelectedIds([]);
+      showAlert('Deudas actualizadas correctamente.', 'success');
     } catch {
-      alert('Error en la operación masiva');
+      showAlert('Error en la operación masiva.');
     }
   };
 
   const handleAddDebt = async (obs: string) => {
     if (obs.length < 5 || !targetStudent) {
-      alert('La observación es obligatoria y debe ser descriptiva.');
+      showAlert('La observación es obligatoria y debe ser descriptiva.');
       return;
     }
     try {
@@ -70,8 +78,18 @@ export const CafeteriaList = () => {
       });
       setView('list');
       clearSearch();
+      showAlert('Deuda registrada correctamente.', 'success');
     } catch {
-      alert('Error al agregar deuda');
+      showAlert('Error al agregar deuda.');
+    }
+  };
+
+  const handleDownloadReport = async () => {
+    try {
+      await downloadReport();
+      showAlert('Reporte PDF generado correctamente.', 'success');
+    } catch {
+      showAlert('Error al generar el reporte PDF.');
     }
   };
 
@@ -87,9 +105,11 @@ export const CafeteriaList = () => {
     return (
       <AddDebtView
         student={targetStudent}
+        alert={actionAlert}
         onSave={handleAddDebt}
         onCancel={() => {
           setView('list');
+          setActionAlert(null);
         }}
       />
     );
@@ -106,13 +126,21 @@ export const CafeteriaList = () => {
           <button
             className="btn-export"
             onClick={() => {
-              void downloadReport();
+              void handleDownloadReport();
             }}
+            disabled={reportLoading}
           >
-            <FileDown size={18} /> Exportar Reporte
+            <FileDown size={18} /> {reportLoading ? 'Generando...' : 'Exportar Reporte'}
           </button>
         </div>
       </header>
+
+      {actionAlert && (
+        <div className={`cafeteria-alert cafeteria-alert-${actionAlert.type}`} role="alert">
+          {actionAlert.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+          <span>{actionAlert.message}</span>
+        </div>
+      )}
 
       <section className="filter-card" ref={searchRef}>
         <div className="filter-row">
@@ -160,6 +188,7 @@ export const CafeteriaList = () => {
                 className="search-result-item"
                 onClick={() => {
                   setTargetStudent(s);
+                  setActionAlert(null);
                   setView('add');
                 }}
               >

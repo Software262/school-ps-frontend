@@ -43,7 +43,7 @@ const modules = [
   { path: '/dashboard/salon-titular', label: 'Salón Titular', icon: School },
   { path: '/dashboard/band', label: 'Banda', icon: Music },
   { path: '/dashboard/rectoria', label: 'Rectoría', icon: Building },
-  { path: '/dashboard/webcolegios-scraping', label: 'Sincronización', icon: Bot },
+  { path: '/dashboard/webcolegios-scraping', label: 'Conexión WebColegios', icon: Bot },
 ];
 
 interface SidebarProps {

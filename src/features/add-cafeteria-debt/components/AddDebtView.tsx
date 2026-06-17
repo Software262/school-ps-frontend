@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { ChevronLeft, ClipboardList, User } from 'lucide-react';
+import { AlertCircle, CheckCircle, ChevronLeft, ClipboardList, User } from 'lucide-react';
 import type { GeneralStudent } from '@/features/cafeteria/model/types';
 import '@/features/cafeteria/components/CafeteriaList.css';
 
 interface Props {
   student: GeneralStudent;
+  alert?: {
+    type: 'success' | 'error';
+    message: string;
+  } | null;
   onSave: (obs: string) => Promise<void>;
   onCancel: () => void;
 }
 
-export const AddDebtView = ({ student, onSave, onCancel }: Props) => {
+export const AddDebtView = ({ student, alert, onSave, onCancel }: Props) => {
   const [obs, setObs] = useState('');
 
   return (
@@ -23,6 +27,13 @@ export const AddDebtView = ({ student, onSave, onCancel }: Props) => {
         </div>
         <p>Asignar estado administrativo de deuda</p>
       </header>
+
+      {alert && (
+        <div className={`cafeteria-alert cafeteria-alert-${alert.type}`} role="alert">
+          {alert.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+          <span>{alert.message}</span>
+        </div>
+      )}
 
       <div className="management-card">
         <div className="student-profile">
