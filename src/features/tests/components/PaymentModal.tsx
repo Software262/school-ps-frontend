@@ -15,15 +15,17 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
   const saldoPendiente = (item.valor ?? 0) - item.valor_pagado;
   const [monto, setMonto] = useState<string>(saldoPendiente.toString());
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handlePay = async () => {
+    setErrorMsg('');
     const val = parseInt(monto);
     if (isNaN(val) || val <= 0) {
-      alert('Ingresa un monto válido');
+      setErrorMsg('Ingresa un monto válido mayor a $0.');
       return;
     }
     if (val > saldoPendiente) {
-      alert('El monto no puede ser mayor al saldo pendiente');
+      setErrorMsg('El monto abonado no puede ser mayor al saldo pendiente.');
       return;
     }
 
@@ -33,7 +35,7 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
       onClose();
     } catch (e) {
       console.error(e);
-      alert('Error al procesar el pago');
+      setErrorMsg('Ocurrió un error inesperado al procesar el pago.');
     } finally {
       setLoading(false);
     }
@@ -66,10 +68,26 @@ export function PaymentModal({ item, onClose, onConfirm }: PaymentModalProps) {
           value={monto}
           onChange={(e) => {
             setMonto(e.target.value);
+            setErrorMsg('');
           }}
           placeholder="Ej. 20000"
           autoFocus
         />
+
+        {errorMsg && (
+          <div
+            style={{
+              padding: '10px 14px',
+              borderRadius: 'var(--radius-md)',
+              background: '#fef2f2',
+              border: '1px solid #fecaca',
+              color: '#991b1b',
+              fontSize: 'var(--font-size-sm)',
+            }}
+          >
+            {errorMsg}
+          </div>
+        )}
 
         <div className="form-actions">
           <Button variant="secondary" onClick={onClose} disabled={loading}>
