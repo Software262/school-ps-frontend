@@ -46,7 +46,10 @@ export function TestsPage() {
   const [payingTest, setPayingTest] = useState<PruebaAssignment | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('todos');
-  const [deleteConfirm, setDeleteConfirm] = useState<{ type: 'test' | 'assignment'; id: number } | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    type: 'test' | 'assignment';
+    id: number;
+  } | null>(null);
 
   const confirmDeletion = async () => {
     if (!deleteConfirm) return;
