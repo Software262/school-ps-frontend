@@ -88,10 +88,17 @@ export const EnrollmentDetail = () => {
     if (!id) return;
     setEnrollLoading(true);
     try {
+      const periods = await enrollmentApi.getPeriods();
+      const targetYear = balance ? balance.anio : new Date().getFullYear();
+      const matchingPeriod = periods.find(
+        (p) => new Date(p.periodo_electivo).getFullYear() === targetYear,
+      );
+      const periodId = matchingPeriod ? matchingPeriod.id : 1;
+
       await enrollmentApi.registerEnrollment({
         estudiante_id: Number(id),
-        periodo_id: 1,
-        anio: balance ? balance.anio : new Date().getFullYear(),
+        periodo_id: periodId,
+        anio: targetYear,
       });
       showToast('Estudiante matriculado automáticamente con éxito.', 'success');
       await handleRefresh();

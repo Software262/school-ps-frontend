@@ -1,10 +1,11 @@
-import { useState, type SubmitEvent, type ChangeEvent } from 'react';
+import { useState, useEffect, type SubmitEvent, type ChangeEvent } from 'react';
 import { Modal } from '@/shared/ui/atoms/Modal';
 import { Button } from '@/shared/ui/atoms/Button';
 import { Input } from '@/shared/ui/atoms/Input';
 import { manualEnrollment } from '../api/manualApi';
 import { searchStudents } from '../../search-student/api/searchApi';
 import type { ManualEnrollmentPayload } from '../types';
+import { enrollmentApi } from '@/entities/student/api/enrollment';
 
 interface ManualEnrollmentModalProps {
   isOpen: boolean;
@@ -12,36 +13,58 @@ interface ManualEnrollmentModalProps {
   onSuccess: (studentId: number) => void;
 }
 
-const GRADES = [
-  'Preescolar',
-  'Primero',
-  'Segundo',
-  'Tercero',
-  'Cuarto',
-  'Quinto',
-  'Sexto',
-  'Séptimo',
-  'Octavo',
-  'Noveno',
-  'Décimo',
-  'Once',
-];
-
 export const ManualEnrollmentModal = ({
   isOpen,
   onClose,
   onSuccess,
 }: ManualEnrollmentModalProps) => {
+  const [grades, setGrades] = useState<{ id: number; nombre: string }[]>([]);
+  const [periods, setPeriods] = useState<
+    { id: number; periodo_electivo: string; estado: boolean }[]
+  >([]);
   const [formData, setFormData] = useState<ManualEnrollmentPayload>(() => ({
     documento: '',
     nombre: '',
-    grado: GRADES[0],
+    grado: '',
     nombre_acudiente: '',
-    periodo_id: 1,
+    periodo_id: 0,
     anio: new Date().getFullYear(),
   }));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    let isMounted = true;
+    Promise.all([enrollmentApi.getGrades(), enrollmentApi.getPeriods()])
+      .then(([gradesData, periodsData]) => {
+        if (isMounted) {
+          setGrades(gradesData);
+          setPeriods(periodsData);
+
+          if (gradesData.length > 0 && periodsData.length > 0) {
+            const activePeriod = periodsData.find((p) => p.estado) ?? periodsData[0];
+            setFormData((prev) => ({
+              ...prev,
+              grado: gradesData[0].nombre,
+              periodo_id: activePeriod.id,
+              anio: new Date(activePeriod.periodo_electivo).getFullYear(),
+            }));
+          }
+        }
+      })
+      .catch((err: unknown) => {
+        console.error('Error loading manual enrollment metadata:', err);
+        if (isMounted) {
+          setError('Error al cargar la información de grados y períodos lectivos.');
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isOpen]);
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -140,11 +163,41 @@ export const ManualEnrollmentModal = ({
             className="input-field"
             style={{ cursor: 'pointer' }}
           >
-            {GRADES.map((g) => (
-              <option key={g} value={g}>
-                {g}
+            {grades.map((g) => (
+              <option key={g.id.toString()} value={g.nombre}>
+                {g.nombre}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div className="input-container">
+          <label className="input-label">Periodo Académico *</label>
+          <select
+            value={formData.periodo_id}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+              const pId = Number(e.target.value);
+              const selectedPeriod = periods.find((p) => p.id === pId);
+              setFormData((s: ManualEnrollmentPayload) => ({
+                ...s,
+                periodo_id: pId,
+                anio: selectedPeriod
+                  ? new Date(selectedPeriod.periodo_electivo).getFullYear()
+                  : s.anio,
+              }));
+            }}
+            disabled={loading}
+            className="input-field"
+            style={{ cursor: 'pointer' }}
+          >
+            {periods.map((p) => {
+              const yr = new Date(p.periodo_electivo).getFullYear();
+              return (
+                <option key={p.id.toString()} value={p.id}>
+                  Año Lectivo {yr.toString()} {p.estado ? '(Activo)' : ''}
+                </option>
+              );
+            })}
           </select>
         </div>
 

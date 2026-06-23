@@ -285,4 +285,12 @@ export const enrollmentApi = {
       body: JSON.stringify(payload),
     });
   },
+  getGrades: async (): Promise<{ id: number; nombre: string }[]> => {
+    return fetchApi<{ id: number; nombre: string }[]>('/enrollment/grades');
+  },
+  getPeriods: async (): Promise<{ id: number; periodo_electivo: string; estado: boolean }[]> => {
+    return fetchApi<{ id: number; periodo_electivo: string; estado: boolean }[]>(
+      '/enrollment/periods',
+    );
+  },
 };
