@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { dashboardApi } from '@/shared/api/dashboardApi';
 import {
   CreditCard,
   Calendar,
   GraduationCap,
   Sofa,
-  FileText,
   Dumbbell,
   Trophy,
   Coffee,
@@ -57,15 +58,6 @@ export const DashboardPage = () => {
       color: '#b45309',
       bgColor: '#fffbeb',
       borderColor: '#fef3c7',
-    },
-    {
-      id: 'pruebas',
-      title: 'Pruebas Internas',
-      desc: 'Gestión de evaluaciones institucionales',
-      icon: FileText,
-      color: '#b91c1c',
-      bgColor: '#fef2f2',
-      borderColor: '#fecaca',
     },
     {
       id: 'deportes',
@@ -130,6 +122,20 @@ export const DashboardPage = () => {
       alert(`El módulo "${moduleId.toUpperCase()}" se encuentra en desarrollo por otro equipo.`);
     }
   };
+
+  const [pazYSalvoCount, setPazYSalvoCount] = useState<number>(0);
+  const [pendientesCount, setPendientesCount] = useState<number>(0);
+  const [alertasCount, setAlertasCount] = useState<number>(0);
+  const [totalEstudiantes, setTotalEstudiantes] = useState<number>(0);
+
+  useEffect(() => {
+    void dashboardApi.getStats().then((stats) => {
+      setPazYSalvoCount(stats.paz_y_salvo);
+      setPendientesCount(stats.pendientes);
+      setAlertasCount(stats.alertas);
+      setTotalEstudiantes(stats.total_estudiantes);
+    });
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding: '4px 0 24px 0' }}>
@@ -251,7 +257,7 @@ export const DashboardPage = () => {
             >
               Total Estudiantes
             </p>
-            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>1,234</h4>
+            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>{totalEstudiantes.toLocaleString()}</h4>
           </div>
           <div
             style={{
@@ -288,7 +294,7 @@ export const DashboardPage = () => {
             >
               Paz y Salvo
             </p>
-            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>987</h4>
+            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>{pazYSalvoCount.toLocaleString()}</h4>
           </div>
           <div
             style={{
@@ -325,7 +331,7 @@ export const DashboardPage = () => {
             >
               Pendientes
             </p>
-            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>247</h4>
+            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>{pendientesCount.toLocaleString()}</h4>
           </div>
           <div
             style={{
@@ -362,7 +368,7 @@ export const DashboardPage = () => {
             >
               Alertas
             </p>
-            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>15</h4>
+            <h4 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>{alertasCount.toLocaleString()}</h4>
           </div>
           <div
             style={{
