@@ -1,6 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useSearch } from '@tanstack/react-router';
-import { ArrowLeft, User, FileText, Edit, Trash2, Plus, AlertTriangle } from 'lucide-react';
+import { useParams, useSearch, useNavigate } from '@tanstack/react-router';
+import {
+  ArrowLeft,
+  User,
+  FileText,
+  Edit,
+  Trash2,
+  Plus,
+  AlertTriangle,
+  SlidersHorizontal,
+} from 'lucide-react';
 
 import { useStudentBalance } from '@/features/view-enrollment/hooks/useStudentBalance';
 import { Button } from '@/shared/ui/atoms/Button';
@@ -16,6 +25,7 @@ import { enrollmentApi } from '@/entities/student/api/enrollment';
 import './Enrollment.css';
 
 export const EnrollmentDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams({ from: '/dashboard/enrollment/student/$id/' });
   const { year } = useSearch({ from: '/dashboard/enrollment/student/$id/' });
   const { balance, loading, fetchBalance: fetchStudentBalance } = useStudentBalance();
@@ -36,6 +46,7 @@ export const EnrollmentDetail = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmData, setConfirmData] = useState<{ detalleId: number; name: string } | null>(null);
   const [enrollLoading, setEnrollLoading] = useState(false);
+  const [unparamError, setUnparamError] = useState<string | null>(null);
 
   const fetchBalance = useCallback(async () => {
     if (!id) return;
@@ -104,7 +115,15 @@ export const EnrollmentDetail = () => {
       await handleRefresh();
     } catch (e: unknown) {
       console.error(e);
-      showToast(e instanceof Error ? e.message : 'Error al matricular al estudiante', 'error');
+      const errMsg = e instanceof Error ? e.message : 'Error al matricular al estudiante';
+      if (
+        errMsg.toLowerCase().includes('no hay costo de matrícula parametrizado') ||
+        errMsg.toLowerCase().includes('parametrizar')
+      ) {
+        setUnparamError(errMsg);
+      } else {
+        showToast(errMsg, 'error');
+      }
     } finally {
       setEnrollLoading(false);
     }
@@ -220,6 +239,53 @@ export const EnrollmentDetail = () => {
               matricularlo para poder gestionar complementarios o registrar pagos.
             </p>
           </div>
+
+          {balance.costo_base_matricula === 0 && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '12px 18px',
+                backgroundColor: '#fffbeb',
+                border: '1px solid #fde68a',
+                borderRadius: 'var(--radius-md)',
+                color: '#92400e',
+                fontSize: '0.875rem',
+                maxWidth: '560px',
+                textAlign: 'left',
+              }}
+            >
+              <AlertTriangle size={24} color="#d97706" style={{ flexShrink: 0 }} />
+              <div>
+                <strong style={{ display: 'block', marginBottom: '2px' }}>
+                  Sin tarifa base para {balance.estudiante.grado_nombre}
+                </strong>
+                <span>
+                  No hay costo base parametrizado para {balance.anio}. Debes configurarlo para poder
+                  matricular al estudiante.
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  void navigate({ to: '/dashboard/enrollment/parametros' });
+                }}
+                style={{
+                  marginLeft: 'auto',
+                  fontSize: '0.8125rem',
+                  whiteSpace: 'nowrap',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <SlidersHorizontal size={14} /> Parametrizar
+              </Button>
+            </div>
+          )}
+
           <Button
             variant="primary"
             onClick={() => {
@@ -499,6 +565,73 @@ export const EnrollmentDetail = () => {
         year={balance.anio}
         onSuccess={handleRefresh}
       />
+
+      {/* Modal de Alerta por Falta de Parametrización */}
+      <Modal
+        isOpen={Boolean(unparamError)}
+        onClose={() => {
+          setUnparamError(null);
+        }}
+        title="Tarifa Base de Matrícula No Parametrizada"
+        width={500}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '12px',
+              padding: '12px 16px',
+              backgroundColor: '#fffbeb',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid #fde68a',
+            }}
+          >
+            <AlertTriangle size={24} color="#d97706" style={{ flexShrink: 0, marginTop: '2px' }} />
+            <div>
+              <strong style={{ display: 'block', color: '#92400e', marginBottom: '4px' }}>
+                Configuración Requerida
+              </strong>
+              <span style={{ fontSize: '0.875rem', color: '#78350f' }}>{unparamError}</span>
+            </div>
+          </div>
+          <p
+            style={{
+              margin: 0,
+              fontSize: '0.875rem',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.5,
+            }}
+          >
+            Para registrar la matrícula de este estudiante, es necesario que el grado{' '}
+            <strong>'{balance.estudiante.grado_nombre}'</strong> tenga un costo base de matrícula y
+            pensión definido en el sistema para el año {balance.anio}.
+          </p>
+          <div
+            style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '8px' }}
+          >
+            <Button
+              variant="outline"
+              onClick={() => {
+                setUnparamError(null);
+              }}
+            >
+              Cerrar
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setUnparamError(null);
+                void navigate({ to: '/dashboard/enrollment/parametros' });
+              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+            >
+              <SlidersHorizontal size={16} />
+              Ir a Parametrizar Costos
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

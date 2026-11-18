@@ -14,6 +14,7 @@ import {
   Music,
   Building,
   Bot,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 const modules = [
@@ -25,6 +26,11 @@ const modules = [
     highlight: true,
   },
   { path: '/dashboard/enrollment', label: 'Matrícula', icon: CreditCard },
+  {
+    path: '/dashboard/enrollment/parametros',
+    label: 'Tarifas y Costos Base',
+    icon: SlidersHorizontal,
+  },
   { path: '/dashboard/tuition', label: 'Pensión', icon: Calendar },
   {
     path: '/dashboard/escuelas-formacion',
