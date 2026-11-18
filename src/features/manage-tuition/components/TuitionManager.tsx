@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import { useNavigate } from '@tanstack/react-router';
+import { SlidersHorizontal } from 'lucide-react';
 import './TuitionManager.css';
 import { Button } from '@/shared/ui/atoms/Button';
 import { useTuition } from '@/features/manage-tuition/hooks/useTuition';
@@ -13,6 +15,7 @@ import type { StudentSearchItem } from '@/entities/student/model/types';
 import { StatusBadge } from '@/entities/student/ui/StatusBadge';
 
 export const TuitionManager = () => {
+  const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState<TuitionInstallmentResponse | null>(null);
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
@@ -46,9 +49,31 @@ export const TuitionManager = () => {
 
   return (
     <div className="tuition-view">
-      <div className="page-title">
-        <h1>Módulo de Pensión</h1>
-        <p>Gestión de mensualidades</p>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '12px',
+          marginBottom: '1rem',
+        }}
+      >
+        <div className="page-title">
+          <h1>Módulo de Pensión</h1>
+          <p>Gestión de mensualidades</p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            void navigate({ to: '/dashboard/enrollment/parametros' });
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+        >
+          <SlidersHorizontal size={16} />
+          Tarifas y Costos Base
+        </Button>
       </div>
 
       {errorMsg && <div className="alert alert-error">{errorMsg}</div>}

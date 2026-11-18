@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from '@tanstack/react-router';
+import { SlidersHorizontal } from 'lucide-react';
 import { SearchStudentForm } from '@/features/search-student/components/SearchStudentForm';
 import type { StudentSearchItem } from '@/entities/student/model/types';
 import { Button } from '@/shared/ui/atoms/Button';
@@ -59,6 +60,16 @@ export const EnrollmentSearch = () => {
           }}
         >
           Matrícula Manual
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            void navigate({ to: '/dashboard/enrollment/parametros' });
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+        >
+          <SlidersHorizontal size={16} />
+          Parametrizar Costos Base
         </Button>
       </div>
 

@@ -293,4 +293,77 @@ export const enrollmentApi = {
       '/enrollment/periods',
     );
   },
+  getBaseFees: async (year: number): Promise<BaseFeesListResponse> => {
+    return fetchApi<BaseFeesListResponse>(`/enrollment/parameters?year=${year.toString()}`);
+  },
+  upsertBaseFees: async (payload: UpsertBaseFeesPayload): Promise<BaseFeesListResponse> => {
+    return fetchApi<BaseFeesListResponse>('/enrollment/parameters', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+  copyBaseFees: async (payload: CopyBaseFeesPayload): Promise<BaseFeesListResponse> => {
+    return fetchApi<BaseFeesListResponse>('/enrollment/parameters/copy', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+  initializeDefaultBaseFees: async (year: number): Promise<BaseFeesListResponse> => {
+    return fetchApi<BaseFeesListResponse>(
+      `/enrollment/parameters/defaults?year=${year.toString()}`,
+      {
+        method: 'POST',
+      },
+    );
+  },
+  updateSingleGradeFee: async (
+    gradoId: number,
+    payload: SingleGradeFeePayload,
+  ): Promise<BaseFeeGrade> => {
+    return fetchApi<BaseFeeGrade>(`/enrollment/parameters/grade/${gradoId.toString()}`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    });
+  },
 };
+
+export interface BaseFeeGrade {
+  grado_id: number;
+  grado_nombre: string;
+  anio: number;
+  matricula_id: number | null;
+  matricula_valor: number | null;
+  pension_id: number | null;
+  pension_valor: number | null;
+  configurado: boolean;
+}
+
+export interface BaseFeesListResponse {
+  anio: number;
+  total_grados: number;
+  total_configurados: number;
+  tarifas: BaseFeeGrade[];
+}
+
+export interface UpsertBaseFeeItem {
+  grado_id: number;
+  matricula_valor: number;
+  pension_valor: number;
+}
+
+export interface UpsertBaseFeesPayload {
+  anio: number;
+  tarifas: UpsertBaseFeeItem[];
+}
+
+export interface CopyBaseFeesPayload {
+  anio_origen: number;
+  anio_destino: number;
+  incremento_porcentaje?: number;
+}
+
+export interface SingleGradeFeePayload {
+  anio: number;
+  matricula_valor: number;
+  pension_valor: number;
+}
